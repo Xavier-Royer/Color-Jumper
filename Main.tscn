@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6jhdtfh7summ"]
+
+[ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
+
+[node name="Main" type="Node2D"]
+
+[node name="ScreenManager" type="Node2D" parent="."]
+script = ExtResource("1_glv2v")
+
+[node name="HomeScreen" type="Node2D" parent="ScreenManager"]
+
+[node name="Button" type="Button" parent="ScreenManager/HomeScreen"]
+offset_left = 232.0
+offset_top = 375.0
+offset_right = 279.0
+offset_bottom = 406.0
+text = "PLAY"
+
+[node name="GameScreen" type="Node2D" parent="ScreenManager"]
+position = Vector2(480, 0)
+script = ExtResource("2_uu6xs")
+
+[node name="Blocks" type="Node2D" parent="ScreenManager/GameScreen"]
+position = Vector2(-480, 0)
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen"]
+visible = false
+offset_right = 480.0
+offset_bottom = 854.0
+
+[node name="GameOverScreen" type="Node2D" parent="ScreenManager"]
+position = Vector2(480, 0)
+
+[connection signal="pressed" from="ScreenManager/HomeScreen/Button" to="ScreenManager" method="_on_play_pressed"]

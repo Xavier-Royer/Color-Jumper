@@ -11,8 +11,31 @@ config_version=5
 [application]
 
 config/name="Color Jumper"
+run/main_scene="uid://b6jhdtfh7summ"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=480
+window/size/viewport_height=854
+window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[layer_names]
+
+2d_physics/layer_1="RED"
+2d_physics/layer_2="GREEN"
+2d_physics/layer_3="BLUE"
+2d_physics/layer_4="PURPLE"
+2d_physics/layer_5="DANGER"
+2d_physics/layer_6="COIN"
+2d_physics/layer_7="PLAYER"
+2d_physics/layer_8="BLOCK"
 
 [rendering]
 
