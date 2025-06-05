@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=5 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
+[ext_resource type="Texture2D" uid="uid://c2acb07wmwvvv" path="res://icon.svg" id="3_r0du0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
+size = Vector2(10, 30)
 
 [node name="Main" type="Node2D"]
 
@@ -29,7 +33,42 @@ visible = false
 offset_right = 480.0
 offset_bottom = 854.0
 
+[node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen"]
+offset_top = 726.0
+offset_right = 128.0
+offset_bottom = 854.0
+
+[node name="RED" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
+layout_mode = 2
+texture_normal = ExtResource("3_r0du0")
+
+[node name="GREEN" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
+layout_mode = 2
+texture_normal = ExtResource("3_r0du0")
+
+[node name="BLUE" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
+layout_mode = 2
+texture_normal = ExtResource("3_r0du0")
+
+[node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
+layout_mode = 2
+texture_normal = ExtResource("3_r0du0")
+
+[node name="Player" type="Area2D" parent="ScreenManager/GameScreen"]
+collision_layer = 64
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Player"]
+shape = SubResource("RectangleShape2D_r0du0")
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Player"]
+offset_left = -5.0
+offset_top = -16.0
+offset_right = 5.0
+offset_bottom = 14.0
+
 [node name="GameOverScreen" type="Node2D" parent="ScreenManager"]
 position = Vector2(480, 0)
 
 [connection signal="pressed" from="ScreenManager/HomeScreen/Button" to="ScreenManager" method="_on_play_pressed"]
+[connection signal="area_entered" from="ScreenManager/GameScreen/Player" to="ScreenManager/GameScreen" method="_on_player_area_entered"]

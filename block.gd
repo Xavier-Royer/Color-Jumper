@@ -1,7 +1,9 @@
 extends Area2D
 
+var playerOn  = false
 
 func setColor(color):
+	#setup blocks color and collision layers
 	if color == "RED":
 		self.modulate = Color(255,0,0)
 		self.set_collision_layer_value(1,true)
@@ -14,12 +16,14 @@ func setColor(color):
 	elif color == "PURPLE":
 		self.modulate = Color(255,255,0)
 		self.set_collision_layer_value(1,true)
-	else:
+	else: # for rainbow set all color collision layers to true
 		for i in range(4):
 			self.set_collision_layer_value(i,true)
 
 
-
 func _on_area_entered(area: Area2D) -> void:
+	#if two blocks spawn on top of each other, delete both of them
 	if area.get_collision_layer_value(8):
 		queue_free()
+	elif area.get_collision_layer_value(7):
+		playerOn = true 

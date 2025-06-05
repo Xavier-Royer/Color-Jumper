@@ -6,7 +6,7 @@ signal playGame
 signal loadGame
 
 
-
+#screen transitioner, waits until finished to return
 func next_screen(nextScreen):
 	var screenTransition = create_tween()
 	screenTransition.set_ease(Tween.EASE_IN)
@@ -21,7 +21,7 @@ func next_screen(nextScreen):
 
 
 
-
+#when play pressed load in new game
 func _on_play_pressed() -> void:
 	$GameScreen.loadGame()
 	await next_screen($GameScreen)
