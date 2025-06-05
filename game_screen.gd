@@ -9,8 +9,8 @@ var currentColor
 var currentBlock
 var gameState = "OVER" #OVER, READY, PLAYING
 var direction = Vector2(0,0)
-var velocity = 300
-var gameSpeed = 100
+var velocity = 1000
+var gameSpeed = 150
 var spawnRate = .3 # higher spawn rate = less spawn 
 var gameRunTime = 0 
 
@@ -58,7 +58,7 @@ func loadGame():
 	
 	
 	#generates the rest of the starting blocks 
-	for i in randi_range(10,15):
+	for i in randi_range(8,10):
 		block = blockScene.instantiate()
 		movingObjects.add_child(block)
 		block.position = Vector2(randi_range(10,470),randi_range(-30,520)) + self.position

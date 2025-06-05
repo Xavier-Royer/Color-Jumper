@@ -13,7 +13,9 @@ size = Vector2(10, 30)
 [node name="ScreenManager" type="Node2D" parent="."]
 script = ExtResource("1_glv2v")
 
-[node name="HomeScreen" type="Node2D" parent="ScreenManager"]
+[node name="HomeScreen" type="Control" parent="ScreenManager"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Button" type="Button" parent="ScreenManager/HomeScreen"]
 offset_left = 232.0
@@ -22,8 +24,11 @@ offset_right = 279.0
 offset_bottom = 406.0
 text = "PLAY"
 
-[node name="GameScreen" type="Node2D" parent="ScreenManager"]
-position = Vector2(480, 0)
+[node name="GameScreen" type="Control" parent="ScreenManager"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 480.0
+offset_right = 480.0
 script = ExtResource("2_uu6xs")
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
@@ -73,8 +78,11 @@ texture_normal = ExtResource("3_r0du0")
 layout_mode = 2
 texture_normal = ExtResource("3_r0du0")
 
-[node name="GameOverScreen" type="Node2D" parent="ScreenManager"]
-position = Vector2(480, 0)
+[node name="GameOverScreen" type="Control" parent="ScreenManager"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 480.0
+offset_right = 480.0
 
 [node name="Button" type="Button" parent="ScreenManager/GameOverScreen"]
 offset_left = 200.0
