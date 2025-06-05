@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=6 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://c2acb07wmwvvv" path="res://icon.svg" id="3_r0du0"]
+[ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://player.gd" id="4_cm0pq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(10, 30)
@@ -25,8 +26,26 @@ text = "PLAY"
 position = Vector2(480, 0)
 script = ExtResource("2_uu6xs")
 
-[node name="Blocks" type="Node2D" parent="ScreenManager/GameScreen"]
+[node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 position = Vector2(-480, 0)
+
+[node name="Player" type="Area2D" parent="ScreenManager/GameScreen/Objects"]
+position = Vector2(480, 0)
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("4_cm0pq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_r0du0")
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Objects/Player"]
+offset_left = -5.0
+offset_top = -16.0
+offset_right = 5.0
+offset_bottom = 14.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ScreenManager/GameScreen/Objects/Player"]
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen"]
 visible = false
@@ -54,21 +73,18 @@ texture_normal = ExtResource("3_r0du0")
 layout_mode = 2
 texture_normal = ExtResource("3_r0du0")
 
-[node name="Player" type="Area2D" parent="ScreenManager/GameScreen"]
-collision_layer = 64
-collision_mask = 128
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Player"]
-shape = SubResource("RectangleShape2D_r0du0")
-
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Player"]
-offset_left = -5.0
-offset_top = -16.0
-offset_right = 5.0
-offset_bottom = 14.0
-
 [node name="GameOverScreen" type="Node2D" parent="ScreenManager"]
 position = Vector2(480, 0)
 
+[node name="Button" type="Button" parent="ScreenManager/GameOverScreen"]
+offset_left = 200.0
+offset_top = 300.0
+offset_right = 288.0
+offset_bottom = 331.0
+text = "Play Again"
+
 [connection signal="pressed" from="ScreenManager/HomeScreen/Button" to="ScreenManager" method="_on_play_pressed"]
-[connection signal="area_entered" from="ScreenManager/GameScreen/Player" to="ScreenManager/GameScreen" method="_on_player_area_entered"]
+[connection signal="area_entered" from="ScreenManager/GameScreen/Objects/Player" to="ScreenManager/GameScreen" method="_on_player_area_entered"]
+[connection signal="area_exited" from="ScreenManager/GameScreen/Objects/Player" to="ScreenManager/GameScreen" method="_on_player_area_exited"]
+[connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="pressed" from="ScreenManager/GameOverScreen/Button" to="ScreenManager" method="_on_play_pressed"]

@@ -2,8 +2,10 @@ extends Node2D
 @onready var currentScreen = $HomeScreen
 var onScreenPosition = Vector2(0,0)
 var offScreenPosition = Vector2(480,0)
-signal playGame
-signal loadGame
+
+
+func _ready() -> void:
+	$GameScreen.connect("gameOverScreen",next_screen.bind($GameOverScreen))
 
 
 #screen transitioner, waits until finished to return
