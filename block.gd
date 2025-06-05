@@ -1,6 +1,7 @@
 extends Area2D
 
 var playerOn  = false
+signal invalidBlock
 
 func setColor(color):
 	for i in range(4):
@@ -27,6 +28,8 @@ func setColor(color):
 func _on_area_entered(area: Area2D) -> void:
 	#if two blocks spawn on top of each other, delete both of them
 	if area.get_collision_layer_value(8):
+		print("invalid")
+		emit_signal("invalidBlock")
 		queue_free()
 	elif area.get_collision_layer_value(7):
 		playerOn = true 

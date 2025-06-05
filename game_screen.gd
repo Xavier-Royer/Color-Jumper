@@ -11,7 +11,8 @@ var gameState = "OVER" #OVER, READY, PLAYING
 var direction = Vector2(0,0)
 var velocity = 300
 var gameSpeed = 100
-var spawnRate = .5 # higher spawn rate = less spawn 
+var spawnRate = .3 # higher spawn rate = less spawn 
+var gameRunTime = 0 
 
 var colorToNumber ={
 	"RED": 1,
@@ -99,6 +100,7 @@ func _input(event: InputEvent) -> void:
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
+					gameRunTime = 0 
 					gameState = "PLAYING"
 				#update direction vector
 		
@@ -113,6 +115,7 @@ func _input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	if gameState == "PLAYING":
+		gameRunTime += delta
 		player.position += velocity*delta*direction
 		movingObjects.position.y += delta*gameSpeed
 		
@@ -129,10 +132,33 @@ func _on_player_area_exited(area: Area2D) -> void:
 		currentBlock = null
 
 func spawnBlock():
+	
 	var block = blockScene.instantiate()
-	movingObjects.add_child(block)
-	block.global_position = Vector2(randi_range(10,470),randi_range(-40,-20)) #- self.position
-	block.setColor("RED")
+	#old code wihtout deffered calls works except for respawning
+	#movingObjects.add_child(block)
+	#block.global_position = Vector2(randi_range(10,470),randi_range(-40,-20)) #- self.position
+	movingObjects.call_deferred("add_child",block)
+	block.set_deferred("global_position", Vector2(randi_range(10,470),randi_range(-40,-20)))
+	block.connect("invalidBlock",spawnBlock)
+	
+	#set color 
+	#random variance
+	var random = randf_range(max(-2,-1*gameRunTime),2)
+	#xvalue of the sin function based on run time; a greater constant of muliplication equals higher frequency
+	var xvalue = (gameRunTime + random)*.08
+	#inner function is x to some power the greater the power the quicker the frequency
+	xvalue = pow(xvalue,1.4)
+	if sin(xvalue) > 0:
+		if cos(xvalue) > 0:
+			block.setColor("RED")
+		else:
+			block.setColor("GREEN")
+	else:
+		if cos(xvalue) > 0:
+			block.setColor("PURPLE")
+		else:
+			block.setColor("BLUE")
+	
 	
 	
 func gameOver():
