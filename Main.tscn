@@ -18,6 +18,7 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="Button" type="Button" parent="ScreenManager/HomeScreen"]
+layout_mode = 0
 offset_left = 232.0
 offset_top = 375.0
 offset_right = 279.0
@@ -41,23 +42,47 @@ collision_mask = 0
 script = ExtResource("4_cm0pq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(0, -1)
+position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_r0du0")
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Objects/Player"]
 offset_left = -5.0
-offset_top = -16.0
 offset_right = 5.0
-offset_bottom = 14.0
+offset_bottom = 30.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ScreenManager/GameScreen/Objects/Player"]
+position = Vector2(-7.62939e-06, 15)
+scale = Vector2(0.499999, 1.5)
+
+[node name="RayCastRight" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
+modulate = Color(1, 0.2, 1, 1)
+position = Vector2(5, 16)
+target_position = Vector2(0, -120)
+collision_mask = 0
+collide_with_areas = true
+
+[node name="RayCastLeft" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
+modulate = Color(1, 0.2, 1, 1)
+position = Vector2(-5, 16)
+target_position = Vector2(0, -120)
+collision_mask = 0
+collide_with_areas = true
+
+[node name="RayCastMiddle" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
+modulate = Color(1, 0.2, 1, 1)
+position = Vector2(0, 16)
+target_position = Vector2(0, -120)
+collision_mask = 0
+collide_with_areas = true
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen"]
 visible = false
+layout_mode = 0
 offset_right = 480.0
 offset_bottom = 854.0
 
 [node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen"]
+layout_mode = 0
 offset_top = 726.0
 offset_right = 128.0
 offset_bottom = 854.0
@@ -78,6 +103,12 @@ texture_normal = ExtResource("3_r0du0")
 layout_mode = 2
 texture_normal = ExtResource("3_r0du0")
 
+[node name="Line2D" type="Line2D" parent="ScreenManager/GameScreen"]
+position = Vector2(0, 540)
+points = PackedVector2Array(0, 0, 500, 0)
+closed = true
+width = 2.0
+
 [node name="GameOverScreen" type="Control" parent="ScreenManager"]
 layout_mode = 3
 anchors_preset = 0
@@ -85,6 +116,7 @@ offset_left = 480.0
 offset_right = 480.0
 
 [node name="Button" type="Button" parent="ScreenManager/GameOverScreen"]
+layout_mode = 0
 offset_left = 200.0
 offset_top = 300.0
 offset_right = 288.0

@@ -1,18 +1,24 @@
-extends Node2D
+extends Control
 
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
 @onready var player = $Objects/Player
+@onready var rayCastLeft = $Objects/Player/RayCastLeft
+@onready var rayCastRight = $Objects/Player/RayCastRight
+@onready var rayCastMiddle = $Objects/Player/RayCastMiddle
+
 @onready var movingObjects = $Objects
 var currentColor
 var currentBlock
 var gameState = "OVER" #OVER, READY, PLAYING
 var direction = Vector2(0,0)
-var velocity = 1000
+var velocity = 2000
 var gameSpeed = 150
 var spawnRate = .3 # higher spawn rate = less spawn 
 var gameRunTime = 0 
+var intersectionPosition = null
+var jumping = false
 
 var colorToNumber ={
 	"RED": 1,
@@ -57,6 +63,8 @@ func loadGame():
 	block.setColor("RED")
 	
 	
+	
+	
 	#generates the rest of the starting blocks 
 	for i in randi_range(8,10):
 		block = blockScene.instantiate()
@@ -65,6 +73,8 @@ func loadGame():
 		block.setColor("RED")
 	
 	player.position = Vector2(240,590) + self.position
+	
+	
 
 func changeColor(newColor):
 	
@@ -75,8 +85,13 @@ func changeColor(newColor):
 	#reset all the other collision layer masks
 	for i in range(4):
 		player.set_collision_mask_value(i+1,false)
+		rayCastLeft.set_collision_mask_value(i+1,false)
+		rayCastRight.set_collision_mask_value(i+1,false)
+		rayCastMiddle.set_collision_mask_value(i+1,false)
 	player.set_collision_mask_value(colorToNumber[newColor],true)
-	
+	rayCastLeft.set_collision_mask_value(colorToNumber[newColor],true)
+	rayCastRight.set_collision_mask_value(colorToNumber[newColor],true)
+	rayCastMiddle.set_collision_mask_value(colorToNumber[newColor],true)
 	
 	
 	#change the players color
@@ -84,7 +99,7 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_player_area_entered(area: Area2D) -> void:
-
+	print("Caught Block")
 	if area.get_collision_layer_value(8):
 		currentBlock = area
 		direction = Vector2(0,0)
@@ -111,14 +126,50 @@ func _input(event: InputEvent) -> void:
 				#Change direction of the player to look at mouse
 				player.look_at(mousePosition)
 				player.rotation += deg_to_rad(90)
+				jumping = true
 	
 
 func _process(delta: float) -> void:
 	if gameState == "PLAYING":
+		
+		
+		var rayCast = null
+		if rayCastMiddle.is_colliding():
+			rayCast = rayCastMiddle
+		elif rayCastLeft.is_colliding():
+			rayCast = rayCastLeft
+		else:
+			rayCast = rayCastRight
+		
+		#updates player movement
+		if rayCast.is_colliding() and rayCast.get_collider() != currentBlock:
+			var currentPosition  = player.global_position
+			intersectionPosition = rayCast.get_collision_point()
+			#print("colliding")
+			#if velocity is an overshoot, than adjust it, otherwise move normally
+			
+			var currentDistance = intersectionPosition - currentPosition
+			
+			if abs(velocity*delta*direction.x) < abs(currentDistance.x):
+				print("NOT TELEPORTING")
+				player.position+= velocity*delta*direction
+			else:
+				print("TELEPORTING")
+				player.position+= currentDistance
+			#player.position += min(velocity*delta*direction, currentDistance)
+			
+		
+			
+		else:
+			#print("UPDATING POSITION")
+			player.position += velocity*delta*direction
+		
+		
+		#updates game time and moves background down
 		gameRunTime += delta
-		player.position += velocity*delta*direction
 		movingObjects.position.y += delta*gameSpeed
 		
+		#randomly generates new blocks
 		if randi_range(0,spawnRate/delta) == 1:
 			spawnBlock()
 		
@@ -127,9 +178,10 @@ func _process(delta: float) -> void:
 
 
 func _on_player_area_exited(area: Area2D) -> void:
-	if area == currentBlock:
+	if area == currentBlock and jumping:
 		currentBlock.queue_free()
 		currentBlock = null
+		jumping = false
 
 func spawnBlock():
 	

@@ -2,6 +2,8 @@ extends Area2D
 
 var playerOn  = false
 signal invalidBlock
+@onready var blockArea = $Area2D
+
 
 func setColor(color):
 	for i in range(4):
@@ -27,9 +29,16 @@ func setColor(color):
 
 func _on_area_entered(area: Area2D) -> void:
 	#if two blocks spawn on top of each other, delete both of them
-	if area.get_collision_layer_value(8):
-		print("invalid")
-		emit_signal("invalidBlock")
-		queue_free()
-	elif area.get_collision_layer_value(7):
+	#if area.get_collision_layer_value(9):
+		
+	if area.get_collision_layer_value(7):
 		playerOn = true 
+
+
+func _on_spawn_radius_area_entered(area: Area2D) -> void:
+	print("invalid")
+	#need to update the spawn function to fix this, bc this goes into an infinite loop	
+	blockArea.set_collision_mask_value(9,false)
+	blockArea.set_collision_layer_value(9,false)
+	#emit_signal("invalidBlock")
+	queue_free()
