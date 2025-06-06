@@ -56,21 +56,21 @@ scale = Vector2(0.499999, 1.5)
 
 [node name="RayCastRight" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(5, 16)
+position = Vector2(5, 32)
 target_position = Vector2(0, -120)
 collision_mask = 0
 collide_with_areas = true
 
 [node name="RayCastLeft" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(-5, 16)
+position = Vector2(-5, 32)
 target_position = Vector2(0, -120)
 collision_mask = 0
 collide_with_areas = true
 
 [node name="RayCastMiddle" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(0, 16)
+position = Vector2(0, 32)
 target_position = Vector2(0, -120)
 collision_mask = 0
 collide_with_areas = true
@@ -102,12 +102,6 @@ texture_normal = ExtResource("3_r0du0")
 [node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
 layout_mode = 2
 texture_normal = ExtResource("3_r0du0")
-
-[node name="Line2D" type="Line2D" parent="ScreenManager/GameScreen"]
-position = Vector2(0, 540)
-points = PackedVector2Array(0, 0, 500, 0)
-closed = true
-width = 2.0
 
 [node name="GameOverScreen" type="Control" parent="ScreenManager"]
 layout_mode = 3

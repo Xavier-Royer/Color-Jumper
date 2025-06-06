@@ -7,18 +7,27 @@ signal gameOverScreen
 @onready var rayCastLeft = $Objects/Player/RayCastLeft
 @onready var rayCastRight = $Objects/Player/RayCastRight
 @onready var rayCastMiddle = $Objects/Player/RayCastMiddle
-
 @onready var movingObjects = $Objects
-var currentColor
-var currentBlock
-var gameState = "OVER" #OVER, READY, PLAYING
+
+
+#player attribuites
 var direction = Vector2(0,0)
 var velocity = 2000
+var currentColor
+var currentBlock
+var jumping = false
+var intersectionPosition = null
+
+#game control stuff
+var gameState = "OVER" #OVER, READY, PLAYING
 var gameSpeed = 150
 var spawnRate = .3 # higher spawn rate = less spawn 
 var gameRunTime = 0 
-var intersectionPosition = null
-var jumping = false
+
+var lastBlockSpawned = null
+
+
+
 
 var colorToNumber ={
 	"RED": 1,
@@ -41,6 +50,7 @@ func _ready() -> void:
 	player.connect("screenExited",gameOver)
 
 func playGame():
+	lastBlockSpawned = null
 	print("playing game")
 	gameState = "READY"
 
@@ -99,10 +109,12 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_player_area_entered(area: Area2D) -> void:
-	print("Caught Block")
 	if area.get_collision_layer_value(8):
-		currentBlock = area
-		direction = Vector2(0,0)
+		#print("collision dectected") for some reason it was still jank w/o the next line
+		if rayCastLeft.get_collider() == area or rayCastMiddle.get_collider() ==area or rayCastRight.get_collider() ==area:
+			#print("truly caught")
+			currentBlock = area
+			direction = Vector2(0,0)
 
 
 
@@ -111,7 +123,7 @@ func _input(event: InputEvent) -> void:
 		var mousePosition = get_global_mouse_position()
 		#ensure its not where the buttons are
 		#this has to be reatlive so will need to add that 
-		if mousePosition.y<725:
+		if mousePosition.y<725 and gameState != "OVER":
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
@@ -127,7 +139,8 @@ func _input(event: InputEvent) -> void:
 				player.look_at(mousePosition)
 				player.rotation += deg_to_rad(90)
 				jumping = true
-	
+	elif event is InputEventKey:
+		gameSpeed = 0
 
 func _process(delta: float) -> void:
 	if gameState == "PLAYING":
@@ -145,23 +158,21 @@ func _process(delta: float) -> void:
 		if rayCast.is_colliding() and rayCast.get_collider() != currentBlock:
 			var currentPosition  = player.global_position
 			intersectionPosition = rayCast.get_collision_point()
-			#print("colliding")
 			#if velocity is an overshoot, than adjust it, otherwise move normally
-			
 			var currentDistance = intersectionPosition - currentPosition
 			
 			if abs(velocity*delta*direction.x) < abs(currentDistance.x):
-				print("NOT TELEPORTING")
 				player.position+= velocity*delta*direction
+				#move player normally
 			else:
-				print("TELEPORTING")
-				player.position+= currentDistance
-			#player.position += min(velocity*delta*direction, currentDistance)
+				var magnitude = currentDistance.length()
+				#player.position += currentDistance
+				player.position += direction*magnitude
+				#move the playuer enough until it collides with block
 			
-		
 			
 		else:
-			#print("UPDATING POSITION")
+			#move player normally, no raycast collisions
 			player.position += velocity*delta*direction
 		
 		
@@ -190,8 +201,17 @@ func spawnBlock():
 	#movingObjects.add_child(block)
 	#block.global_position = Vector2(randi_range(10,470),randi_range(-40,-20)) #- self.position
 	movingObjects.call_deferred("add_child",block)
-	block.set_deferred("global_position", Vector2(randi_range(10,470),randi_range(-40,-20)))
-	block.connect("invalidBlock",spawnBlock)
+	
+	#set block position
+	var blockPosition = Vector2(randi_range(10,470),randi_range(-60,-70))
+	if lastBlockSpawned != null:
+		while blockPosition.distance_to(lastBlockSpawned.global_position) < 60 :
+			blockPosition = Vector2(randi_range(10,470),randi_range(-40,-20))
+	
+	block.set_deferred("global_position", blockPosition)
+	#no longer need this signal becasue it should already be fine
+	#block.connect("invalidBlock",spawnBlock)
+	lastBlockSpawned = block
 	
 	#set color 
 	#random variance
