@@ -1,39 +1,76 @@
 [gd_scene load_steps=6 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
+[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
-[ext_resource type="Texture2D" uid="uid://c2acb07wmwvvv" path="res://icon.svg" id="3_r0du0"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://player.gd" id="4_cm0pq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(10, 30)
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node"]
 
-[node name="ScreenManager" type="Node2D" parent="."]
+[node name="ScreenManager" type="Node" parent="."]
 script = ExtResource("1_glv2v")
 
-[node name="HomeScreen" type="Control" parent="ScreenManager"]
-layout_mode = 3
-anchors_preset = 0
+[node name="HomeScreen" type="CanvasLayer" parent="ScreenManager"]
 
-[node name="Button" type="Button" parent="ScreenManager/HomeScreen"]
-layout_mode = 0
-offset_left = 232.0
-offset_top = 375.0
-offset_right = 279.0
-offset_bottom = 406.0
+[node name="UI" type="Control" parent="ScreenManager/HomeScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="ScreenManager/HomeScreen/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -199.0
+offset_top = -25.0
+offset_right = 214.0
+offset_bottom = 151.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_fos0i")
 text = "PLAY"
 
-[node name="GameScreen" type="Control" parent="ScreenManager"]
+[node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
+
+[node name="UI" type="Control" parent="ScreenManager/GameOverScreen"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 480.0
-offset_right = 480.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_fos0i")
+
+[node name="Button" type="Button" parent="ScreenManager/GameOverScreen/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -132.0
+offset_right = 258.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play Again"
+
+[node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 script = ExtResource("2_uu6xs")
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
-position = Vector2(-480, 0)
 
 [node name="Player" type="Node2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(480, 0)
@@ -77,50 +114,62 @@ target_position = Vector2(0, -1500)
 collision_mask = 0
 collide_with_areas = true
 
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen"]
-visible = false
-layout_mode = 0
-offset_right = 480.0
-offset_bottom = 854.0
-
-[node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen"]
-layout_mode = 0
-offset_top = 726.0
-offset_right = 128.0
-offset_bottom = 854.0
-
-[node name="RED" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
-layout_mode = 2
-texture_normal = ExtResource("3_r0du0")
-
-[node name="GREEN" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
-layout_mode = 2
-texture_normal = ExtResource("3_r0du0")
-
-[node name="BLUE" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
-layout_mode = 2
-texture_normal = ExtResource("3_r0du0")
-
-[node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/ColorButtons"]
-layout_mode = 2
-texture_normal = ExtResource("3_r0du0")
-
-[node name="GameOverScreen" type="Control" parent="ScreenManager"]
+[node name="UI" type="Control" parent="ScreenManager/GameScreen"]
 layout_mode = 3
-anchors_preset = 0
-offset_left = 480.0
-offset_right = 480.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="Button" type="Button" parent="ScreenManager/GameOverScreen"]
-layout_mode = 0
-offset_left = 200.0
-offset_top = 300.0
-offset_right = 288.0
-offset_bottom = 331.0
-text = "Play Again"
+[node name="Background" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.286275, 1, 0.694118, 0.513726)
 
-[connection signal="pressed" from="ScreenManager/HomeScreen/Button" to="ScreenManager" method="_on_play_pressed"]
+[node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -287.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 0
+
+[node name="RED" type="Button" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+text = "RED"
+
+[node name="GREEN" type="Button" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+text = "GREEN"
+
+[node name="BLUE" type="Button" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+text = "BLUE"
+
+[node name="PURPLE" type="Button" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+text = "PURPLE"
+
+[connection signal="pressed" from="ScreenManager/HomeScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
+[connection signal="pressed" from="ScreenManager/GameOverScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="area_entered" from="ScreenManager/GameScreen/Objects/Player/Area2D" to="ScreenManager/GameScreen" method="_on_player_area_entered"]
 [connection signal="area_exited" from="ScreenManager/GameScreen/Objects/Player/Area2D" to="ScreenManager/GameScreen" method="_on_player_area_exited"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
-[connection signal="pressed" from="ScreenManager/GameOverScreen/Button" to="ScreenManager" method="_on_play_pressed"]

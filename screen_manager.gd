@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 @onready var currentScreen = $HomeScreen
 var onScreenPosition = Vector2(0,0)
 var offScreenPosition = Vector2(480,0)
@@ -10,6 +10,10 @@ func _ready() -> void:
 
 #screen transitioner, waits until finished to return
 func next_screen(nextScreen):
+	currentScreen.visible = false
+	nextScreen.visible = true
+	currentScreen = nextScreen
+	'''
 	var screenTransition = create_tween()
 	screenTransition.set_ease(Tween.EASE_IN)
 	screenTransition.set_trans(Tween.TRANS_BACK)
@@ -17,6 +21,7 @@ func next_screen(nextScreen):
 	screenTransition.tween_property(nextScreen, "position", onScreenPosition,.5)
 	currentScreen = nextScreen
 	await screenTransition.finished
+	'''
 	
 
 

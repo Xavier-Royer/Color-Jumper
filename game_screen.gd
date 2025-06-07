@@ -1,4 +1,4 @@
-extends Control
+extends CanvasLayer
 
 signal gameOverScreen
 
@@ -27,6 +27,8 @@ var gameRunTime = 0
 
 var lastBlockSpawned = null
 
+var screen_size
+
 
 
 
@@ -45,7 +47,9 @@ var colorToRGB ={
 }
 
 func _ready() -> void:
-	for button in $ColorButtons.get_children():
+	screen_size = get_viewport().get_visible_rect().size
+	print("screen size: ", screen_size.x, screen_size.y)
+	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
 	
 	player.connect("screenExited",gameOver)
@@ -70,7 +74,7 @@ func loadGame():
 	#generate first block which the layer is on
 	var block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(240,600) + self.position
+	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	block.setColor("RED")
 	
 	
@@ -80,10 +84,10 @@ func loadGame():
 	for i in randi_range(8,10):
 		block = blockScene.instantiate()
 		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(10,470),randi_range(-30,520)) + self.position
+		block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(-30,screen_size.y * (2.0/3.0) - 50))
 		block.setColor("RED")
 	
-	player.position = Vector2(240,590) + self.position
+	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	
 	
 
@@ -121,10 +125,12 @@ func _on_player_area_entered(area: Area2D) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
-		var mousePosition = get_global_mouse_position()
+		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
 		#this has to be reatlive so will need to add that 
-		if mousePosition.y<725 and gameState != "OVER":
+		#mousePosition.y<725 and 
+		
+		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":

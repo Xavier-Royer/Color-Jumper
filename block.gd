@@ -24,7 +24,7 @@ func setColor(color):
 		self.set_collision_layer_value(4,true)
 	else: # for rainbow set all color collision layers to true
 		for i in range(4):
-			self.set_collision_layer_value(i,true)
+			self.set_collision_layer_value(i+1,true)
 
 
 func _on_area_entered(area: Area2D) -> void:
