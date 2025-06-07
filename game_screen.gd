@@ -3,6 +3,7 @@ extends Control
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
+@onready var area2D = $Objects/Player/Area2D
 @onready var player = $Objects/Player
 @onready var rayCastLeft = $Objects/Player/RayCastLeft
 @onready var rayCastRight = $Objects/Player/RayCastRight
@@ -94,11 +95,11 @@ func changeColor(newColor):
 	
 	#reset all the other collision layer masks
 	for i in range(4):
-		player.set_collision_mask_value(i+1,false)
+		area2D.set_collision_mask_value(i+1,false)
 		rayCastLeft.set_collision_mask_value(i+1,false)
 		rayCastRight.set_collision_mask_value(i+1,false)
 		rayCastMiddle.set_collision_mask_value(i+1,false)
-	player.set_collision_mask_value(colorToNumber[newColor],true)
+	area2D.set_collision_mask_value(colorToNumber[newColor],true)
 	rayCastLeft.set_collision_mask_value(colorToNumber[newColor],true)
 	rayCastRight.set_collision_mask_value(colorToNumber[newColor],true)
 	rayCastMiddle.set_collision_mask_value(colorToNumber[newColor],true)

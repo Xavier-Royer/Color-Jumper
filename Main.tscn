@@ -35,43 +35,45 @@ script = ExtResource("2_uu6xs")
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 position = Vector2(-480, 0)
 
-[node name="Player" type="Area2D" parent="ScreenManager/GameScreen/Objects"]
+[node name="Player" type="Node2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(480, 0)
-collision_layer = 64
-collision_mask = 0
 script = ExtResource("4_cm0pq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
+[node name="Area2D" type="Area2D" parent="ScreenManager/GameScreen/Objects/Player"]
+position = Vector2(5, 0)
+collision_layer = 64
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player/Area2D"]
 position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_r0du0")
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Objects/Player"]
-offset_left = -5.0
-offset_right = 5.0
+offset_right = 10.0
 offset_bottom = 30.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(-7.62939e-06, 15)
+position = Vector2(4.99994, 15)
 scale = Vector2(0.499999, 1.5)
 
 [node name="RayCastRight" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(5, 32)
+position = Vector2(10, 32)
 target_position = Vector2(0, -120)
 collision_mask = 0
 collide_with_areas = true
 
 [node name="RayCastLeft" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(-5, 32)
+position = Vector2(0, 32)
 target_position = Vector2(0, -120)
 collision_mask = 0
 collide_with_areas = true
 
 [node name="RayCastMiddle" type="RayCast2D" parent="ScreenManager/GameScreen/Objects/Player"]
 modulate = Color(1, 0.2, 1, 1)
-position = Vector2(0, 32)
-target_position = Vector2(0, -120)
+position = Vector2(5, 32)
+target_position = Vector2(0, -1500)
 collision_mask = 0
 collide_with_areas = true
 
@@ -118,7 +120,7 @@ offset_bottom = 331.0
 text = "Play Again"
 
 [connection signal="pressed" from="ScreenManager/HomeScreen/Button" to="ScreenManager" method="_on_play_pressed"]
-[connection signal="area_entered" from="ScreenManager/GameScreen/Objects/Player" to="ScreenManager/GameScreen" method="_on_player_area_entered"]
-[connection signal="area_exited" from="ScreenManager/GameScreen/Objects/Player" to="ScreenManager/GameScreen" method="_on_player_area_exited"]
+[connection signal="area_entered" from="ScreenManager/GameScreen/Objects/Player/Area2D" to="ScreenManager/GameScreen" method="_on_player_area_entered"]
+[connection signal="area_exited" from="ScreenManager/GameScreen/Objects/Player/Area2D" to="ScreenManager/GameScreen" method="_on_player_area_exited"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/Button" to="ScreenManager" method="_on_play_pressed"]
