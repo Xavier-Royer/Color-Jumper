@@ -13,5 +13,5 @@ func _process(_delta: float) -> void:
 	collided = move_and_slide()
 	if collided: 
 		if blockOn != get_last_slide_collision().get_collider():
-			blockOn =  get_last_slide_collision().get_collider()
+			blockOn = get_last_slide_collision().get_collider()
 			emit_signal("caughtBlock")

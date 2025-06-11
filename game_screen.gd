@@ -10,13 +10,13 @@ signal gameOverScreen
 
 #player attribuites
 var direction = Vector2(0,0)
-var speed = 3500
+var speed = 4000
 var currentColor
 var currentBlock
 
 #game control stuff
 var gameState = "OVER" #OVER, READY, PLAYING
-var gameSpeed = 450
+var gameSpeed = 400
 var spawnRate = .6 # higher spawn rate = less spawn 
 var gameRunTime = 0 
 var screen_size
@@ -41,7 +41,6 @@ var colorToRGB ={
 
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
-	print("screen size: ", screen_size.x, screen_size.y)
 	player.connect("caughtBlock",_on_block_caught)
 	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
@@ -108,6 +107,7 @@ func _input(event: InputEvent) -> void:
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
 		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
+			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
@@ -118,6 +118,7 @@ func _input(event: InputEvent) -> void:
 				var playerPosition  = player.get_global_position()
 				direction = mousePosition-playerPosition
 				direction = direction.normalized()
+				player.blockOn.collision_layer = 0
 				player.blockOn.delete()
 				player.blockOn = null
 				
@@ -145,14 +146,16 @@ func _process(delta: float) -> void:
 func spawnBlock():
 	var block = blockScene.instantiate()
 
-	movingObjects.call_deferred("add_child",block)	
+	#movingObjects.call_deferred("add_child",block)
+	movingObjects.add_child(block)
 	#set block position
-	var blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-80,-100))
+	var blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-100,-150))
 	if lastBlockSpawned != null:
 		while blockPosition.distance_to(lastBlockSpawned.global_position) < 60 :
 			blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-80,-100))
 	
-	block.set_deferred("global_position", blockPosition)
+	#block.set_deferred("global_position", blockPosition)
+	block.global_position = blockPosition
 	#no longer need this signal becasue it should already be fine
 	#block.connect("invalidBlock",spawnBlock)
 	lastBlockSpawned = block

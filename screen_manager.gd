@@ -14,7 +14,6 @@ func _ready() -> void:
 #screen transitioner, waits until finished to return
 func next_screen(nextScreen):
 	
-	#currentScreen = nextScreen
 	var screenTransition = create_tween()
 	screenTransition.set_ease(Tween.EASE_IN)
 	screenTransition.set_trans(Tween.TRANS_BACK)

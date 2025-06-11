@@ -8,7 +8,7 @@
 radius = 16.5303
 
 [node name="Block" type="StaticBody2D"]
-scale = Vector2(2, 2)
+scale = Vector2(3, 3)
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -21,6 +21,7 @@ offset_right = 10.0
 offset_bottom = 10.0
 
 [node name="SpawnRadius" type="Area2D" parent="."]
+scale = Vector2(1.5, 1.5)
 collision_layer = 256
 collision_mask = 256
 
