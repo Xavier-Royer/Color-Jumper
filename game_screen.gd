@@ -3,32 +3,25 @@ extends CanvasLayer
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
-@onready var area2D = $Objects/Player/Area2D
+@onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
-@onready var rayCastLeft = $Objects/Player/RayCastLeft
-@onready var rayCastRight = $Objects/Player/RayCastRight
-@onready var rayCastMiddle = $Objects/Player/RayCastMiddle
 @onready var movingObjects = $Objects
 
 
 #player attribuites
 var direction = Vector2(0,0)
-var velocity = 2000
+var speed = 4000
 var currentColor
 var currentBlock
-var jumping = false
-var intersectionPosition = null
 
 #game control stuff
 var gameState = "OVER" #OVER, READY, PLAYING
-var gameSpeed = 150
-var spawnRate = .3 # higher spawn rate = less spawn 
+var gameSpeed = 400
+var spawnRate = .6 # higher spawn rate = less spawn 
 var gameRunTime = 0 
-
-var lastBlockSpawned = null
-
 var screen_size
 
+var lastBlockSpawned = null
 
 
 
@@ -47,8 +40,8 @@ var colorToRGB ={
 }
 
 func _ready() -> void:
-	screen_size = get_viewport().get_visible_rect().size
-	print("screen size: ", screen_size.x, screen_size.y)
+	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
+	player.connect("caughtBlock",_on_block_caught)
 	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
 	
@@ -60,7 +53,7 @@ func playGame():
 	gameState = "READY"
 
 func loadGame():
-	
+	player.velocity = Vector2(0,0)
 	for i in movingObjects.get_children():
 		if i.name != "Player":
 			i.queue_free()
@@ -78,13 +71,11 @@ func loadGame():
 	block.setColor("RED")
 	
 	
-	
-	
 	#generates the rest of the starting blocks 
 	for i in randi_range(8,10):
 		block = blockScene.instantiate()
 		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(-30,screen_size.y * (2.0/3.0) - 50))
+		block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(30,screen_size.y * (2.0/3.0) - 100))
 		block.setColor("RED")
 	
 	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
@@ -100,122 +91,73 @@ func changeColor(newColor):
 	#reset all the other collision layer masks
 	for i in range(4):
 		area2D.set_collision_mask_value(i+1,false)
-		rayCastLeft.set_collision_mask_value(i+1,false)
-		rayCastRight.set_collision_mask_value(i+1,false)
-		rayCastMiddle.set_collision_mask_value(i+1,false)
 	area2D.set_collision_mask_value(colorToNumber[newColor],true)
-	rayCastLeft.set_collision_mask_value(colorToNumber[newColor],true)
-	rayCastRight.set_collision_mask_value(colorToNumber[newColor],true)
-	rayCastMiddle.set_collision_mask_value(colorToNumber[newColor],true)
-	
 	
 	#change the players color
 	player.modulate = colorToRGB[newColor]
 
 #player captureing block
-func _on_player_area_entered(area: Area2D) -> void:
-	if area.get_collision_layer_value(8):
-		#print("collision dectected") for some reason it was still jank w/o the next line
-		if rayCastLeft.get_collider() == area or rayCastMiddle.get_collider() ==area or rayCastRight.get_collider() ==area:
-			#print("truly caught")
-			currentBlock = area
-			direction = Vector2(0,0)
-
+func _on_block_caught():
+	currentBlock = player.blockOn
+	direction = Vector2(0,0)
 
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
-		#this has to be reatlive so will need to add that 
-		#mousePosition.y<725 and 
-		
 		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
+			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
 					gameRunTime = 0 
 					gameState = "PLAYING"
+					$SpawnTimer.start()
+				
 				#update direction vector
-		
 				var playerPosition  = player.get_global_position()
 				direction = mousePosition-playerPosition
 				direction = direction.normalized()
-		
+				player.blockOn.collision_layer = 0
+				player.blockOn.delete()
+				player.blockOn = null
+				
 				#Change direction of the player to look at mouse
 				player.look_at(mousePosition)
 				player.rotation += deg_to_rad(90)
-				jumping = true
-	elif event is InputEventKey:
-		gameSpeed = 0
+				
 
 func _process(delta: float) -> void:
 	if gameState == "PLAYING":
-		
-		
-		var rayCast = null
-		if rayCastMiddle.is_colliding():
-			rayCast = rayCastMiddle
-		elif rayCastLeft.is_colliding():
-			rayCast = rayCastLeft
-		else:
-			rayCast = rayCastRight
-		
 		#updates player movement
-		if rayCast.is_colliding() and rayCast.get_collider() != currentBlock:
-			var currentPosition  = player.global_position
-			intersectionPosition = rayCast.get_collision_point()
-			#if velocity is an overshoot, than adjust it, otherwise move normally
-			var currentDistance = intersectionPosition - currentPosition
-			
-			if abs(velocity*delta*direction.x) < abs(currentDistance.x):
-				player.position+= velocity*delta*direction
-				#move player normally
-			else:
-				var magnitude = currentDistance.length()
-				#player.position += currentDistance
-				player.position += direction*magnitude
-				#move the playuer enough until it collides with block
-			
-			
-		else:
-			#move player normally, no raycast collisions
-			player.position += velocity*delta*direction
-		
-		
+		player.velocity = speed*direction
 		#updates game time and moves background down
 		gameRunTime += delta
 		movingObjects.position.y += delta*gameSpeed
 		
 		#randomly generates new blocks
+		'''
 		if randi_range(0,spawnRate/delta) == 1:
 			spawnBlock()
+		'''
 		
-		
 
 
-
-func _on_player_area_exited(area: Area2D) -> void:
-	if area == currentBlock and jumping:
-		currentBlock.queue_free()
-		currentBlock = null
-		jumping = false
 
 func spawnBlock():
-	
 	var block = blockScene.instantiate()
-	#old code wihtout deffered calls works except for respawning
-	#movingObjects.add_child(block)
-	#block.global_position = Vector2(randi_range(10,470),randi_range(-40,-20)) #- self.position
-	movingObjects.call_deferred("add_child",block)
-	
+
+	#movingObjects.call_deferred("add_child",block)
+	movingObjects.add_child(block)
 	#set block position
-	var blockPosition = Vector2(randi_range(10,470),randi_range(-60,-70))
+	var blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-200,-250))
 	if lastBlockSpawned != null:
 		while blockPosition.distance_to(lastBlockSpawned.global_position) < 60 :
-			blockPosition = Vector2(randi_range(10,470),randi_range(-40,-20))
+			blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-200,-250))
 	
-	block.set_deferred("global_position", blockPosition)
+	#block.set_deferred("global_position", blockPosition)
+	block.global_position = blockPosition
 	#no longer need this signal becasue it should already be fine
 	#block.connect("invalidBlock",spawnBlock)
 	lastBlockSpawned = block
@@ -239,9 +181,12 @@ func spawnBlock():
 			block.setColor("BLUE")
 	
 	
-	
 func gameOver():
 	if gameState == "PLAYING":
 		player.hide()
 		gameState = "OVER"
 		emit_signal("gameOverScreen")
+
+
+func _on_spawn_timer_timeout() -> void:
+	spawnBlock()
