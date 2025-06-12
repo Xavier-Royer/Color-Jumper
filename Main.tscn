@@ -142,6 +142,11 @@ size_flags_horizontal = 3
 theme = ExtResource("2_fos0i")
 text = "PURPLE"
 
+[node name="SpawnTimer" type="Timer" parent="ScreenManager/GameScreen"]
+process_callback = 0
+wait_time = 0.405
+
 [connection signal="pressed" from="ScreenManager/HomeScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
