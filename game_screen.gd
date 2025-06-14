@@ -76,14 +76,12 @@ func loadGame():
 	
 	
 	#generates the rest of the starting blocks 
-	for i in randi_range(8,10):
+	for i in randi_range(10,12):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
 		movingObjects.add_child(block)
-		block.position = Vector2(300,300)
-		print("block spawned")
-		#block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(30,screen_size.y * (2.0/3.0) - 100))
-		block.connect("invalidBlock",spawnBlock)
+		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
+		#block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
 		blocksSpawned+=1
 	
@@ -166,7 +164,7 @@ func spawnBlock():
 	block.connect("invalidBlock",spawnBlock)
 	
 	#set block position
-	var blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-200,-250))
+	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-200,-250))
 	block.set_deferred("global_position", blockPosition)
 	#block.global_position = blockPosition
 	
@@ -191,6 +189,7 @@ func spawnBlock():
 	
 func gameOver():
 	if gameState == "PLAYING":
+		$SpawnTimer.stop()
 		player.hide()
 		gameState = "OVER"
 		emit_signal("gameOverScreen")
