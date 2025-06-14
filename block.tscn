@@ -96,6 +96,7 @@ _data = {
 
 [node name="Block" type="StaticBody2D"]
 scale = Vector2(3, 3)
+collision_layer = 129
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -130,5 +131,8 @@ libraries = {
 &"": SubResource("AnimationLibrary_xfwl5")
 }
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -3,9 +3,11 @@ extends CanvasLayer
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
+@onready var spikeScene = preload("res://spike.tscn")
 @onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
 @onready var movingObjects = $Objects
+
 
 
 #player attribuites
@@ -21,8 +23,13 @@ var spawnRate = .6 # higher spawn rate = less spawn
 var gameRunTime = 0 
 var screen_size
 var blocksSpawned = 0 
+var spikeSpawnRate = 1000  #higher = less common
+var rainbowSpawnRate = 100 # higher = less common
+var randomColorRate = 0 # higher = less common
+var rainbowOver = false
 
 var lastBlockSpawned = null
+
 
 
 
@@ -83,6 +90,7 @@ func loadGame():
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
+		lastBlockSpawned = block
 		blocksSpawned+=1
 	
 	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
@@ -90,6 +98,12 @@ func loadGame():
 	
 
 func changeColor(newColor):
+	
+	if newColor == "RAINBOW":
+		for i in range(4):
+			area2D.set_collision_mask_value(i+1,true)
+		player.modulate = Color(0,0,0)
+		return
 	
 	#change the curren block's color
 	if currentBlock != null:
@@ -102,12 +116,19 @@ func changeColor(newColor):
 	
 	#change the players color
 	player.modulate = colorToRGB[newColor]
+	
+	
 
 #player captureing block
 func _on_block_caught():
 	currentBlock = player.blockOn
 	direction = Vector2(0,0)
-
+	if currentBlock.get_collision_layer_value(10):
+		$RainbowTimer.start()
+		changeColor("RAINBOW")
+	if rainbowOver:
+		rainbowOver = false
+		changeColor(currentBlock.blockColor)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
@@ -129,6 +150,7 @@ func _input(event: InputEvent) -> void:
 				player.blockOn.collision_layer = 0
 				player.blockOn.delete()
 				player.blockOn = null
+				currentBlock = null
 				
 				#Change direction of the player to look at mouse
 				player.look_at(mousePosition)
@@ -143,22 +165,12 @@ func _process(delta: float) -> void:
 		gameRunTime += delta
 		movingObjects.position.y += delta*gameSpeed
 		
-		
-		
-		#randomly generates new blocks
-		'''
-		if randi_range(0,spawnRate/delta) == 1:
-			spawnBlock()
-		'''
-		
 
 
 
 func spawnBlock():
 	var block = blockScene.instantiate()
-
 	movingObjects.call_deferred("add_child",block)
-	#movingObjects.add_child(block)
 	block.number = blocksSpawned
 	blocksSpawned += 1
 	block.connect("invalidBlock",spawnBlock)
@@ -166,8 +178,24 @@ func spawnBlock():
 	#set block position
 	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-200,-250))
 	block.set_deferred("global_position", blockPosition)
-	#block.global_position = blockPosition
 	
+	#spawn a spike connected to the block
+	if randi_range(0,spikeSpawnRate/gameRunTime) ==1:
+		print("create spike")
+		var spike = spikeScene.instantiate()
+		movingObjects.call_deferred("add_child",spike)
+		spike.number = blocksSpawned
+		blocksSpawned += 1
+		var firstPosition  = lastBlockSpawned.get_global_position()
+		var secondPosition = blockPosition
+		#puts the spike half way between itself and the next one
+		var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
+		spike.set_deferred("global_position", spikePosition)
+		
+
+		
+	lastBlockSpawned = block
+			
 	#set color 
 	#random variance
 	var random = randf_range(max(-2,-1*gameRunTime),2)
@@ -185,6 +213,14 @@ func spawnBlock():
 			block.setColor("PURPLE")
 		else:
 			block.setColor("BLUE")
+	#random chance of making it rainbow
+	if randi_range(0,randomColorRate) ==1:
+		var colors  = ["RED","GREEN","BLUE","PURPLE"]
+		block.setColor(colors[randi_range(0,3)])
+	if randi_range(0,rainbowSpawnRate) ==1 :
+		block.setColor("RAINBOW")
+	
+	
 	
 	
 func gameOver():
@@ -198,3 +234,12 @@ func gameOver():
 func _on_spawn_timer_timeout() -> void:
 	#should update so that wait time varys + gets faster as game goes on 
 	spawnBlock()
+
+
+
+
+func _on_rainbow_timer_timeout() -> void:
+	if currentBlock != null:
+		changeColor(currentBlock.blockColor)
+	else:
+		rainbowOver = true

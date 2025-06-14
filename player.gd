@@ -12,7 +12,13 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _process(_delta: float) -> void:
 	collided = move_and_slide()
 	if collided: 
-		if blockOn != get_last_slide_collision().get_collider():
-			blockOn = get_last_slide_collision().get_collider()
-			blockOn.blockCaught()
-			emit_signal("caughtBlock")
+		if  get_last_slide_collision().get_collider().get_collision_layer_value(8):
+			if blockOn != get_last_slide_collision().get_collider():
+				blockOn = get_last_slide_collision().get_collider()
+				blockOn.blockCaught()
+				emit_signal("caughtBlock")
+		elif get_last_slide_collision().get_collider().get_collision_layer_value(5):
+			#play animaition and then lose 
+			self.hide()
+			get_last_slide_collision().get_collider().spikeHit()
+			emit_signal("screenExited")

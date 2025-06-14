@@ -5,15 +5,14 @@ signal invalidBlock
 @onready var blockArea = $SpawnRadius
 var number =0 
 var deleted = false
+var blockColor
 #var spawnComplete = false
 
-func _ready() -> void:
-	if $SpawnRadius.has_overlapping_areas():
-		self.queue_free()
-		print("block deletred")
+
 	
 
 func setColor(color):
+	blockColor = color
 	for i in range(4):
 		self.set_collision_layer_value(i+1,false)
 	
@@ -31,9 +30,8 @@ func setColor(color):
 		self.modulate = Color(255,0,255)
 		self.set_collision_layer_value(4,true)
 	else: # for rainbow set all color collision layers to true
-		for i in range(4):
-			self.set_collision_layer_value(i+1,true)
-
+		self.modulate = Color(0,0,0)
+		self.set_collision_layer_value(10,true)
 
 func delete():
 	$AnimationPlayer.play("blockLeft")
@@ -61,5 +59,9 @@ func blockCaught():
 
 
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
+	queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
