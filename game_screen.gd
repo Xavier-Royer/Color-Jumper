@@ -20,6 +20,7 @@ var gameSpeed = 400
 var spawnRate = .6 # higher spawn rate = less spawn 
 var gameRunTime = 0 
 var screen_size
+var blocksSpawned = 0 
 
 var lastBlockSpawned = null
 
@@ -60,6 +61,7 @@ func loadGame():
 	movingObjects.position.y = 0 
 	
 	player.show()
+	blocksSpawned = 0 
 	currentBlock = null
 	changeColor("RED")
 	player.rotation =0
@@ -69,14 +71,21 @@ func loadGame():
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	block.setColor("RED")
+	block.number = blocksSpawned
+	blocksSpawned+=1
 	
 	
 	#generates the rest of the starting blocks 
 	for i in randi_range(8,10):
 		block = blockScene.instantiate()
+		block.number = blocksSpawned
 		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(30,screen_size.y * (2.0/3.0) - 100))
+		block.position = Vector2(300,300)
+		print("block spawned")
+		#block.position = Vector2(randi_range(10,screen_size.x - 10),randi_range(30,screen_size.y * (2.0/3.0) - 100))
+		block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
+		blocksSpawned+=1
 	
 	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	
@@ -136,6 +145,8 @@ func _process(delta: float) -> void:
 		gameRunTime += delta
 		movingObjects.position.y += delta*gameSpeed
 		
+		
+		
 		#randomly generates new blocks
 		'''
 		if randi_range(0,spawnRate/delta) == 1:
@@ -148,19 +159,16 @@ func _process(delta: float) -> void:
 func spawnBlock():
 	var block = blockScene.instantiate()
 
-	#movingObjects.call_deferred("add_child",block)
-	movingObjects.add_child(block)
+	movingObjects.call_deferred("add_child",block)
+	#movingObjects.add_child(block)
+	block.number = blocksSpawned
+	blocksSpawned += 1
+	block.connect("invalidBlock",spawnBlock)
+	
 	#set block position
 	var blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-200,-250))
-	if lastBlockSpawned != null:
-		while blockPosition.distance_to(lastBlockSpawned.global_position) < 60 :
-			blockPosition = Vector2(randi_range(10,screen_size.x-10),randi_range(-200,-250))
-	
-	#block.set_deferred("global_position", blockPosition)
-	block.global_position = blockPosition
-	#no longer need this signal becasue it should already be fine
-	#block.connect("invalidBlock",spawnBlock)
-	lastBlockSpawned = block
+	block.set_deferred("global_position", blockPosition)
+	#block.global_position = blockPosition
 	
 	#set color 
 	#random variance
@@ -189,4 +197,5 @@ func gameOver():
 
 
 func _on_spawn_timer_timeout() -> void:
+	#should update so that wait time varys + gets faster as game goes on 
 	spawnBlock()

@@ -1,9 +1,17 @@
 extends StaticBody2D
 
 var playerOn  = false
-#signal invalidBlock
+signal invalidBlock
 @onready var blockArea = $SpawnRadius
+var number =0 
+var deleted = false
+#var spawnComplete = false
 
+func _ready() -> void:
+	if $SpawnRadius.has_overlapping_areas():
+		self.queue_free()
+		print("block deletred")
+	
 
 func setColor(color):
 	for i in range(4):
@@ -32,9 +40,23 @@ func delete():
 
 
 func _on_spawn_radius_area_entered(_area: Area2D) -> void:
-	print("invalid")
-	#need to update the spawn function to fix this, bc this goes into an infinite loop	
-	blockArea.set_collision_mask_value(9,false)
-	blockArea.set_collision_layer_value(9,false)
-	#emit_signal("invalidBlock")
-	queue_free()
+	if not deleted:
+		var areas = $SpawnRadius.get_overlapping_areas()
+	
+		for a in areas:
+			if a.get_parent().number < number:
+				blockArea.set_collision_mask_value(9,false)
+				blockArea.set_collision_layer_value(9,false)
+				queue_free()
+				print("block delted")
+				emit_signal("invalidBlock")
+				deleted = true
+				break
+			
+	
+	#print("invalid")
+	##need to update the spawn function to fix this, bc this goes into an infinite loop	
+	#
+	#
+	##
+	#
