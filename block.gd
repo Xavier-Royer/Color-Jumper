@@ -36,7 +36,7 @@ func setColor(color):
 
 
 func delete():
-	queue_free()
+	$AnimationPlayer.play("blockLeft")
 
 
 func _on_spawn_radius_area_entered(_area: Area2D) -> void:
@@ -52,11 +52,14 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				emit_signal("invalidBlock")
 				deleted = true
 				break
-			
+
+
+func blockCaught():
+	if number !=0:
+		$GPUParticles2D.emitting =true
 	
-	#print("invalid")
-	##need to update the spawn function to fix this, bc this goes into an infinite loop	
-	#
-	#
-	##
-	#
+
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	queue_free()
