@@ -4,12 +4,13 @@
 [ext_resource type="Shader" uid="uid://72gsikdrgor5" path="res://block.gdshader" id="2_xfwl5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
+size = Vector2(40, 40)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5d32t"]
 shader = ExtResource("2_xfwl5")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_im0tn"]
-radius = 16.5303
+radius = 25.0
 
 [sub_resource type="Curve" id="Curve_im0tn"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.713235, 0.674157), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -104,10 +105,10 @@ shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = SubResource("ShaderMaterial_5d32t")
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 
 [node name="SpawnRadius" type="Area2D" parent="."]
 scale = Vector2(1.5, 1.5)
@@ -132,6 +133,7 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

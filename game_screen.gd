@@ -24,7 +24,8 @@ var streak
 var lastJumpStamp = 0 #gameruntime of last jump 
 
 #spawn rates / difficulty
-var gameSpeed = 400
+var baseGameSpeed  = 500
+var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 1000  #higher = less common
@@ -173,7 +174,7 @@ func _input(event: InputEvent) -> void:
 					gameState = "PLAYING"
 					$SpawnTimer.start()
 					lastJumpStamp = get_process_delta_time()
-				
+					gameSpeed = baseGameSpeed
 				#update direction vector
 				var playerPosition  = player.get_global_position()
 				direction = mousePosition-playerPosition
@@ -194,6 +195,7 @@ func _process(delta: float) -> void:
 		player.velocity = speed*direction
 		#updates game time and moves background down
 		gameRunTime += delta
+		gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
 		#update score
 		$UI/Score.text = str(score)
