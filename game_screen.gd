@@ -12,7 +12,7 @@ signal gameOverScreen
 
 #player attribuites
 var direction = Vector2(0,0)
-var speed = 4000
+var speed = 7000
 var currentColor
 var currentBlock
 
@@ -25,7 +25,7 @@ var streak
 var lastJumpStamp = 0 #gameruntime of last jump 
 
 #spawn rates / difficulty
-var baseGameSpeed  = 500
+var baseGameSpeed  = 700
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
@@ -90,6 +90,7 @@ func loadGame():
 	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	block.setColor("RED")
 	block.number = blocksSpawned
+	block.connect("nextColor", nextColor)
 	blocksSpawned+=1
 	
 	
@@ -101,6 +102,7 @@ func loadGame():
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
+		block.connect("nextColor", nextColor)
 		lastBlockSpawned = block
 		blocksSpawned+=1
 	
@@ -147,14 +149,14 @@ func _on_block_caught():
 		
 			streak +=1 
 			$UI/Streak.text= "X" + str(streak)
-			$AnimationPlayer2.play("Streak")
+			$StreakAnimation.play("Streak")
 		else:
 			#streak ends
 			streak = 0 
 			$UI/Streak.text = ""
 
 		
-		$AnimationPlayer.play("Score")
+		$ScoreAnimation.play("Score")
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		#add 20 / howmuch time u were on block * streak 
@@ -163,10 +165,6 @@ func _on_block_caught():
 		#score += round(  (100 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) )
 		lastJumpStamp = gameRunTime
 	
-		print("Runtime")
-		print(gameRunTime)
-		print("last jump time")
-		print(lastJumpStamp)
 	
 
 func _input(event: InputEvent) -> void:
@@ -203,7 +201,8 @@ func _process(delta: float) -> void:
 		player.velocity = speed*direction
 		#updates game time and moves background down
 		gameRunTime += delta
-		gameSpeed += delta
+		gameSpeed = baseGameSpeed + 100*(log(gameRunTime))
+		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
 		#update score
 		$UI/Score.text = str(score)
@@ -217,6 +216,7 @@ func spawnBlock():
 	block.number = blocksSpawned
 	blocksSpawned += 1
 	block.connect("invalidBlock",spawnBlock)
+	block.connect("nextColor", nextColor)
 	
 	#set block position
 	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-200,-250))
@@ -288,3 +288,19 @@ func _on_rainbow_timer_timeout() -> void:
 		changeColor(currentBlock.blockColor)
 	else:
 		rainbowOver = true
+
+
+
+func nextColor():
+	print("BLOCK CLICKED")
+	#reset all the other collision layer masks
+	direction = Vector2(0,0)
+	var colors = ["RED", "GREEN", "BLUE", "PURPLE"]
+	var index = colors.find(currentBlock.blockColor)
+	var newColor = colors[(index+1)%4]
+	for i in range(4):
+		area2D.set_collision_mask_value(i+1,false)
+	area2D.set_collision_mask_value(colorToNumber[newColor],true)
+	
+	#change the players color
+	player.modulate = colorToRGB[newColor]

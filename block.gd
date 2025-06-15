@@ -6,10 +6,16 @@ signal invalidBlock
 var number =0 
 var deleted = false
 var blockColor
+var mouseOnBlock = false
+signal nextColor
+var onBlock = false
 #var spawnComplete = false
 
 
-	
+
+
+
+
 
 func setColor(color):
 	blockColor = color
@@ -53,6 +59,7 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 
 
 func blockCaught():
+	onBlock = true
 	if number !=0:
 		$GPUParticles2D.emitting =true
 	
@@ -65,3 +72,27 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
+
+
+
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch and event.pressed:
+		if onBlock and (false):
+			get_viewport().set_input_as_handled()
+			emit_signal("nextColor")
+			updateColor()
+			
+
+func _on_clicked_mouse_entered() -> void:
+	mouseOnBlock = true
+
+
+func updateColor():
+	var colors = ["RED", "GREEN", "BLUE", "PURPLE"]
+	var index = colors.find(blockColor)
+	setColor(colors[(index+1)%4])
+
+
+func _on_clicked_mouse_exited() -> void:
+	mouseOnBlock = false
