@@ -17,21 +17,26 @@ var currentColor
 var currentBlock
 
 #game control stuff
-var gameState = "OVER" #OVER, READY, PLAYING
+
+#streaks/scroes
+var score 
+var streak 
+var lastJumpStamp = 0 #gameruntime of last jump 
+
+#spawn rates / difficulty
 var gameSpeed = 400
 var spawnRate = .6 # higher spawn rate = less spawn 
-var gameRunTime = 0 
-var screen_size
 var blocksSpawned = 0 
 var spikeSpawnRate = 1000  #higher = less common
 var rainbowSpawnRate = 100 # higher = less common
-var randomColorRate = 0 # higher = less common
+var randomColorRate = 100 # higher = less common
 var rainbowOver = false
-
 var lastBlockSpawned = null
 
 
-
+var gameState = "OVER" #OVER, READY, PLAYING
+var gameRunTime = 0 
+var screen_size
 
 var colorToNumber ={
 	"RED": 1,
@@ -58,6 +63,10 @@ func _ready() -> void:
 func playGame():
 	lastBlockSpawned = null
 	print("playing game")
+	streak = 0 
+	score = 0 
+	$UI/Score.text = str(0) 
+	$UI/Streak.text = ""
 	gameState = "READY"
 
 func loadGame():
@@ -129,6 +138,27 @@ func _on_block_caught():
 	if rainbowOver:
 		rainbowOver = false
 		changeColor(currentBlock.blockColor)
+	
+	if gameState == "PLAYING":
+		if gameRunTime - lastJumpStamp < 0.75:
+			#streak continues
+		
+			streak +=1 
+			$UI/Streak.text= "X" + str(streak)
+			$AnimationPlayer2.play("Streak")
+		else:
+			#streak ends
+			streak = 0 
+			$UI/Streak.text = ""
+
+		
+		$AnimationPlayer.play("Score")
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN)
+		#add 100 / howmuch time u were on block * streak 
+		tween.tween_property(self,"score", score + (100 /  max(gameRunTime,0.2)- lastJumpStamp) * max(streak,1),.25)
+		lastJumpStamp = gameRunTime
+	
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
@@ -142,6 +172,7 @@ func _input(event: InputEvent) -> void:
 					gameRunTime = 0 
 					gameState = "PLAYING"
 					$SpawnTimer.start()
+					lastJumpStamp = get_process_delta_time()
 				
 				#update direction vector
 				var playerPosition  = player.get_global_position()
@@ -164,6 +195,8 @@ func _process(delta: float) -> void:
 		#updates game time and moves background down
 		gameRunTime += delta
 		movingObjects.position.y += delta*gameSpeed
+		#update score
+		$UI/Score.text = str(score)
 		
 
 
@@ -213,10 +246,12 @@ func spawnBlock():
 			block.setColor("PURPLE")
 		else:
 			block.setColor("BLUE")
-	#random chance of making it rainbow
+	
+	#random chance of making it a random color
 	if randi_range(0,randomColorRate) ==1:
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
+	#random chance of making it rainbow
 	if randi_range(0,rainbowSpawnRate) ==1 :
 		block.setColor("RAINBOW")
 	
@@ -237,8 +272,8 @@ func _on_spawn_timer_timeout() -> void:
 
 
 
-
 func _on_rainbow_timer_timeout() -> void:
+	#this should have two timers, first timeout is normal rainbow, and then switches to flashing as a warning
 	if currentBlock != null:
 		changeColor(currentBlock.blockColor)
 	else:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=10 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_fos0i"]
@@ -7,6 +7,120 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(10, 30)
+
+[sub_resource type="Animation" id="Animation_cm0pq"]
+resource_name = "Score"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Score:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(3, 3), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Score:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.466667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.893985, 0.499101, 3.85046e-07, 1), Color(0.980726, 0, 0.114669, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fos0i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Score:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Score:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("UI/Streak:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [32]
+}
+
+[sub_resource type="Animation" id="Animation_3dxm6"]
+resource_name = "Streak"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("UI/Streak:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.558628, 0.21451, 1), Color(1, 0.223529, 0.25098, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.233333, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [32, 96, 32]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lgr22"]
+_data = {
+&"RESET": SubResource("Animation_fos0i"),
+&"Score": SubResource("Animation_cm0pq"),
+&"Streak": SubResource("Animation_3dxm6")
+}
 
 [node name="Main" type="Node"]
 
@@ -67,7 +181,6 @@ grow_vertical = 2
 text = "Play Again"
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 script = ExtResource("2_uu6xs")
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
@@ -143,6 +256,24 @@ size_flags_horizontal = 3
 theme = ExtResource("2_fos0i")
 text = "PURPLE"
 
+[node name="Streak" type="Label" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -97.0
+offset_bottom = 45.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 32
+text = "streak"
+
+[node name="Score" type="Label" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+offset_right = 42.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 32
+text = "score"
+
 [node name="SpawnTimer" type="Timer" parent="ScreenManager/GameScreen"]
 process_callback = 0
 wait_time = 0.405
@@ -150,6 +281,16 @@ wait_time = 0.405
 [node name="RainbowTimer" type="Timer" parent="ScreenManager/GameScreen"]
 wait_time = 3.0
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenManager/GameScreen"]
+libraries = {
+&"": SubResource("AnimationLibrary_lgr22")
+}
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="ScreenManager/GameScreen"]
+libraries = {
+&"": SubResource("AnimationLibrary_lgr22")
+}
 
 [connection signal="pressed" from="ScreenManager/HomeScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
