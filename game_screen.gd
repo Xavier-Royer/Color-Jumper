@@ -19,6 +19,7 @@ var currentBlock
 #game control stuff
 
 #streaks/scroes
+var trueScore
 var score 
 var streak 
 var lastJumpStamp = 0 #gameruntime of last jump 
@@ -156,8 +157,8 @@ func _on_block_caught():
 		$AnimationPlayer.play("Score")
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
-		#add 100 / howmuch time u were on block * streak 
-		tween.tween_property(self,"score", score + (  (100 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) ),.1)
+		#add 20 / howmuch time u were on block * streak 
+		tween.tween_property(self,"score", score + (  (20 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) ),.1)
 		
 		#score += round(  (100 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) )
 		lastJumpStamp = gameRunTime
