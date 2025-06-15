@@ -157,7 +157,7 @@ func _on_block_caught():
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		#add 100 / howmuch time u were on block * streak 
-		tween.tween_property(self,"score", score + (100 /  max(gameRunTime,0.2)- lastJumpStamp) * max(streak,1),.25)
+		tween.tween_property(self,"score", score + (  (100 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) ),.25)
 		lastJumpStamp = gameRunTime
 	
 
