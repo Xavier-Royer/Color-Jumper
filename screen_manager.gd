@@ -5,10 +5,10 @@ var onScreenPosition = Vector2(0,0)
 
 
 func _ready() -> void:
-	$GameScreen.connect("gameOverScreen",next_screen.bind($GameOverScreen))
-	for i in get_children():
-		if i.name != "HomeScreen":
-			i.offset = offScreenPosition
+	$GameScreen.connect("gameOverScreen",$GameOverScreen.show)
+	#for i in get_children():
+	#	if i.name != "HomeScreen":
+	#		i.offset = offScreenPosition
 
 
 #screen transitioner, waits until finished to return
@@ -38,5 +38,10 @@ func next_screen(nextScreen):
 #when play pressed load in new game
 func _on_play_pressed() -> void:
 	$GameScreen.loadGame()
-	await next_screen($GameScreen)
+	$HomeScreen/UI/TouchAnywhereText.show()
+	$HomeScreen/UI/Logo.modulate.a = 1.0
+	$GameOverScreen.hide()
+	$GameScreen.show()
+	$HomeScreen.show()
+	#await next_screen($GameScreen)
 	$GameScreen.playGame()

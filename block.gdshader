@@ -8,22 +8,22 @@ void fragment() {
 	vec4 input_color = texture(TEXTURE,UV);
 	float xPos = 2.0*abs(0.5-UV.x);
 	float yPos = 2.0*abs(0.5-UV.y);
-	
+
 	//for circluar shader
 	//float radius = pow(pow(xPos,2.0) + pow(yPos,2.0),0.5);
 	//float alpha = 1.0-(radius/1.1);
 	//COLOR.a = alpha;
-	
+
 	//for square shader
 	float squareRadius = max(xPos,yPos);
 	float alpha = 1.0-(squareRadius/1.2); //1.0-(squareRadius/1.5);
 	COLOR.a = clamp(0.0,alpha,1.0);
-	
-	
-	
-	
+
+
+
+
 	//COLOR = vec4(input_color.r,input_color.g,input_color.b,alpha);
-	
+
 	//COLOR = vec4(squareRadius, 0.0, 0.0,1.0); // Shows UV gradient from red (X) and green (Y)
 }
 

@@ -11,12 +11,6 @@ signal nextColor
 var onBlock = false
 #var spawnComplete = false
 
-
-
-
-
-
-
 func setColor(color):
 	blockColor = color
 	for i in range(4):
@@ -62,6 +56,9 @@ func blockCaught():
 	onBlock = true
 	if number !=0:
 		$GPUParticles2D.emitting =true
+		#var tween = create_tween()
+		#tween.tween_property(self, "scale", self.scale * 1.4, 0.15).set_ease(Tween.EASE_IN)
+		#tween.tween_property(self, "scale", self.scale, 0.15).set_ease(Tween.EASE_OUT)
 	
 
 

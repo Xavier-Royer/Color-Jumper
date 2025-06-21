@@ -25,13 +25,13 @@ var streak
 var lastJumpStamp = 0 #gameruntime of last jump 
 
 #spawn rates / difficulty
-var baseGameSpeed  = 700
+var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 1000  #higher = less common
-var rainbowSpawnRate = 100 # higher = less common
-var randomColorRate = 100 # higher = less common
+var rainbowSpawnRate = 200 # higher = less common
+var randomColorRate = 3 # higher = less common
 var rainbowOver = false
 var lastBlockSpawned = null
 
@@ -57,10 +57,18 @@ var colorToRGB ={
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
-	for button in $UI/ColorButtons.get_children():
+	for button in $"../HomeScreen/UI/ColorButtons".get_children():
 		button.connect("pressed",changeColor.bind(button.name))
-	
 	player.connect("screenExited",gameOver)
+	var tween = create_tween().set_loops()
+	tween.tween_property($"../HomeScreen/UI/TouchAnywhereText", "scale", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN)
+	tween.tween_property($"../HomeScreen/UI/TouchAnywhereText", "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
+	var tween2 = create_tween().set_loops()
+
+	tween2.tween_property($"../HomeScreen/UI/Logo", "position:y", $"../HomeScreen/UI/Logo".position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	tween2.tween_property($"../HomeScreen/UI/Logo", "position:y", $"../HomeScreen/UI/Logo".position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	loadGame()
+	playGame()
 
 func playGame():
 	lastBlockSpawned = null
@@ -171,7 +179,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
-		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
+		if mousePosition.y < $"../HomeScreen/UI/ColorButtons".position.y and gameState != "OVER":
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
@@ -181,6 +189,11 @@ func _input(event: InputEvent) -> void:
 					$SpawnTimer.start()
 					lastJumpStamp = get_process_delta_time()
 					gameSpeed = baseGameSpeed
+					#$"../HomeScreen".hide()
+					$"../HomeScreen/UI/TouchAnywhereText".hide()
+					var tween = create_tween()
+					tween.tween_property($"../HomeScreen/UI/Logo", "modulate:a", 0.0, 0.5)
+					
 				#update direction vector
 				var playerPosition  = player.get_global_position()
 				direction = mousePosition-playerPosition
