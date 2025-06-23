@@ -236,7 +236,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -526.0
 offset_top = 174.0
-offset_right = 458.23755
+offset_right = 458.238
 offset_bottom = 723.0
 texture = ExtResource("3_fos0i")
 stretch_mode = 5
@@ -323,7 +323,7 @@ text = "score"
 
 [node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(1344, 0)
-scale = Vector2(2.8799996, 1.8231188)
+scale = Vector2(2.88, 1.82312)
 collision_mask = 529
 script = ExtResource("4_cm0pq")
 

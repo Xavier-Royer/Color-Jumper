@@ -12,6 +12,10 @@ var onBlock = false
 #var spawnComplete = false
 
 func setColor(color):
+
+	$ColorRect.material.set_shader_parameter("rainbow",false)
+	$ColorRect.material.set_shader_parameter("speed",2.0)
+	
 	blockColor = color
 	for i in range(4):
 		self.set_collision_layer_value(i+1,false)
@@ -32,6 +36,11 @@ func setColor(color):
 	else: # for rainbow set all color collision layers to true
 		self.modulate = Color(0,0,0)
 		self.set_collision_layer_value(10,true)
+		$ColorRect.material.set_shader_parameter("Rainbow",true)
+
+		
+	print($ColorRect.material.get_shader_parameter("Rainbow"))
+	
 
 func delete():
 	$AnimationPlayer.play("blockLeft")
