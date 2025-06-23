@@ -9,13 +9,13 @@ signal gameOverScreen
 @onready var movingObjects = $Objects
 
 
-
 #player attribuites
 var direction = Vector2(0,0)
 var speed = 7000
 var currentColor
 var currentBlock
-
+var difficulty = "EASY" #easy, medium, hard or extreme
+var difficulties = ["EASY", "MEDIUM" , "HARD", "EXTREME"]
 #game control stuff
 
 #streaks/scroes
@@ -57,16 +57,16 @@ var colorToRGB ={
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
-	for button in $"../HomeScreen/UI/ColorButtons".get_children():
+	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
 	player.connect("screenExited",gameOver)
 	var tween = create_tween().set_loops()
-	tween.tween_property($"../HomeScreen/UI/TouchAnywhereText", "scale", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN)
-	tween.tween_property($"../HomeScreen/UI/TouchAnywhereText", "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
+	tween.tween_property($UI/TouchAnywhereText, "scale", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN)
+	tween.tween_property($UI/TouchAnywhereText, "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
 	var tween2 = create_tween().set_loops()
 
-	tween2.tween_property($"../HomeScreen/UI/Logo", "position:y", $"../HomeScreen/UI/Logo".position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	tween2.tween_property($"../HomeScreen/UI/Logo", "position:y", $"../HomeScreen/UI/Logo".position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	loadGame()
 	playGame()
 
@@ -77,7 +77,22 @@ func playGame():
 	score = 0 
 	$UI/Score.text = str(0) 
 	$UI/Streak.text = ""
+	
+	difficulty = FileManager.difficulty
+	
 	gameState = "READY"
+	if difficulty == "EASY":
+		randomColorRate = 50
+		baseGameSpeed  = 700
+	elif difficulty == "MEDIUM":
+		randomColorRate = 30
+		baseGameSpeed  = 500
+	elif difficulty == "HARD":
+		randomColorRate = 10
+		baseGameSpeed  = 300
+	else:
+		baseGameSpeed  = 200
+		randomColorRate = 3
 
 func loadGame():
 	player.velocity = Vector2(0,0)
@@ -142,7 +157,9 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_block_caught():
+	
 	currentBlock = player.blockOn
+	currentBlock.blockCaught(direction,gameSpeed)
 	direction = Vector2(0,0)
 	if currentBlock.get_collision_layer_value(10):
 		$RainbowTimer.start()
@@ -179,7 +196,8 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
-		if mousePosition.y < $"../HomeScreen/UI/ColorButtons".position.y and gameState != "OVER":
+		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER" and  not ( mousePosition.y < $UI/Settings.position.y +$UI/Settings.size.y  and mousePosition.x >$UI/Settings.position.x):
+			
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
@@ -190,9 +208,11 @@ func _input(event: InputEvent) -> void:
 					lastJumpStamp = get_process_delta_time()
 					gameSpeed = baseGameSpeed
 					#$"../HomeScreen".hide()
-					$"../HomeScreen/UI/TouchAnywhereText".hide()
+					$UI/TouchAnywhereText.hide()
 					var tween = create_tween()
-					tween.tween_property($"../HomeScreen/UI/Logo", "modulate:a", 0.0, 0.5)
+					tween.tween_property($UI/Logo, "modulate:a", 0.0, 0.5)
+					var tween2 = create_tween()
+					tween2.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
 					
 				#update direction vector
 				var playerPosition  = player.get_global_position()
@@ -286,7 +306,15 @@ func gameOver():
 		$SpawnTimer.stop()
 		player.hide()
 		gameState = "OVER"
+		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + str(score)
+		var index = difficulties.find(difficulty)
+		var currentHighScore = FileManager.highScore[index]
+		if score > currentHighScore:
+			currentHighScore = score
+			FileManager.setHighScore(score,index)
+		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + str(currentHighScore)
 		emit_signal("gameOverScreen")
+
 
 
 func _on_spawn_timer_timeout() -> void:

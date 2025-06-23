@@ -61,10 +61,14 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				break
 
 
-func blockCaught():
+func blockCaught(playerDirection, gameSpeed):
 	onBlock = true
 	if number !=0:
+		#$GPUParticles2D.process_material.
+		$GPUParticles2D.process_material.direction = Vector3(-1*playerDirection.x,-1*playerDirection.y ,0)
+		$GPUParticles2D.process_material.gravity = Vector3(0,gameSpeed*2,0)
 		$GPUParticles2D.emitting =true
+		$AnimationPlayer.play("CaughtBlock")
 		#var tween = create_tween()
 		#tween.tween_property(self, "scale", self.scale * 1.4, 0.15).set_ease(Tween.EASE_IN)
 		#tween.tween_property(self, "scale", self.scale, 0.15).set_ease(Tween.EASE_OUT)
@@ -73,7 +77,8 @@ func blockCaught():
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
-	queue_free()
+	if _anim_name == "blcokLeft":
+		queue_free()
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:

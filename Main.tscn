@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=21 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
+[ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://textures/redbutton.png" id="3_3dxm6"]
@@ -176,114 +177,46 @@ amount = 68
 lifetime = 15.21
 process_material = SubResource("ParticleProcessMaterial_fos0i")
 
-[node name="HomeScreen" type="CanvasLayer" parent="ScreenManager"]
+[node name="SettingsScreen" type="CanvasLayer" parent="ScreenManager"]
+offset = Vector2(1152, 0)
+transform = Transform2D(1, 0, 0, 1, 1152, 0)
+script = ExtResource("2_c2ibq")
 
-[node name="UI" type="Control" parent="ScreenManager/HomeScreen"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/HomeScreen/UI"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -287.0
-grow_horizontal = 2
-grow_vertical = 0
-mouse_filter = 0
-
-[node name="RED" type="TextureButton" parent="ScreenManager/HomeScreen/UI/ColorButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_fos0i")
-texture_normal = ExtResource("3_3dxm6")
-texture_pressed = ExtResource("4_lgr22")
-stretch_mode = 0
-
-[node name="GREEN" type="TextureButton" parent="ScreenManager/HomeScreen/UI/ColorButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_fos0i")
-texture_normal = ExtResource("5_03owx")
-texture_pressed = ExtResource("6_wkp8b")
-stretch_mode = 0
-
-[node name="BLUE" type="TextureButton" parent="ScreenManager/HomeScreen/UI/ColorButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_fos0i")
-texture_normal = ExtResource("7_c6i3y")
-texture_pressed = ExtResource("8_c2ibq")
-stretch_mode = 0
-
-[node name="PURPLE" type="TextureButton" parent="ScreenManager/HomeScreen/UI/ColorButtons"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_fos0i")
-texture_normal = ExtResource("9_j4qnp")
-texture_pressed = ExtResource("10_fpfj3")
-stretch_mode = 0
-
-[node name="Logo" type="TextureRect" parent="ScreenManager/HomeScreen/UI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -526.0
-offset_top = 174.0
-offset_right = 458.238
-offset_bottom = 723.0
-texture = ExtResource("3_fos0i")
-stretch_mode = 5
-
-[node name="TouchAnywhereText" type="Label" parent="ScreenManager/HomeScreen/UI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.497
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -294.76
-offset_top = -559.0
-offset_right = 292.0
-offset_bottom = -490.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(292.07, 40.05)
-theme = ExtResource("2_fos0i")
-text = "Touch anywhere to play!"
-
-[node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
-
-[node name="UI" type="Control" parent="ScreenManager/GameOverScreen"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("2_fos0i")
-
-[node name="Button" type="Button" parent="ScreenManager/GameOverScreen/UI"]
-layout_mode = 1
+[node name="Difficulty" type="OptionButton" parent="ScreenManager/SettingsScreen"]
+custom_minimum_size = Vector2(300, 100)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -260.0
-offset_top = -132.0
-offset_right = 258.0
-offset_bottom = 138.0
+offset_left = -16.0
+offset_top = -10.0
+offset_right = 27.0
+offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Play Again"
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 64
+selected = 1
+item_count = 4
+popup/item_0/text = "Easy"
+popup/item_0/id = 0
+popup/item_1/text = "Medium"
+popup/item_1/id = 1
+popup/item_2/text = "Hard"
+popup/item_2/id = 2
+popup/item_3/text = "Extreme"
+popup/item_3/id = 3
+
+[node name="Home" type="Button" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+offset_right = 57.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "HOME"
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
@@ -319,7 +252,92 @@ offset_bottom = 67.0
 theme_override_font_sizes/font_size = 64
 text = "score"
 
+[node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -287.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 0
+
+[node name="RED" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+texture_normal = ExtResource("3_3dxm6")
+texture_pressed = ExtResource("4_lgr22")
+stretch_mode = 0
+
+[node name="GREEN" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+texture_normal = ExtResource("5_03owx")
+texture_pressed = ExtResource("6_wkp8b")
+stretch_mode = 0
+
+[node name="BLUE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+texture_normal = ExtResource("7_c6i3y")
+texture_pressed = ExtResource("8_c2ibq")
+stretch_mode = 0
+
+[node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_fos0i")
+texture_normal = ExtResource("9_j4qnp")
+texture_pressed = ExtResource("10_fpfj3")
+stretch_mode = 0
+
+[node name="Logo" type="TextureRect" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -526.0
+offset_top = 174.0
+offset_right = 458.238
+offset_bottom = 723.0
+texture = ExtResource("3_fos0i")
+stretch_mode = 5
+
+[node name="TouchAnywhereText" type="Label" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.497
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -294.76
+offset_top = -559.0
+offset_right = 292.0
+offset_bottom = -490.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(292.07, 40.05)
+theme = ExtResource("2_fos0i")
+text = "Touch anywhere to play!"
+
+[node name="Settings" type="Button" parent="ScreenManager/GameScreen/UI"]
+z_index = 50
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -256.0
+offset_bottom = 96.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 64
+text = "Settings"
+
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
+z_index = -1
 
 [node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(1344, 0)
@@ -339,6 +357,9 @@ offset_bottom = 30.0
 position = Vector2(4.99994, 15)
 scale = Vector2(0.499999, 1.5)
 
+[node name="Trail" type="Node2D" parent="ScreenManager/GameScreen/Objects/Player"]
+position = Vector2(5.55555, 28.5225)
+
 [node name="SpawnTimer" type="Timer" parent="ScreenManager/GameScreen"]
 process_callback = 0
 wait_time = 0.405
@@ -357,7 +378,61 @@ libraries = {
 &"": SubResource("AnimationLibrary_lgr22")
 }
 
-[connection signal="pressed" from="ScreenManager/GameOverScreen/UI/Button" to="ScreenManager" method="_on_play_pressed"]
+[node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
+
+[node name="UI" type="Control" parent="ScreenManager/GameOverScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_fos0i")
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameOverScreen/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.32549, 0.32549, 0.32549, 0.517647)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScreenManager/GameOverScreen/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.5
+offset_top = -75.0
+offset_right = 135.5
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Highscore" type="Label" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
+layout_mode = 2
+text = "High Score: "
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
+layout_mode = 2
+text = "Score:"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
+[connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
+[connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]

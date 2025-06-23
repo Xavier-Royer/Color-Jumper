@@ -31,7 +31,8 @@ void fragment() {
 		}
 	
 		if (squareRadius >0.55){
-			COLOR.a = clamp(0.0,alpha,1.0);
+			//uses +1 to allow for animation player to change alpha value
+			COLOR.a += clamp(0.0,alpha,1.0) -1.0;
 			COLOR.b *=2.8;
 			COLOR.r *=2.8;
 			COLOR.g *=2.8;

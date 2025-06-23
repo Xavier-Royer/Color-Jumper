@@ -1,10 +1,13 @@
 extends Node
-@onready var currentScreen = $HomeScreen
+@onready var currentScreen = $GameScreen
 var onScreenPosition = Vector2(0,0)
 @onready var offScreenPosition = Vector2(Globals.screenSize.x,0)
 
 
+
 func _ready() -> void:
+	$SettingsScreen.offset = offScreenPosition
+	#$GameOverScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",$GameOverScreen.show)
 	#for i in get_children():
 	#	if i.name != "HomeScreen":
@@ -38,10 +41,20 @@ func next_screen(nextScreen):
 #when play pressed load in new game
 func _on_play_pressed() -> void:
 	$GameScreen.loadGame()
-	$HomeScreen/UI/TouchAnywhereText.show()
-	$HomeScreen/UI/Logo.modulate.a = 1.0
+	$GameScreen/UI/TouchAnywhereText.show()
+	$GameScreen/UI/Logo.modulate.a = 1.0
+	$GameScreen/UI/Settings.modulate.a = 1.0
 	$GameOverScreen.hide()
 	$GameScreen.show()
-	$HomeScreen.show()
+	$GameScreen.show()
 	#await next_screen($GameScreen)
 	$GameScreen.playGame()
+
+
+func _on_settings_pressed() -> void:
+	$SettingsScreen.loadSettings()
+	next_screen($SettingsScreen)
+	
+func _on_home_pressed():
+	next_screen($GameScreen)
+	_on_play_pressed()
