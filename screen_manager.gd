@@ -58,3 +58,7 @@ func _on_settings_pressed() -> void:
 func _on_home_pressed():
 	next_screen($GameScreen)
 	_on_play_pressed()
+
+
+func _on_gpu_particles_2d_finished() -> void:
+	pass # Replace with function body.

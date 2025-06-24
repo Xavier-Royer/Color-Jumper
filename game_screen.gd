@@ -29,7 +29,7 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 1000  #higher = less common
+var spikeSpawnRate = 50  #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
@@ -53,6 +53,9 @@ var colorToRGB ={
 	"BLUE":Color(0,0,255),
 	"PURPLE":Color(255,0,255)
 }
+
+#rainbowFlashAnimationVariables
+var flashCount =0  
 
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
@@ -138,7 +141,7 @@ func changeColor(newColor):
 	if newColor == "RAINBOW":
 		for i in range(4):
 			area2D.set_collision_mask_value(i+1,true)
-		player.modulate = Color(0,0,0)
+		player.modulate = Color(1,1,1)
 		return
 	
 	#change the curren block's color
@@ -163,9 +166,11 @@ func _on_block_caught():
 	direction = Vector2(0,0)
 	if currentBlock.get_collision_layer_value(10):
 		$RainbowTimer.start()
+		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
 	if rainbowOver:
 		rainbowOver = false
+		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
 	
 	if gameState == "PLAYING":
@@ -256,14 +261,25 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	if randi_range(0,spikeSpawnRate/gameRunTime) ==1:
+	if randi_range(0,spikeSpawnRate/gameRunTime) ==1 and lastBlockSpawned != null:
 		print("create spike")
 		var spike = spikeScene.instantiate()
 		movingObjects.call_deferred("add_child",spike)
 		spike.number = blocksSpawned
 		blocksSpawned += 1
+		
 		var firstPosition  = lastBlockSpawned.get_global_position()
 		var secondPosition = blockPosition
+		
+		var line = Line2D.new()
+		movingObjects.call_deferred("add_child",line)
+		print(firstPosition)
+		line.call_deferred("add_point",firstPosition - Vector2(0,movingObjects.position.y))
+		line.call_deferred("add_point",secondPosition - Vector2(0,movingObjects.position.y))
+		#line.add_point(firstPosition+Vector2(0,-10))
+		#line.add_point(secondPosition+Vector2(0,-10))
+		
+		
 		#puts the spike half way between itself and the next one
 		var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
 		spike.set_deferred("global_position", spikePosition)
@@ -297,6 +313,7 @@ func spawnBlock():
 	#random chance of making it rainbow
 	if randi_range(0,rainbowSpawnRate) ==1 :
 		block.setColor("RAINBOW")
+		print("RIANBOW")
 	
 	
 	
@@ -324,11 +341,10 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func _on_rainbow_timer_timeout() -> void:
+	$FlashTimer.wait_time = 0.3
+	$FlashTimer.start()
 	#this should have two timers, first timeout is normal rainbow, and then switches to flashing as a warning
-	if currentBlock != null:
-		changeColor(currentBlock.blockColor)
-	else:
-		rainbowOver = true
+	pass
 
 
 
@@ -345,3 +361,25 @@ func nextColor():
 	
 	#change the players color
 	player.modulate = colorToRGB[newColor]
+
+
+func _on_flash_timer_timeout() -> void:
+	if flashCount > 10: 
+		if currentBlock != null:
+			changeColor(currentBlock.blockColor)
+			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+		else:
+			rainbowOver = true
+		flashCount = 0 
+	else:
+		#$FlashTimer.wait_time -= 0.02
+		
+		if $Objects/Player/ColorRect.material.get_shader_parameter("rainbow"):
+			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+			$FlashTimer.wait_time = 0.1 #+ (flashCount*0.04)
+		else:
+			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
+			$FlashTimer.wait_time = 0.3 - (flashCount*0.02)
+		flashCount += 1
+		$FlashTimer.start()
+		

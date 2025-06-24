@@ -1,26 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdh5ryxp407wx"]
+[gd_scene load_steps=4 format=3 uid="uid://bdh5ryxp407wx"]
 
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="1_sqep7"]
 
-[sub_resource type="Curve" id="Curve_47miy"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 2
-
 [sub_resource type="CurveTexture" id="CurveTexture_ycws3"]
-curve = SubResource("Curve_47miy")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o0vtf"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(5, 5, 5)
 gravity = Vector3(0, 0, 0)
-scale_min = 5.0
-scale_max = 5.0
 scale_curve = SubResource("CurveTexture_ycws3")
 
 [node name="GPUParticles2D" type="GPUParticles2D"]
 emitting = false
 amount = 1
 texture = ExtResource("1_sqep7")
-lifetime = 0.3
+lifetime = 0.4
 one_shot = true
+fixed_fps = 0
+trail_lifetime = 0.4
 process_material = SubResource("ParticleProcessMaterial_o0vtf")

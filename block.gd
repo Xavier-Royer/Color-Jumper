@@ -36,10 +36,12 @@ func setColor(color):
 	else: # for rainbow set all color collision layers to true
 		self.modulate = Color(0,0,0)
 		self.set_collision_layer_value(10,true)
-		$ColorRect.material.set_shader_parameter("Rainbow",true)
+		var unique = $ColorRect.material.duplicate(true)
+		$ColorRect.material = unique 
+		$ColorRect.material.set_shader_parameter("rainbow",true)
 
 		
-	print($ColorRect.material.get_shader_parameter("Rainbow"))
+	#print($ColorRect.material.get_shader_parameter("Rainbow"))
 	
 
 func delete():
