@@ -366,6 +366,10 @@ scale = Vector2(2.88, 1.82312)
 collision_mask = 529
 script = ExtResource("4_cm0pq")
 
+[node name="Trail2" type="Node2D" parent="ScreenManager/GameScreen/Objects/Player"]
+position = Vector2(4.86111, 29.6196)
+scale = Vector2(0.347222, 0.54851)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
 position = Vector2(5, 15)
 shape = SubResource("RectangleShape2D_r0du0")
@@ -391,13 +395,11 @@ process_material = SubResource("ParticleProcessMaterial_sc1dx")
 
 [node name="Trail" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
 process_priority = 500
+visible = false
 position = Vector2(5.20833, 30.1681)
 amount = 500
 texture = ExtResource("16_fpfj3")
 process_material = SubResource("ParticleProcessMaterial_fpfj3")
-
-[node name="Trail" type="Node2D" parent="ScreenManager/GameScreen/Objects"]
-visible = false
 
 [node name="SpawnTimer" type="Timer" parent="ScreenManager/GameScreen"]
 process_callback = 0

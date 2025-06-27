@@ -76,9 +76,7 @@ func _input(event: InputEvent) -> void:
 		endDragPosition = get_viewport().get_mouse_position()
 		var totalDistance = endDragPosition.x  - initialDragPosition.x
 		var dragVelcoity = totalDistance/dragTime
-		print(totalDistance)
-		print(dragTime)
-		print(dragVelcoity)
+		
 		var tween  = create_tween()
 		tween.tween_property(self,"scrollPosition", scrollPosition+(dragVelcoity*.05),0.2)
 		

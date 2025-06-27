@@ -237,6 +237,7 @@ func _process(delta: float) -> void:
 	if gameState == "PLAYING":
 		#updates player movement
 		player.velocity = speed*direction
+		player.gameSpeed = gameSpeed
 		#updates game time and moves background down
 		gameRunTime += delta
 		gameSpeed = baseGameSpeed + 100*(log(gameRunTime))
