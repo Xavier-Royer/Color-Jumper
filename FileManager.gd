@@ -5,6 +5,7 @@ var highScore = [0,0,0,0]
 
 func _ready():
 	loadSettings()
+	loadHighScore()
 
 func setDifficulty(newDifficulty):
 	difficulty = newDifficulty
