@@ -100,7 +100,7 @@ func playGame():
 func loadGame():
 	player.velocity = Vector2(0,0)
 	for i in movingObjects.get_children():
-		if i.name != "Player":
+		if i.name != "Player" and i.name != "Trail":
 			i.queue_free()
 	movingObjects.position.y = 0 
 	

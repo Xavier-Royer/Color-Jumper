@@ -7,17 +7,18 @@ var blockOn = null
 var died = false
 var trailLength = 25
 @onready var trail = preload("res://TrailParticle.tscn")
-@onready var trailNode = $Trail #self.get_parent().get_parent().get_node("Trail")
+@onready var test = preload("res://color_rect.tscn")
+@onready var trailNode = self.get_parent().get_node("Trail")# $Trail #self.get_parent().get_parent().get_node("Trail")
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	emit_signal("screenExited")
 
 func _ready():
 	for i in trailLength:
-		var particle = trail.instantiate()
+		var particle =  test.instantiate()#ColorRect.new() #trail.instantiate()
 		trailNode.add_child(particle)
 		particle.global_position = self.global_position
-		particle.emitting = true
+		#particle.emitting = true
 		
 
 func _process(_delta: float) -> void:
@@ -47,11 +48,11 @@ func _process(_delta: float) -> void:
 			
 
 func _physics_process(_delta: float) -> void:
-	var particle = trail.instantiate()
+	var particle = test.instantiate()
 
 	trailNode.add_child(particle)
 	particle.global_position = self.global_position
-	particle.emitting = true
+#	particle.emitting = true
 	#for t in trailNode.get_children():
 #		pass
 	#	t.position += Vector2(0,50)
