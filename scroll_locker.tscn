@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnoobnjt5omfj"]
+
+[ext_resource type="Script" uid="uid://c51srf3q08yxg" path="res://scroll_locker.gd" id="1_wn8l6"]
+[ext_resource type="Texture2D" uid="uid://c2acb07wmwvvv" path="res://icon.svg" id="2_2wxk8"]
+
+[node name="ScrollLocker" type="Node2D"]
+script = ExtResource("1_wn8l6")
+
+[node name="Item1" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Item1"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item1"]
+layout_mode = 2
+text = "1"
+
+[node name="Item2" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Item2"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item2"]
+layout_mode = 2
+text = "2"
+
+[node name="Item3" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Item3"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item3"]
+layout_mode = 2
+text = "3"
+
+[node name="Item4" type="VBoxContainer" parent="."]
+offset_right = 128.0
+offset_bottom = 155.0
+
+[node name="TextureRect" type="TextureRect" parent="Item4"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item4"]
+layout_mode = 2
+text = "4"
+
+[node name="Item5" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Item5"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item5"]
+layout_mode = 2
+text = "5"
+
+[node name="Item6" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="Item6"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item6"]
+layout_mode = 2
+text = "6"
+
+[node name="Item7" type="VBoxContainer" parent="."]
+offset_top = 159.0
+offset_right = 128.0
+offset_bottom = 314.0
+
+[node name="TextureRect" type="TextureRect" parent="Item7"]
+layout_mode = 2
+texture = ExtResource("2_2wxk8")
+
+[node name="Label" type="Label" parent="Item7"]
+layout_mode = 2
+text = "7"
