@@ -244,6 +244,7 @@ layer = 0
 script = ExtResource("2_uu6xs")
 
 [node name="UI" type="Control" parent="ScreenManager/GameScreen"]
+z_index = 99
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

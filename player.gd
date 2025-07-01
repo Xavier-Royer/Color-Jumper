@@ -77,8 +77,6 @@ func _physics_process(_delta: float) -> void:
 			newTrail = false
 			lastPosition = position
 		
-		print("Making 20 particle")
-		
 		for i in 15:
 			particle = trail.instantiate()
 			trailNode.add_child(particle)
