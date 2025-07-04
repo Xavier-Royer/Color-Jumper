@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=29 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://textures/colorjumper_logo.png" id="3_fos0i"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://player.gd" id="4_cm0pq"]
 [ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://textures/redbuttonpressed.png" id="4_lgr22"]
+[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="4_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://textures/greenbutton.png" id="5_03owx"]
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://textures/greenbuttonpressed.png" id="6_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://textures/bluebutton.png" id="7_c6i3y"]
@@ -30,6 +31,15 @@ initial_velocity_max = 63.82
 gravity = Vector3(0, 0, 0)
 scale_min = 3.0
 scale_max = 10.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_sc1dx"]
+font = ExtResource("4_sc1dx")
+font_size = 75
+font_color = Color(0.7079665, 0.7079665, 0.7079664, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
+font = ExtResource("4_sc1dx")
+font_size = 120
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(10, 30)
@@ -82,26 +92,26 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("UI/Streak:modulate")
+tracks/2/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [32]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
+tracks/3/path = NodePath("UI/Streak:modulate")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [32]
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_cm0pq"]
@@ -138,26 +148,26 @@ length = 0.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("UI/Streak:modulate")
+tracks/0/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0833, 0.125, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 0.558628, 0.21451, 1), Color(1, 0.223529, 0.25098, 1), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("UI/Streak:theme_override_font_sizes/font_size")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.125, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [64, 96, 64]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("UI/Streak:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0833, 0.125, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0.558628, 0.21451, 1), Color(1, 0.223529, 0.25098, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lgr22"]
@@ -255,24 +265,24 @@ mouse_filter = 2
 
 [node name="Streak" type="Label" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -131.0
-offset_bottom = 70.0
-grow_horizontal = 0
+offset_left = 33.0
+offset_top = 171.0
+offset_right = 229.0
+offset_bottom = 250.0
 theme_override_font_sizes/font_size = 32
 text = "streak"
+label_settings = SubResource("LabelSettings_sc1dx")
 vertical_alignment = 2
 
 [node name="Score" type="Label" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
-offset_left = 65.0
-offset_top = -21.0
-offset_right = 231.0
-offset_bottom = 67.0
+offset_left = 33.0
+offset_top = 30.0
+offset_right = 218.0
+offset_bottom = 121.0
 theme_override_font_sizes/font_size = 64
 text = "score"
+label_settings = SubResource("LabelSettings_kjvhd")
 
 [node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
@@ -352,8 +362,10 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -256.0
-offset_bottom = 96.0
+offset_left = -270.0
+offset_top = 18.0
+offset_right = -14.0
+offset_bottom = 114.0
 grow_horizontal = 0
 theme_override_font_sizes/font_size = 64
 text = "Settings"
