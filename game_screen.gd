@@ -197,11 +197,12 @@ func _on_block_caught():
 	
 	
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch and event.pressed:  #event.is_action_pressed("Tap"):
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:  #event.is_action_pressed("Tap"):
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
-		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER" and  not ( mousePosition.y < $UI/Settings.position.y +$UI/Settings.size.y  and mousePosition.x >$UI/Settings.position.x):
+		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
+		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER": # and  not ( mousePosition.y < $UI/Settings.position.y +$UI/Settings.size.y  and mousePosition.x >$UI/Settings.position.x):
 			
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
@@ -216,8 +217,12 @@ func _input(event: InputEvent) -> void:
 					$UI/TouchAnywhereText.hide()
 					var tween = create_tween()
 					tween.tween_property($UI/Logo, "modulate:a", 0.0, 0.5)
+					$UI/Settings.disabled = true
+					$UI/Leaderboard.disabled = true
 					var tween2 = create_tween()
 					tween2.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
+					tween2.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
+					
 					
 				#update direction vector
 				var playerPosition  = player.get_global_position()
@@ -244,8 +249,20 @@ func _process(delta: float) -> void:
 		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
 		#update score
-		$UI/Score.text = str(score)
+		$UI/Score.text = str(comma_format(str(score)))
 		
+		
+func comma_format(num_str: String) -> String:
+	var result := ""
+	var count := 0
+	for i in range(num_str.length() - 1, -1, -1):
+		result = num_str[i] + result
+		count += 1
+		if count % 3 == 0 and i != 0:
+			result = "," + result
+	return result
+
+
 
 
 

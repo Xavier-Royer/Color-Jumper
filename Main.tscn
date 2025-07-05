@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=34 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
@@ -15,8 +15,12 @@
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://textures/bluebuttonpressed.png" id="8_c2ibq"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://textures/purplebutton.png" id="9_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://textures/purplebuttonpressed.png" id="10_fpfj3"]
+[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="15_5tuhn"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Player.gdshader" id="15_j4qnp"]
+[ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://textures/leaderboard.png" id="16_2gh4u"]
+[ext_resource type="Texture2D" uid="uid://dvb3e8das85t4" path="res://textures/settings_pressed.png" id="16_devvj"]
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="16_fpfj3"]
+[ext_resource type="Texture2D" uid="uid://dmgukeat5acuo" path="res://textures/leaderboard_pressed.png" id="18_3b0ty"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -40,6 +44,10 @@ font_color = Color(0.7079665, 0.7079665, 0.7079664, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
 font = ExtResource("4_sc1dx")
 font_size = 120
+
+[sub_resource type="LabelSettings" id="LabelSettings_5tuhn"]
+font = ExtResource("4_sc1dx")
+font_size = 79
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(10, 30)
@@ -192,6 +200,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Background" type="ColorRect" parent="ScreenManager/Background/Control"]
 layout_mode = 1
@@ -200,6 +209,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 color = Color(0, 0, 0, 1)
 
 [node name="Stars" type="GPUParticles2D" parent="ScreenManager/Background"]
@@ -265,10 +275,10 @@ mouse_filter = 2
 
 [node name="Streak" type="Label" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
-offset_left = 33.0
-offset_top = 171.0
-offset_right = 229.0
-offset_bottom = 250.0
+offset_left = 52.0
+offset_top = 181.0
+offset_right = 248.0
+offset_bottom = 260.0
 theme_override_font_sizes/font_size = 32
 text = "streak"
 label_settings = SubResource("LabelSettings_sc1dx")
@@ -276,10 +286,10 @@ vertical_alignment = 2
 
 [node name="Score" type="Label" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
-offset_left = 33.0
-offset_top = 30.0
-offset_right = 218.0
-offset_bottom = 121.0
+offset_left = 52.0
+offset_top = 40.0
+offset_right = 307.0
+offset_bottom = 166.0
 theme_override_font_sizes/font_size = 64
 text = "score"
 label_settings = SubResource("LabelSettings_kjvhd")
@@ -354,21 +364,37 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(292.07, 40.05)
 theme = ExtResource("2_fos0i")
-text = "Touch anywhere to play!"
+text = "Tap a square to play!"
+label_settings = SubResource("LabelSettings_5tuhn")
 
-[node name="Settings" type="Button" parent="ScreenManager/GameScreen/UI"]
+[node name="Settings" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
 z_index = 50
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -270.0
-offset_top = 18.0
-offset_right = -14.0
-offset_bottom = 114.0
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = -181.0
+offset_right = 186.0
+offset_bottom = -18.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 64
-text = "Settings"
+grow_vertical = 2
+texture_normal = ExtResource("15_5tuhn")
+texture_pressed = ExtResource("16_devvj")
+stretch_mode = 4
+
+[node name="Leaderboard" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 39.0
+offset_top = -5.0
+offset_right = 191.0
+offset_bottom = 162.0
+texture_normal = ExtResource("16_2gh4u")
+texture_pressed = ExtResource("18_3b0ty")
+stretch_mode = 4
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 z_index = -1
@@ -446,6 +472,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("2_fos0i")
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameOverScreen/UI"]
@@ -455,6 +482,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.32549, 0.32549, 0.32549, 0.517647)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScreenManager/GameOverScreen/UI"]

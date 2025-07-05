@@ -44,6 +44,9 @@ func _on_play_pressed() -> void:
 	$GameScreen/UI/TouchAnywhereText.show()
 	$GameScreen/UI/Logo.modulate.a = 1.0
 	$GameScreen/UI/Settings.modulate.a = 1.0
+	$GameScreen/UI/Settings.disabled = false
+	$GameScreen/UI/Leaderboard.modulate.a = 1.0
+	$GameScreen/UI/Leaderboard.disabled = false
 	$GameOverScreen.hide()
 	$GameScreen.show()
 	$GameScreen.show()
