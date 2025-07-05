@@ -47,8 +47,8 @@ func _on_play_pressed() -> void:
 	$GameScreen/UI/Settings.disabled = false
 	$GameScreen/UI/Leaderboard.modulate.a = 1.0
 	$GameScreen/UI/Leaderboard.disabled = false
-	$UI/Settings.mouse_filter = 0 #Stop
-	$UI/Leaderboard.mouse_filter = 0 #Stop
+	$GameScreen/UI/Settings.mouse_filter = 0 #Stop
+	$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
 	
 	$GameOverScreen.hide()
 	$GameScreen.show()

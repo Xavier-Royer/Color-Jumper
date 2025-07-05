@@ -215,15 +215,14 @@ func _unhandled_input(event: InputEvent) -> void:
 					gameSpeed = baseGameSpeed
 					#$"../HomeScreen".hide()
 					$UI/TouchAnywhereText.hide()
-					var tween = create_tween()
+					var tween = create_tween().set_parallel(true)
 					tween.tween_property($UI/Logo, "modulate:a", 0.0, 0.5)
 					$UI/Settings.disabled = true
 					$UI/Leaderboard.disabled = true
 					$UI/Settings.mouse_filter = 1 #Passthrough
 					$UI/Leaderboard.mouse_filter = 1 #Passthrough
-					var tween2 = create_tween()
-					tween2.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
-					tween2.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
+					tween.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
+					tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
 					
 					
 				#update direction vector
