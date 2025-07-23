@@ -10,7 +10,7 @@ var trailLength = 25
 @onready var trail = preload("res://TrailParticle.tscn")
 @onready var test = preload("res://color_rect.tscn")
 @onready var trailNode = $Trail2#self.get_parent().get_node("Trail")# $Trail #self.get_parent().get_parent().get_node("Trail")
-var direction 
+var direction  = Vector2.ZERO
 
 var lastRotation = 0
 var newTrail = true
@@ -31,8 +31,10 @@ func _ready():
 		
 
 func _process(_delta: float) -> void:
-	
-	
+	direction = Vector2(cos(deg_to_rad(rotation+90)),sin(deg_to_rad(rotation+90)))
+	$Trail.process_material.direction = Vector3(1*direction.x,1*direction.y ,0)
+	$Trail.process_material.gravity = Vector3(0,0,0)
+	#$Trail.process_material.gravity = Vector3(0,gameSpeed*2,0)
 	
 	
 	collided = move_and_slide()
