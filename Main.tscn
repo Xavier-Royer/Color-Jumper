@@ -39,7 +39,7 @@ scale_max = 10.0
 [sub_resource type="LabelSettings" id="LabelSettings_sc1dx"]
 font = ExtResource("4_sc1dx")
 font_size = 75
-font_color = Color(0.7079665, 0.7079665, 0.7079664, 1)
+font_color = Color(0.707967, 0.707967, 0.707966, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_kjvhd"]
 font = ExtResource("4_sc1dx")
@@ -427,7 +427,6 @@ position = Vector2(4.99994, 15)
 scale = Vector2(0.499999, 1.5)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
-visible = false
 emitting = false
 amount = 100
 texture = ExtResource("16_fpfj3")
