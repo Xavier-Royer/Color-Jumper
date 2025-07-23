@@ -50,9 +50,12 @@ func _on_play_pressed() -> void:
 	$GameScreen/UI/Settings.mouse_filter = 0 #Stop
 	$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
 	
+	
+	
 	$GameOverScreen.hide()
 	$GameScreen.show()
 	$GameScreen.show()
+	
 	#await next_screen($GameScreen)
 	$GameScreen.playGame()
 

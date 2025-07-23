@@ -29,8 +29,8 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 5  #higher = less common
-var rainbowSpawnRate = 200 # higher = less common
+var spikeSpawnRate = 500  #higher = less common
+var rainbowSpawnRate = 2 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
 var lastBlockSpawned = null
@@ -98,6 +98,12 @@ func playGame():
 		randomColorRate = 3
 
 func loadGame():
+	#reset rainbow on new game 
+	$RainbowTimer.stop()
+	$FlashTimer.stop()
+	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	rainbowOver = true
+	#reset velocity and delete game screen objects 
 	player.velocity = Vector2(0,0)
 	for i in movingObjects.get_children():
 		if i.name != "Player" and i.name != "Trail":
