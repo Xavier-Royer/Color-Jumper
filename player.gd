@@ -2,6 +2,7 @@ extends CharacterBody2D
 var gameSpeed = 0
 signal screenExited
 signal caughtBlock
+signal collectCoin
 var collided = false
 var blockOn = null
 var died = false
@@ -56,6 +57,10 @@ func _process(_delta: float) -> void:
 					$ColorRect.self_modulate = Color(1,1,1,0)
 					died = true
 					get_last_slide_collision().get_collider().get_parent().spikeHit()
+		elif get_last_slide_collision().get_collider().get_collision_layer_value(6):
+			emit_signal("collectCoin")
+			print("CAUGHT COIN")
+			get_last_slide_collision().get_collider().get_parent().coinCaught()
 				
 
 			

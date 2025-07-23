@@ -3,7 +3,7 @@ extends CanvasLayer
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
-@onready var spikeScene = preload("res://spike.tscn")
+@onready var itemScene = preload("res://Item.tscn")
 @onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
 @onready var movingObjects = $Objects
@@ -23,6 +23,7 @@ var trueScore
 var score 
 var streak 
 var lastJumpStamp = 0 #gameruntime of last jump 
+var coins = 0 
 
 #spawn rates / difficulty
 var baseGameSpeed  = 200
@@ -30,7 +31,8 @@ var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 500  #higher = less common
-var rainbowSpawnRate = 2 # higher = less common
+var coinSpawnRate = 5  #higher = less common
+var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
 var lastBlockSpawned = null
@@ -60,6 +62,7 @@ var flashCount =0
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
+	player.connect("collectCoin", coinCollected)
 	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
 	player.connect("screenExited",gameOver)
@@ -286,34 +289,26 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	if randi_range(0,spikeSpawnRate/gameRunTime) ==1 and lastBlockSpawned != null:
-		print("create spike")
-		var spike = spikeScene.instantiate()
-		movingObjects.call_deferred("add_child",spike)
-		spike.number = blocksSpawned
+	var spikeSpawn = randi_range(0,spikeSpawnRate/gameRunTime) ==1
+	var coinSpawn = randi_range(0,coinSpawnRate) ==1
+	if (spikeSpawn or coinSpawn) and lastBlockSpawned != null:
+		print("create spike or coin")
+		var item = itemScene.instantiate()
+		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
-		
 		lastBlockSpawned.number = 0 
 		block.number = 0 
-		spike.number = 0 
+		item.number = 0 
 		var firstPosition  = lastBlockSpawned.get_global_position()
 		var secondPosition = blockPosition
-		
-		#var line = Line2D.new()
-		#movingObjects.call_deferred("add_child",line)
-		#print(firstPosition)
-		#line.call_deferred("add_point",firstPosition - Vector2(0,movingObjects.position.y))
-		#line.call_deferred("add_point",secondPosition - Vector2(0,movingObjects.position.y))
-		spike.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects)
-		
-		#line.add_point(firstPosition+Vector2(0,-10))
-		#line.add_point(secondPosition+Vector2(0,-10))
-		
-		
-		#puts the spike half way between itself and the next one
-		#var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
-		#spike.set_deferred("global_position", spikePosition)
-		
+		var type
+		if coinSpawnRate: 
+			type = "COIN"
+		else:
+			type = "SPIKE"
+		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects, type)
+	
+	
 
 		
 	lastBlockSpawned = block
@@ -413,3 +408,5 @@ func _on_flash_timer_timeout() -> void:
 		flashCount += 1
 		$FlashTimer.start()
 		
+func coinCollected():
+	coins += 1

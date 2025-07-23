@@ -20,12 +20,12 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 
 func spikeHit():
-	$Spike/GPUParticles2D.emitting =true
+	$Item/GPUParticles2D.emitting =true
 
 
 
 
-func createHitBox(firstPosition,secondPosition,movingObjects):
+func createHitBox(firstPosition,secondPosition,movingObjects, type):
 	var line = Line2D.new()
 	self.add_child(line)
 	line.add_point(firstPosition - Vector2(0,movingObjects.position.y))
@@ -35,5 +35,16 @@ func createHitBox(firstPosition,secondPosition,movingObjects):
 	$spawnRadius/CollisionShape2D.shape.b = secondPosition -Vector2(0,movingObjects.position.y)
 	
 	var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
-	$Spike.global_position = spikePosition
+	$Item.global_position = spikePosition
 	
+	if type == "COIN":
+		self.modulate = Color(0.5,0.5,0)
+		$Item.set_collision_layer_value(5,false)
+		$Item.set_collision_layer_value(6,true)
+	
+
+func coinCaught():
+	var fadeOut = create_tween()
+	fadeOut.set_ease(Tween.EASE_IN)
+	fadeOut.set_trans(Tween.TRANS_BACK)
+	fadeOut.tween_property(self, "modulate", Color(0.5,0.5,0,0),.5)
