@@ -29,7 +29,7 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 500  #higher = less common
+var spikeSpawnRate = 5  #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
@@ -287,21 +287,26 @@ func spawnBlock():
 		spike.number = blocksSpawned
 		blocksSpawned += 1
 		
+		lastBlockSpawned.number = 0 
+		block.number = 0 
+		spike.number = 0 
 		var firstPosition  = lastBlockSpawned.get_global_position()
 		var secondPosition = blockPosition
 		
-		var line = Line2D.new()
-		movingObjects.call_deferred("add_child",line)
-		print(firstPosition)
-		line.call_deferred("add_point",firstPosition - Vector2(0,movingObjects.position.y))
-		line.call_deferred("add_point",secondPosition - Vector2(0,movingObjects.position.y))
+		#var line = Line2D.new()
+		#movingObjects.call_deferred("add_child",line)
+		#print(firstPosition)
+		#line.call_deferred("add_point",firstPosition - Vector2(0,movingObjects.position.y))
+		#line.call_deferred("add_point",secondPosition - Vector2(0,movingObjects.position.y))
+		spike.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects)
+		
 		#line.add_point(firstPosition+Vector2(0,-10))
 		#line.add_point(secondPosition+Vector2(0,-10))
 		
 		
 		#puts the spike half way between itself and the next one
-		var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
-		spike.set_deferred("global_position", spikePosition)
+		#var spikePosition = (secondPosition-firstPosition)/2 + firstPosition
+		#spike.set_deferred("global_position", spikePosition)
 		
 
 		

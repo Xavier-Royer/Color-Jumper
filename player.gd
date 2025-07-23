@@ -55,7 +55,7 @@ func _process(_delta: float) -> void:
 				#self.hide()
 					$ColorRect.self_modulate = Color(1,1,1,0)
 					died = true
-					get_last_slide_collision().get_collider().spikeHit()
+					get_last_slide_collision().get_collider().get_parent().spikeHit()
 				
 
 			

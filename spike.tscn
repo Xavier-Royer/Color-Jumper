@@ -3,10 +3,7 @@
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://spike.gd" id="1_8ryga"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
-radius = 20.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8ryga"]
-radius = 40.0
+radius = 19.2354
 
 [sub_resource type="Curve" id="Curve_8ryga"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.713235, 0.674157), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -30,31 +27,29 @@ scale_min = 15.0
 scale_max = 15.0
 scale_curve = SubResource("CurveTexture_xfwl5")
 
-[node name="Spike" type="StaticBody2D"]
-collision_layer = 16
-collision_mask = 0
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_8ryga"]
+a = Vector2(51, 41.3333)
+
+[node name="Spike" type="Node2D"]
 script = ExtResource("1_8ryga")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Spike" type="StaticBody2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spike"]
 shape = SubResource("CircleShape2D_pe76i")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="Spike"]
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 
-[node name="spawnRadius" type="Area2D" parent="."]
-collision_layer = 256
-collision_mask = 256
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnRadius"]
-shape = SubResource("CircleShape2D_8ryga")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Spike"]
 rect = Rect2(-20, -20, 40, 40)
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Spike"]
 emitting = false
 amount = 50
 lifetime = 0.3
@@ -63,5 +58,12 @@ explosiveness = 1.0
 randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_7k7bx")
 
+[node name="spawnRadius" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spawnRadius"]
+shape = SubResource("SegmentShape2D_8ryga")
+
+[connection signal="screen_exited" from="Spike/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="area_entered" from="spawnRadius" to="." method="_on_spawn_radius_area_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
