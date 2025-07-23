@@ -31,7 +31,7 @@ var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 500  #higher = less common
-var coinSpawnRate = 5  #higher = less common
+var coinSpawnRate = 500  #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
