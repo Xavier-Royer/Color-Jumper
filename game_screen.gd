@@ -58,6 +58,7 @@ var colorToRGB ={
 
 #rainbowFlashAnimationVariables
 var flashCount =0  
+var pastColor = Color()
 
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
@@ -150,6 +151,7 @@ func changeColor(newColor):
 	if newColor == "RAINBOW":
 		for i in range(4):
 			area2D.set_collision_mask_value(i+1,true)
+		pastColor = player.modulate
 		player.modulate = Color(1,1,1)
 		return
 	
@@ -291,14 +293,16 @@ func spawnBlock():
 	#spawn a spike connected to the block
 	var spikeSpawn = randi_range(0,spikeSpawnRate/gameRunTime) ==1
 	var coinSpawn = randi_range(0,coinSpawnRate) ==1
-	if (spikeSpawn or coinSpawn) and lastBlockSpawned != null:
-		print("create spike or coin")
-		var item = itemScene.instantiate()
-		movingObjects.call_deferred("add_child",item)
-		blocksSpawned += 1
+	if (spikeSpawn or coinSpawn) and lastBlockSpawned.deleted == false:
 		lastBlockSpawned.number = 0 
 		block.number = 0 
+		
+		print("create spike or coin")
+		var item = itemScene.instantiate()
 		item.number = 0 
+		movingObjects.call_deferred("add_child",item)
+		blocksSpawned += 1
+		
 		var firstPosition  = lastBlockSpawned.get_global_position()
 		var secondPosition = blockPosition
 		var type
@@ -402,9 +406,11 @@ func _on_flash_timer_timeout() -> void:
 		if $Objects/Player/ColorRect.material.get_shader_parameter("rainbow"):
 			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 			$FlashTimer.wait_time = 0.1 #+ (flashCount*0.04)
+			player.modulate = pastColor
 		else:
 			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 			$FlashTimer.wait_time = 0.3 - (flashCount*0.02)
+			player.modulate = Color(1,1,1)
 		flashCount += 1
 		$FlashTimer.start()
 		

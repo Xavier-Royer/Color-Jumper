@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=36 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
@@ -64,6 +64,13 @@ initial_velocity_min = 867.82
 initial_velocity_max = 867.82
 gravity = Vector3(0, 98, 0)
 
+[sub_resource type="Gradient" id="Gradient_devvj"]
+offsets = PackedFloat32Array(0, 0.181818, 0.354545, 0.536364, 0.736364, 0.927273)
+colors = PackedColorArray(1, 0, 0, 1, 0.945098, 0.521569, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3b0ty"]
+gradient = SubResource("Gradient_devvj")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpfj3"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(4, 1, 1)
@@ -73,6 +80,7 @@ spread = 10.0
 initial_velocity_min = 100.0
 initial_velocity_max = 100.0
 gravity = Vector3(0, 0, 0)
+color_initial_ramp = SubResource("GradientTexture1D_3b0ty")
 
 [sub_resource type="Animation" id="Animation_fos0i"]
 length = 0.001
@@ -407,11 +415,6 @@ position = Vector2(1344, 0)
 scale = Vector2(2.88, 1.82312)
 collision_mask = 561
 script = ExtResource("4_cm0pq")
-
-[node name="Trail2" type="Node2D" parent="ScreenManager/GameScreen/Objects/Player"]
-visible = false
-position = Vector2(4.86111, 29.6196)
-scale = Vector2(0.347222, 0.54851)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
 position = Vector2(5, 15)
