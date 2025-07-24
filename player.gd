@@ -39,6 +39,7 @@ func _process(_delta: float) -> void:
 				velocity = Vector2(0,0)
 				#blockOn.blockCaught()
 				emit_signal("caughtBlock")
+				print("BLOCK ON")
 		elif get_last_slide_collision().get_collider().get_collision_layer_value(5):
 			#play animaition and then los4
 				#self.hide()
