@@ -295,14 +295,14 @@ func spawnBlock():
 	var coinSpawn = randi_range(0,coinSpawnRate) ==1
 	var lastBlockExists = lastBlockSpawned != null
 	if lastBlockExists:
-		lastBlockExists != lastBlockSpawned.deleted
+		lastBlockExists = ! lastBlockSpawned.deleted
 	if (spikeSpawn or coinSpawn) and lastBlockExists:
-		lastBlockSpawned.number = 0 
-		block.number = 0 
+		lastBlockSpawned.number = 1 
+		block.number = 1
 		
 		
 		var item = itemScene.instantiate()
-		item.number = 0 
+		item.number = 1 
 		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
 		
