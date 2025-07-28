@@ -56,10 +56,10 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				blockArea.set_collision_mask_value(9,false)
 				blockArea.set_collision_layer_value(9,false)
 				print(str(number) + " im getting deleted interaction")
-				queue_free()
-			
-				emit_signal("invalidBlock")
+				if number != -1:
+					queue_free()
 				deleted = true
+				emit_signal("invalidBlock")
 				break
 
 
@@ -82,14 +82,16 @@ func blockCaught(playerDirection, gameSpeed):
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
 		print(str(number) + " im getting deleted blockleft animation")
-		queue_free()
+		if number != -1:
+			queue_free()
 		
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	#pass
 	print(str(number) + " im getting deleted (screen exit)")
-	queue_free()
+	if number != -1:
+		queue_free()
 
 
 

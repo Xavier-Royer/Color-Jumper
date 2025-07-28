@@ -4,6 +4,7 @@ signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
 @onready var itemScene = preload("res://Item.tscn")
+@onready var testSprite = preload("res://bug_test_spire.tscn")
 @onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
 @onready var movingObjects = $Objects
@@ -297,8 +298,8 @@ func spawnBlock():
 	var lastBlockExists = lastBlockSpawned != null
 	if lastBlockExists:
 		lastBlockExists = ! lastBlockSpawned.deleted
-		lastBlockSpawned.number = -1
 	if (spikeSpawn or coinSpawn) and lastBlockExists:
+		print(str(lastBlockSpawned.number) + " this was the old block number and shouldnt be deleted")
 		lastBlockSpawned.number = -1 
 		block.number = -1
 		
@@ -317,9 +318,21 @@ func spawnBlock():
 			type = "SPIKE"
 			print("made spike")
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects, type)
+		
+		var t1 = testSprite.instantiate()
+		movingObjects.call_deferred("add_child",t1)
+		t1.set_deferred("global_position", firstPosition)
+		
+		
+		var t2 = testSprite.instantiate()
+		movingObjects.call_deferred("add_child",t2)
+		t2.set_deferred("global_position", secondPosition)
+		t2.modulate = Color(1,0,0)
+		
 		print("SAPWNINGG")
+		print(lastBlockSpawned.deleted)
 		print(lastBlockSpawned.number)
-		print(block.number)
+		
 	
 
 		
