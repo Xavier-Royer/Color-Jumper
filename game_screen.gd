@@ -30,7 +30,7 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 5  #higher = less common
+var spikeSpawnRate = 20  #higher = less common
 var coinSpawnRate = 100  #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
@@ -288,6 +288,7 @@ func spawnBlock():
 	
 	#set block position
 	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-200,-250))
+	
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
@@ -296,13 +297,13 @@ func spawnBlock():
 	var lastBlockExists = lastBlockSpawned != null
 	if lastBlockExists:
 		lastBlockExists = ! lastBlockSpawned.deleted
+		lastBlockSpawned.number = -1
 	if (spikeSpawn or coinSpawn) and lastBlockExists:
-		lastBlockSpawned.number = 1 
-		block.number = 1
-		
+		lastBlockSpawned.number = -1 
+		block.number = -1
 		
 		var item = itemScene.instantiate()
-		item.number = 1 
+		item.number = -1 
 		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
 		
@@ -316,7 +317,9 @@ func spawnBlock():
 			type = "SPIKE"
 			print("made spike")
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects, type)
-	
+		print("SAPWNINGG")
+		print(lastBlockSpawned.number)
+		print(block.number)
 	
 
 		

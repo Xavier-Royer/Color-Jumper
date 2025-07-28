@@ -3,7 +3,7 @@ extends StaticBody2D
 var playerOn  = false
 signal invalidBlock
 @onready var blockArea = $SpawnRadius
-var number =0 
+var number =999 
 var deleted = false
 var blockColor
 var mouseOnBlock = false
@@ -49,15 +49,15 @@ func delete():
 
 
 func _on_spawn_radius_area_entered(_area: Area2D) -> void:
-	if not deleted:
+	if not deleted and number != -1:
 		var areas = $SpawnRadius.get_overlapping_areas()
-	
 		for a in areas:
 			if a.get_parent().number < number:
 				blockArea.set_collision_mask_value(9,false)
 				blockArea.set_collision_layer_value(9,false)
+				print(str(number) + " im getting deleted interaction")
 				queue_free()
-				print("block delted")
+			
 				emit_signal("invalidBlock")
 				deleted = true
 				break
@@ -80,11 +80,15 @@ func blockCaught(playerDirection, gameSpeed):
 
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
-	if _anim_name == "blcokLeft":
+	if _anim_name == "blockLeft":
+		print(str(number) + " im getting deleted blockleft animation")
 		queue_free()
+		
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	#pass
+	print(str(number) + " im getting deleted (screen exit)")
 	queue_free()
 
 

@@ -271,17 +271,6 @@ libraries = {
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-20, -20, 40, 40)
 
-[node name="Clicked" type="Area2D" parent="."]
-z_index = 21
-collision_layer = 2147483648
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Clicked"]
-position = Vector2(-0.166666, 0)
-shape = SubResource("RectangleShape2D_xfwl5")
-
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
-[connection signal="mouse_entered" from="Clicked" to="." method="_on_clicked_mouse_entered"]
-[connection signal="mouse_exited" from="Clicked" to="." method="_on_clicked_mouse_exited"]
