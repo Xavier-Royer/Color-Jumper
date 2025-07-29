@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://d188ef8dxjvfn"]
+[gd_scene load_steps=8 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://spike.gd" id="1_bp1wp"]
+[ext_resource type="Texture2D" uid="uid://dq4lc1en33sra" path="res://textures/spike4.png" id="2_ph0dh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
-radius = 19.2354
+radius = 41.0
 
 [sub_resource type="Curve" id="Curve_8ryga"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.713235, 0.674157), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -41,6 +42,7 @@ collision_mask = 0
 shape = SubResource("CircleShape2D_pe76i")
 
 [node name="ColorRect" type="ColorRect" parent="Item"]
+visible = false
 offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
@@ -57,6 +59,16 @@ one_shot = true
 explosiveness = 1.0
 randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_7k7bx")
+
+[node name="TextureRect" type="TextureRect" parent="Item"]
+z_index = 999
+offset_left = -512.0
+offset_top = -512.0
+offset_right = 512.0
+offset_bottom = 512.0
+scale = Vector2(0.1, 0.1)
+pivot_offset = Vector2(512, 512)
+texture = ExtResource("2_ph0dh")
 
 [node name="spawnRadius" type="Area2D" parent="."]
 collision_layer = 256

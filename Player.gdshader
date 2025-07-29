@@ -2,6 +2,18 @@ shader_type canvas_item;
 uniform bool rainbow;
 uniform float speed;
 
+
+vec3 hsv2rgb(vec3 c) {
+    vec4 K = vec4(1.0, 2.0/3.0, 1.0/3.0, 3.0);
+    vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+    return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+vec3 getColor(int i) {
+    float hue = float(i) / 100.0;
+    return hsv2rgb(vec3(hue, 1.0, 1.0));
+}
+
 void vertex() {
 	// Called for every vertex the material is visible on.
 }
@@ -23,11 +35,21 @@ void fragment() {
 		alpha += sin(TIME*10.0)/40.0;
 	
 		if (rainbow) {
-				//clamp first value between 0 and 1
+			//old rainbow code
 			COLOR = vec4(  max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)   , max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6),  COLOR.a);
-			//COLOR = vec4( squareRadius* max((sin(5.0*TIME+(PI/2.0))+1.0)/2.0,0.4) , squareRadius * (sin(5.0*TIME+(PI/4.0))+1.0)/2.0, (sin(5.0*TIME)+1.0)/2.0,1.0);
-			//COLOR = vec4(  ((sin( (speed*TIME) + (UV.x * UV.y) + (PI/4.0) ))+ 1.0)/2.0, max((sin( (speed*TIME) +(UV.x * UV.y) + (PI/2.0) )+1.0)/2.0,0.5), (sin( (speed*TIME) +(UV.x * UV.y) )+1.0)/2.0, 1.0);
 			alpha -=0.1;
+			
+			//float xValue = 1.0 - max(xPos,yPos);
+			//xValue = UV.x+UV.y;
+			//float offset;  
+			//
+			//offset = mod(TIME/0.5,4);
+			//xValue = xValue + offset;
+			//int index = int(floor(xValue*25.0));
+			////index =10;
+			//COLOR.r = getColor(index).x;
+			//COLOR.g = getColor(index).y;
+			//COLOR.b = getColor(index).z;
 		}
 	
 	

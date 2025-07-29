@@ -1,6 +1,7 @@
-[gd_scene load_steps=36 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=37 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
+[ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
@@ -54,7 +55,7 @@ size = Vector2(10, 30)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfj3"]
 shader = ExtResource("15_j4qnp")
-shader_parameter/rainbow = false
+shader_parameter/rainbow = true
 shader_parameter/speed = 0.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sc1dx"]
@@ -224,6 +225,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="ScreenManager/Background/Control"]
+layout_mode = 0
+offset_right = 1024.0
+offset_bottom = 1536.0
+texture = ExtResource("2_3b0ty")
 
 [node name="Stars" type="GPUParticles2D" parent="ScreenManager/Background"]
 position = Vector2(537, 920)
