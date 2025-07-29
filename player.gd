@@ -24,6 +24,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 		
 
 func _process(_delta: float) -> void:
+	if died:
+		velocity = Vector2.ZERO
 	#make trail 
 	direction = Vector2(cos(deg_to_rad(rotation+90)),sin(deg_to_rad(rotation+90)))
 	$Trail.process_material.direction = Vector3(1*direction.x,1*direction.y ,0)
@@ -46,6 +48,10 @@ func _process(_delta: float) -> void:
 				if died == false:
 					velocity = Vector2.ZERO
 					get_last_slide_collision().get_collider().get_parent().spikeHit()
+					
+					#do the math its cool
+					$GPUParticles2D.process_material.direction = Vector3(sin(rotation),cos(rotation),0)
+
 					$GPUParticles2D.emitting = true
 					$ColorRect.self_modulate = Color(1,1,1,0)
 					$Trail.emitting = false
@@ -62,7 +68,7 @@ func _process(_delta: float) -> void:
 
 
 func _on_gpu_particles_2d_finished() -> void:
-	#transition to game over screen
+	#transition to game over screen	
 	$GPUParticles2D.emitting = false
 	emit_signal("screenExited")
 	#reset playeres death

@@ -32,7 +32,7 @@ var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 500  #higher = less common
-var coinSpawnRate = 5 #higher = less common
+var coinSpawnRate = 100 #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
@@ -300,7 +300,7 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,spikeSpawnRate/gameRunTime) ==1
+	var spikeSpawn = randi_range(0,ceil(spikeSpawnRate/gameRunTime)) ==1
 	var coinSpawn = randi_range(0,coinSpawnRate) ==1
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
