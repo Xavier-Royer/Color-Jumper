@@ -25,6 +25,8 @@ var score
 var streak 
 var lastJumpStamp = 0 #gameruntime of last jump 
 var coins = 0 
+var changedColor = false
+var colorChangeBonus = 0.3
 
 #spawn rates / difficulty
 var baseGameSpeed  = 200
@@ -162,6 +164,7 @@ func changeColor(newColor):
 	#change the curren block's color
 	if currentBlock != null:
 		currentBlock.setColor(newColor)
+		changedColor = true
 	
 	#reset all the other collision layer masks
 	for i in range(4):
@@ -193,7 +196,11 @@ func _on_block_caught():
 	
 	if gameState == "PLAYING":
 		#update streak
-		if gameRunTime - lastJumpStamp < 0.75:
+		var streakTime = 0.75
+		if changedColor:
+			streakTime += colorChangeBonus
+		changedColor = false
+		if gameRunTime - lastJumpStamp < streak:
 			#streak continues
 			streak +=1 
 			$UI/Streak.text= "X" + str(streak)
