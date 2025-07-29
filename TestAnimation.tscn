@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmfjkbk8spylv"]
+
+[ext_resource type="Script" uid="uid://0i8gsnknqbok" path="res://testItemAnimation.gd" id="1_r1iif"]
+[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="2_n50tb"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_r1iif")
+
+[node name="Line2D" type="Line2D" parent="."]
+
+[node name="Pivot" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 20)
+
+[node name="NonPivot" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(20, 20)
+texture = ExtResource("2_n50tb")

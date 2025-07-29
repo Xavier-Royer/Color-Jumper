@@ -200,7 +200,7 @@ func _on_block_caught():
 		if changedColor:
 			streakTime += colorChangeBonus
 		changedColor = false
-		if gameRunTime - lastJumpStamp < streak:
+		if gameRunTime - lastJumpStamp < streakTime:
 			#streak continues
 			streak +=1 
 			$UI/Streak.text= "X" + str(streak)
