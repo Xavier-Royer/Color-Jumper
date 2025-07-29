@@ -4,7 +4,6 @@ signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
 @onready var itemScene = preload("res://Item.tscn")
-@onready var testSprite = preload("res://bug_test_spire.tscn")
 @onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
 @onready var movingObjects = $Objects
@@ -15,9 +14,10 @@ var direction = Vector2(0,0)
 var speed = 7000
 var currentColor
 var currentBlock
+#game control stuff
 var difficulty = "EASY" #easy, medium, hard or extreme
 var difficulties = ["EASY", "MEDIUM" , "HARD", "EXTREME"]
-#game control stuff
+
 
 #streaks/scroes
 var trueScore
@@ -31,8 +31,8 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 20  #higher = less common
-var coinSpawnRate = 100  #higher = less common
+var spikeSpawnRate = 500  #higher = less common
+var coinSpawnRate = 5 #higher = less common
 var rainbowSpawnRate = 200 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
@@ -68,6 +68,8 @@ func _ready() -> void:
 	for button in $UI/ColorButtons.get_children():
 		button.connect("pressed",changeColor.bind(button.name))
 	player.connect("screenExited",gameOver)
+	
+	#animating text on menu screen
 	var tween = create_tween().set_loops()
 	tween.tween_property($UI/TouchAnywhereText, "scale", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN)
 	tween.tween_property($UI/TouchAnywhereText, "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
@@ -76,11 +78,56 @@ func _ready() -> void:
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	loadGame()
-	playGame()
 
-func playGame():
+
+
+
+
+func loadGame():
+	#resets everything 
+	player.reset()
+	#rest rainbow
+	$RainbowTimer.stop()
+	$FlashTimer.stop()
+	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	rainbowOver = true
+	#reset velocity and delete game screen objects 
+	player.velocity = Vector2(0,0)
+	for i in movingObjects.get_children():
+		if i.name != "Player":
+			i.queue_free()
+	movingObjects.position.y = 0 
+	
+	#show the player 
+	player.show()
+	blocksSpawned = 0 
+	currentBlock = null
+	changeColor("RED")
+	player.rotation =0
+	
+	#generate first block which the layer is on
+	var block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+	block.setColor("RED")
+	block.number = blocksSpawned
+	blocksSpawned+=1
+	
+	
+	#generates the rest of the starting blocks 
+	for i in randi_range(10,12):
+		block = blockScene.instantiate()
+		block.number = blocksSpawned
+		movingObjects.add_child(block)
+		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
+		#block.connect("invalidBlock",spawnBlock)
+		block.setColor("RED")
+		lastBlockSpawned = block
+		blocksSpawned+=1
+	
+	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+	
 	lastBlockSpawned = null
-	print("playing game")
 	streak = 0 
 	score = 0 
 	$UI/Score.text = str(0) 
@@ -102,53 +149,9 @@ func playGame():
 		baseGameSpeed  = 200
 		randomColorRate = 3
 
-func loadGame():
-	#reset rainbow on new game 
-	$RainbowTimer.stop()
-	$FlashTimer.stop()
-	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
-	rainbowOver = true
-	#reset velocity and delete game screen objects 
-	player.velocity = Vector2(0,0)
-	for i in movingObjects.get_children():
-		if i.name != "Player" and i.name != "Trail":
-			i.queue_free()
-	movingObjects.position.y = 0 
-	
-	player.show()
-	blocksSpawned = 0 
-	currentBlock = null
-	changeColor("RED")
-	player.rotation =0
-	
-	#generate first block which the layer is on
-	var block = blockScene.instantiate()
-	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
-	block.setColor("RED")
-	block.number = blocksSpawned
-	block.connect("nextColor", nextColor)
-	blocksSpawned+=1
-	
-	
-	#generates the rest of the starting blocks 
-	for i in randi_range(10,12):
-		block = blockScene.instantiate()
-		block.number = blocksSpawned
-		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
-		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RED")
-		block.connect("nextColor", nextColor)
-		lastBlockSpawned = block
-		blocksSpawned+=1
-	
-	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
-	
-	
-
 func changeColor(newColor):
 	
+	#update collision masks and color to netural for trail
 	if newColor == "RAINBOW":
 		for i in range(4):
 			area2D.set_collision_mask_value(i+1,true)
@@ -173,22 +176,25 @@ func changeColor(newColor):
 #player captureing block
 func _on_block_caught():
 	
+	#play block animation
 	currentBlock = player.blockOn
 	currentBlock.blockCaught(direction,gameSpeed)
 	direction = Vector2(0,0)
+	#make rainbow happen
 	if currentBlock.get_collision_layer_value(10):
 		$RainbowTimer.start()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
+	#if rainbow over set color to block color
 	if rainbowOver:
 		rainbowOver = false
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
 	
 	if gameState == "PLAYING":
+		#update streak
 		if gameRunTime - lastJumpStamp < 0.75:
 			#streak continues
-		
 			streak +=1 
 			$UI/Streak.text= "X" + str(streak)
 			$StreakAnimation.play("Streak")
@@ -214,18 +220,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
 		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
+		#hi dominic that is a pretty cool comment
 		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER": # and  not ( mousePosition.y < $UI/Settings.position.y +$UI/Settings.size.y  and mousePosition.x >$UI/Settings.position.x):
-			
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
+					#start palying the game
 					gameRunTime = 0 
 					gameState = "PLAYING"
 					$SpawnTimer.start()
 					lastJumpStamp = get_process_delta_time()
 					gameSpeed = baseGameSpeed
-					#$"../HomeScreen".hide()
+					
+					#hide all the start screen buttons
 					$UI/TouchAnywhereText.hide()
 					var tween = create_tween().set_parallel(true)
 					tween.tween_property($UI/Logo, "modulate:a", 0.0, 0.5)
@@ -237,7 +245,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
 					
 					
-				#update direction vector
+				#update direction vector of the player
 				var playerPosition  = player.get_global_position()
 				direction = mousePosition-playerPosition
 				direction = direction.normalized()
@@ -264,7 +272,7 @@ func _process(delta: float) -> void:
 		#update score
 		$UI/Score.text = str(comma_format(str(score)))
 		
-		
+#nice function
 func comma_format(num_str: String) -> String:
 	var result := ""
 	var count := 0
@@ -285,59 +293,41 @@ func spawnBlock():
 	block.number = blocksSpawned
 	blocksSpawned += 1
 	block.connect("invalidBlock",spawnBlock)
-	block.connect("nextColor", nextColor)
+
 	
 	#set block position
-	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-200,-250))
-	
+	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-400,-450))
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
 	var spikeSpawn = randi_range(0,spikeSpawnRate/gameRunTime) ==1
 	var coinSpawn = randi_range(0,coinSpawnRate) ==1
 	var lastBlockExists = lastBlockSpawned != null
+	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
 		lastBlockExists = ! lastBlockSpawned.deleted
-	if (spikeSpawn or coinSpawn) and lastBlockExists:
-		print(str(lastBlockSpawned.number) + " this was the old block number and shouldnt be deleted")
+		firstPosition  = lastBlockSpawned.get_global_position()
+	var secondPosition = blockPosition
+	#if both blocks exist and its time to spawn coin/spike
+	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >250):
 		lastBlockSpawned.number = -1 
 		block.number = -1
 		
+		#spawn the item
 		var item = itemScene.instantiate()
 		item.number = -1 
 		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
-		
-		var firstPosition  = lastBlockSpawned.get_global_position()
-		var secondPosition = blockPosition
+		#set the item type
 		var type
 		if coinSpawn: 
 			type = "COIN"
-			print("made coin")
 		else:
 			type = "SPIKE"
-			print("made spike")
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects, type)
 		
-		var t1 = testSprite.instantiate()
-		movingObjects.call_deferred("add_child",t1)
-		t1.set_deferred("global_position", firstPosition)
-		
-		
-		var t2 = testSprite.instantiate()
-		movingObjects.call_deferred("add_child",t2)
-		t2.set_deferred("global_position", secondPosition)
-		t2.modulate = Color(1,0,0)
-		
-		print("SAPWNINGG")
-		print(lastBlockSpawned.deleted)
-		print(lastBlockSpawned.number)
-		
-	
-
-		
 	lastBlockSpawned = block
-			
+	
 	#set color 
 	#random variance
 	var random = randf_range(max(-2,-1*gameRunTime),2)
@@ -363,7 +353,7 @@ func spawnBlock():
 	#random chance of making it rainbow
 	if randi_range(0,rainbowSpawnRate) ==1 :
 		block.setColor("RAINBOW")
-		print("RIANBOW")
+	
 	
 	
 	
@@ -391,29 +381,16 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func _on_rainbow_timer_timeout() -> void:
+	#start flash animation bc rainbow is starting to wear off
 	$FlashTimer.wait_time = 0.3
 	$FlashTimer.start()
-	#this should have two timers, first timeout is normal rainbow, and then switches to flashing as a warning
-	pass
 
 
 
-func nextColor():
-	print("BLOCK CLICKED")
-	#reset all the other collision layer masks
-	direction = Vector2(0,0)
-	var colors = ["RED", "GREEN", "BLUE", "PURPLE"]
-	var index = colors.find(currentBlock.blockColor)
-	var newColor = colors[(index+1)%4]
-	for i in range(4):
-		area2D.set_collision_mask_value(i+1,false)
-	area2D.set_collision_mask_value(colorToNumber[newColor],true)
-	
-	#change the players color
-	player.modulate = colorToRGB[newColor]
 
 
 func _on_flash_timer_timeout() -> void:
+	#rainbow flashing animation
 	if flashCount > 10: 
 		if currentBlock != null:
 			changeColor(currentBlock.blockColor)

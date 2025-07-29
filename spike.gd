@@ -44,6 +44,7 @@ func createHitBox(firstPosition,secondPosition,movingObjects, type):
 	
 
 func coinCaught():
+	$Item.set_collision_layer_value(6,false)
 	var fadeOut = create_tween()
 	fadeOut.set_ease(Tween.EASE_IN)
 	fadeOut.set_trans(Tween.TRANS_BACK)

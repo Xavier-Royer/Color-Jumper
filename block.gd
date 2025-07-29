@@ -55,7 +55,6 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 			if a.get_parent().number < number:
 				blockArea.set_collision_mask_value(9,false)
 				blockArea.set_collision_layer_value(9,false)
-				print(str(number) + " im getting deleted interaction")
 				if number != -1:
 					queue_free()
 				deleted = true
@@ -64,7 +63,7 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 
 
 func blockCaught(playerDirection, gameSpeed):
-	print("I GOT CAUGHTTTTTTTTTTTTTTTTTTTT")
+	
 	onBlock = true
 	if number !=0:
 		#$GPUParticles2D.process_material.
@@ -81,17 +80,12 @@ func blockCaught(playerDirection, gameSpeed):
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
-		print(str(number) + " im getting deleted blockleft animation")
-		if number != -1:
-			queue_free()
+		queue_free()
 		
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	#pass
-	print(str(number) + " im getting deleted (screen exit)")
-	if number != -1:
-		queue_free()
+	queue_free()
 
 
 
