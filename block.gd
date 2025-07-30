@@ -65,7 +65,7 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				break
 
 
-func blockCaught(playerDirection, gameSpeed):
+func blockCaught(playerDirection, gameSpeed,collisionPosition):
 	
 	onBlock = true
 	if number !=0:
@@ -73,6 +73,7 @@ func blockCaught(playerDirection, gameSpeed):
 		$GPUParticles2D.process_material.direction = Vector3(-1*playerDirection.x,-1*playerDirection.y ,0)
 		$GPUParticles2D.process_material.gravity = Vector3(0,gameSpeed*2,0)
 		$GPUParticles2D.emitting =true
+		#$GPUParticles2D.global_position = collisionPosition + (playerDirection * 30)
 		$AnimationPlayer.play("CaughtBlock")
 		emit_signal("deleting")
 		#var tween = create_tween()

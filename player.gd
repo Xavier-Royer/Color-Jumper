@@ -10,6 +10,7 @@ signal collectCoin
 #player properties
 var collided = false
 var blockOn = null
+var blockPosition = Vector2.ZERO
 var died = false
 var direction  = Vector2.ZERO
 
@@ -40,6 +41,7 @@ func _process(_delta: float) -> void:
 			if blockOn != get_last_slide_collision().get_collider():
 				
 				blockOn = get_last_slide_collision().get_collider()
+				blockPosition = get_last_slide_collision().get_position()
 				velocity = Vector2(0,0)
 				emit_signal("caughtBlock")
 		#checks if player hits a spike

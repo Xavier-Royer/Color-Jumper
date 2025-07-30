@@ -186,7 +186,7 @@ func _on_block_caught():
 	
 	#play block animation
 	currentBlock = player.blockOn
-	currentBlock.blockCaught(direction,gameSpeed)
+	currentBlock.blockCaught(direction,gameSpeed,player.blockPosition)
 	direction = Vector2(0,0)
 	#make rainbow happen
 	if currentBlock.get_collision_layer_value(10) and rainbowOver ==false:
