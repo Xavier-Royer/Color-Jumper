@@ -46,6 +46,7 @@ func setColor(color):
 	
 
 func delete():
+	deleted = true
 	emit_signal("deleting")
 	$AnimationPlayer.play("blockLeft")
 
@@ -82,12 +83,14 @@ func blockCaught(playerDirection, gameSpeed):
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
+		deleted = true
 		queue_free()
 		
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	emit_signal("blockMissed")
+	if deleted == false:
+		emit_signal("blockMissed")
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	#tween.set_trans(Tween.TRANS_EXPO)

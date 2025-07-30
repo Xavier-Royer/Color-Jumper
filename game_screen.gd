@@ -410,7 +410,7 @@ func spawnBlock():
 			block2Position += spikeDirection *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
 			
 			
-			if block2Position.y < -50:
+			if block2Position.y < -50 or (block2Position.x < 45) or (block2Position.x > screen_size.x -45):
 				Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
 			block2Position.x = clamp(block2Position.x,30,screen_size.x)
@@ -458,7 +458,7 @@ func setBlockColor(block):
 func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
-		player.hide()
+		#player.hide()
 		gameState = "OVER"
 		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + str(score)
 		var index = difficulties.find(difficulty)

@@ -77,10 +77,13 @@ shader_parameter/speed = 0.0
 particle_flag_disable_z = true
 angle_min = 438.6
 angle_max = 438.6
-direction = Vector3(0, 1, 0)
-initial_velocity_min = 50.0
-initial_velocity_max = 231.04
-gravity = Vector3(0, 98, 0)
+direction = Vector3(0, -1, 0)
+spread = 40.0
+initial_velocity_min = 280.77
+initial_velocity_max = 757.69
+gravity = Vector3(0, 1000, 0)
+scale_min = 5.0
+scale_max = 9.0
 
 [sub_resource type="Gradient" id="Gradient_devvj"]
 offsets = PackedFloat32Array(0, 0.181818, 0.354545, 0.536364, 0.736364, 0.927273)
@@ -477,11 +480,10 @@ scale = Vector2(0.499999, 1.5)
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
 emitting = false
-amount = 100
-texture = ExtResource("16_fpfj3")
-lifetime = 0.9
+amount = 250
+lifetime = 2.0
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.95
 trail_lifetime = 0.5
 process_material = SubResource("ParticleProcessMaterial_sc1dx")
 

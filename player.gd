@@ -50,12 +50,28 @@ func _process(_delta: float) -> void:
 					get_last_slide_collision().get_collider().get_parent().spikeHit()
 					
 					#do the math its cool
-					$GPUParticles2D.process_material.direction = Vector3(sin(rotation),cos(rotation),0)
+					#$GPUParticles2D.process_material.direction = Vector3(sin(rotation),cos(rotation),0)
 
 					$GPUParticles2D.emitting = true
 					$ColorRect.self_modulate = Color(1,1,1,0)
 					$Trail.emitting = false
 					died = true
+					emit_signal("screenExited")
+					var tween = create_tween()
+					
+					#tween.set_ease(Tween.EASE_IN)
+					#tween.tween_property($GPUParticles2D,"speed_scale",1.2,0.1)
+					#await tween.finished
+					#tween.set_ease(Tween.EASE_IN)
+					tween.tween_property($GPUParticles2D,"speed_scale",0.25,0.3)
+					
+					await tween.finished
+					tween = create_tween()
+					#tween.set_ease(Tween.EASE_IN)
+					tween.tween_property($GPUParticles2D,"speed_scale",2,0.3)
+			
+	
+
 					
 					#do spike animation
 		#checks if player caught a coin
@@ -68,9 +84,10 @@ func _process(_delta: float) -> void:
 
 
 func _on_gpu_particles_2d_finished() -> void:
+	pass
 	#transition to game over screen	
-	$GPUParticles2D.emitting = false
-	emit_signal("screenExited")
+	#$GPUParticles2D.emitting = false
+	#emit_signal("screenExited")
 	#reset playeres death
 
 func reset():
