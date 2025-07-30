@@ -47,7 +47,7 @@ func setColor(color):
 
 func delete():
 	deleted = true
-	emit_signal("deleting")
+	#emit_signal("deleting")
 	$AnimationPlayer.play("blockLeft")
 
 
@@ -74,6 +74,7 @@ func blockCaught(playerDirection, gameSpeed):
 		$GPUParticles2D.process_material.gravity = Vector3(0,gameSpeed*2,0)
 		$GPUParticles2D.emitting =true
 		$AnimationPlayer.play("CaughtBlock")
+		emit_signal("deleting")
 		#var tween = create_tween()
 		#tween.tween_property(self, "scale", self.scale * 1.4, 0.15).set_ease(Tween.EASE_IN)
 		#tween.tween_property(self, "scale", self.scale, 0.15).set_ease(Tween.EASE_OUT)
@@ -113,16 +114,16 @@ func speedUp():
 
 
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch and event.pressed:
-		if onBlock and (false):
-			get_viewport().set_input_as_handled()
-			emit_signal("nextColor")
-			updateColor()
-			
-
-func _on_clicked_mouse_entered() -> void:
-	mouseOnBlock = true
+#func _input(event: InputEvent) -> void:
+	#if event is InputEventScreenTouch and event.pressed:
+		#if onBlock and (false):
+			#get_viewport().set_input_as_handled()
+			#emit_signal("nextColor")
+			#updateColor()
+			#
+#
+#func _on_clicked_mouse_entered() -> void:
+	#mouseOnBlock = true
 
 
 func updateColor():
@@ -131,5 +132,5 @@ func updateColor():
 	setColor(colors[(index+1)%4])
 
 
-func _on_clicked_mouse_exited() -> void:
-	mouseOnBlock = false
+#func _on_clicked_mouse_exited() -> void:
+	#mouseOnBlock = false

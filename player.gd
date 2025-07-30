@@ -53,8 +53,7 @@ func _process(_delta: float) -> void:
 					#$GPUParticles2D.process_material.direction = Vector3(sin(rotation),cos(rotation),0)
 
 					$GPUParticles2D.emitting = true
-					$ColorRect.self_modulate = Color(1,1,1,0)
-					$Trail.emitting = false
+					disappear()
 					died = true
 					emit_signal("screenExited")
 					var tween = create_tween()
@@ -70,7 +69,7 @@ func _process(_delta: float) -> void:
 					#tween.set_ease(Tween.EASE_IN)
 					tween.tween_property($GPUParticles2D,"speed_scale",2,0.3)
 			
-	
+
 
 					
 					#do spike animation
@@ -81,7 +80,9 @@ func _process(_delta: float) -> void:
 			emit_signal("collectCoin")
 			get_last_slide_collision().get_collider().get_parent().coinCaught()
 
-
+func disappear():
+	$ColorRect.self_modulate = Color(1,1,1,0)
+	$Trail.emitting = false
 
 func _on_gpu_particles_2d_finished() -> void:
 	pass

@@ -401,7 +401,7 @@ func spawnBlock():
 			var inverseSlope  = 1
 			if spikeSlope != 0:
 				inverseSlope = -1/spikeSlope
-			var distanceFromSpike = randf_range(200,320)
+			var distanceFromSpike = randf_range(250,400)
 			var spikePosition = (firstPosition + secondPosition) /2.0
 	
 			block2Position = spikePosition
@@ -459,6 +459,7 @@ func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
 		#player.hide()
+		player.disappear()
 		gameState = "OVER"
 		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + str(score)
 		var index = difficulties.find(difficulty)
@@ -468,6 +469,8 @@ func gameOver():
 			FileManager.setHighScore(score,index)
 		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + str(currentHighScore)
 		emit_signal("gameOverScreen")
+		for c in $UI/ColorButtons.get_children():
+			c.disabled = true
 
 
 

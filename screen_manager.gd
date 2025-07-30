@@ -45,7 +45,8 @@ func _on_play_pressed() -> void:
 	$GameScreen/UI/Leaderboard.disabled = false
 	$GameScreen/UI/Settings.mouse_filter = 0 #Stop
 	$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
-
+	for c in $GameScreen/UI/ColorButtons.get_children():
+			c.disabled = false
 	$GameOverScreen.hide()
 	$GameScreen.show()
 	$GameScreen.show()
