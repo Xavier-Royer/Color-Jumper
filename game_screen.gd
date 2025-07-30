@@ -38,6 +38,7 @@ var coinSpawnRate = 100 #higher = less common
 var rainbowSpawnRate = 100 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
+var particleSpeed = 3
 var lastBlockSpawned = null
 
 
@@ -92,6 +93,9 @@ func loadGame():
 	$RainbowTimer.stop()
 	$FlashTimer.stop()
 	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	$UI/RainBowBar.hide()
+	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
+	$UI/RainbowParticles.hide()
 	rainbowOver = true
 	#reset velocity and delete game screen objects 
 	player.velocity = Vector2(0,0)
@@ -184,12 +188,31 @@ func _on_block_caught():
 	currentBlock.blockCaught(direction,gameSpeed)
 	direction = Vector2(0,0)
 	#make rainbow happen
-	if currentBlock.get_collision_layer_value(10):
+	if currentBlock.get_collision_layer_value(10) and rainbowOver ==false:
 		$RainbowTimer.start()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
+		$UI/RainBowBar.show()
+		$UI/RainbowParticles.show()
+		$UI/RainBowBar.value = 100 
+		$UI/RainbowParticles.position =  $UI/RainBowBar.position + Vector2(60,885)
+		var tween2 = create_tween()
+		var endPosition = ( $UI/RainBowBar.position + Vector2(60,885) - Vector2(0,850))
+		tween2.tween_property($UI/RainbowParticles, "position", endPosition, 5.5)
+		var tween = create_tween()
+		tween.tween_property($UI/RainBowBar, "value", 0,5.5)
+		var tween3 = create_tween()
+		tween3.set_ease(Tween.EASE_IN)
+		tween3.set_trans(Tween.TRANS_EXPO)
+		tween2.connect("finished",hideRainbowParticles)
+		particleSpeed = 3
+		tween3.tween_property(self, "particleSpeed", 40,5.5)
+		
+		
 	#if rainbow over set color to block color
 	if rainbowOver:
+		$UI/RainBowBar.hide()
+		$UI/RainbowParticles.hide()
 		rainbowOver = false
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
@@ -267,6 +290,9 @@ func _unhandled_input(event: InputEvent) -> void:
 				
 
 func _process(delta: float) -> void:
+	
+	if rainbowOver == false:
+		$UI/RainbowParticles.speed_scale = particleSpeed
 	
 	if gameState == "PLAYING":
 		#updates player movement
@@ -491,3 +517,5 @@ func coinCollected():
 		#lastBlockSpawned = null
 		#spawnBlock()
 		#spawnBlock()
+func hideRainbowParticles():
+	$UI/RainbowParticles.hide()

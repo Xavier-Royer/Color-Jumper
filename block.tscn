@@ -59,8 +59,11 @@ void fragment() {
 
 		//for square shader
 		float squareRadius = max(xPos,yPos);
+		
+		//squareRadius = round(squareRadius*15.0)/15.0;
+		
 		float alpha = 1.0-(squareRadius/1.1); //1.0-(squareRadius/1.5);
-		alpha += sin(TIME*10.0)/40.0;
+		alpha += sin(TIME*10.0)/20.0;
 	
 		if (rainbow) {
 				//clamp first value between 0 and 1
@@ -78,6 +81,9 @@ void fragment() {
 
 			offset = mod(TIME/0.5,4);
 			xValue = xValue + offset;
+			
+			//xValue = mod(TIME/0.5,4);
+			
 			//if (xValue > 1.0){
 			//	xValue -=1.0;
 			//}
@@ -87,8 +93,9 @@ void fragment() {
 				
 			
 			
-			int index = int(floor(xValue*25.0));
+			float indexf = (floor(xValue*25.0));
 			//index =10;
+			int index = int(indexf);
 			COLOR.r = getColor(index).x;
 			COLOR.g = getColor(index).y;
 			COLOR.b = getColor(index).z;
@@ -133,7 +140,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5d32t"]
 shader = SubResource("Shader_im0tn")
-shader_parameter/rainbow = true
+shader_parameter/rainbow = false
 shader_parameter/speed = 2.0
 shader_parameter/RAINBOWSPEED = 2.0
 
@@ -298,6 +305,7 @@ script = ExtResource("1_im0tn")
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]
+visible = false
 show_behind_parent = true
 z_as_relative = false
 scale = Vector2(1.5, 1.5)
@@ -309,7 +317,6 @@ input_pickable = false
 shape = SubResource("CircleShape2D_im0tn")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-self_modulate = Color(0.564962, 0.564962, 0.564962, 1)
 material = SubResource("ShaderMaterial_5d32t")
 offset_left = -20.0
 offset_top = -20.0
@@ -319,6 +326,7 @@ pivot_offset = Vector2(20, 20)
 mouse_filter = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+visible = false
 emitting = false
 amount = 50
 lifetime = 0.3
@@ -333,6 +341,7 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
 rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
