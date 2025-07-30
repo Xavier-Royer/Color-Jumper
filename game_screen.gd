@@ -417,7 +417,7 @@ func spawnBlock():
 		
 		
 			block2.set_deferred("global_position", block2Position)
-			setBlockColor(block2)
+		setBlockColor(block2)
 			#block2.setColor("RAINBOW")
 	
 	setBlockColor(block)
