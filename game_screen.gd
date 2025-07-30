@@ -376,9 +376,9 @@ func spawnBlock():
 			var spikePosition = (firstPosition + secondPosition) /2.0
 	
 			block2Position = spikePosition
-			direction = Vector2(1,inverseSlope)
-			direction = direction.normalized()
-			block2Position += direction *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
+			var spikeDirection = Vector2(1,inverseSlope)
+			spikeDirection = spikeDirection.normalized()
+			block2Position += spikeDirection *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
 			
 			
 			if block2Position.y < -50:
