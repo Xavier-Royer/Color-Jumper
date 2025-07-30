@@ -372,11 +372,15 @@ func spawnBlock():
 			var inverseSlope  = 1
 			if spikeSlope != 0:
 				inverseSlope = -1/spikeSlope
-			var distanceFromSpike = randf_range(150,250)
+			var distanceFromSpike = randf_range(200,320)
 			var spikePosition = (firstPosition + secondPosition) /2.0
 	
 			block2Position = spikePosition
-			block2Position += Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
+			direction = Vector2(1,inverseSlope)
+			direction = direction.normalized()
+			block2Position += direction *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
+			
+			
 			if block2Position.y < -50:
 				Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))

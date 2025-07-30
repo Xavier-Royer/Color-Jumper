@@ -125,7 +125,7 @@ func _process(delta: float) -> void:
 		#$TextureRect.position += (pivotPosition +endPosition)/2.0 - $TextureRect.pivot_offset
 		#$TextureRect.scale = Vector2(size,size)
 		$Item.position = line.position
-		$Item.position += (firstPosition +secondPosition)/2.0
+		$Item.position += (pivotPosition +endPosition)/2.0
 		$Item.scale = Vector2(size,size)
 		
 		linearVelocity.y += gravityForce
