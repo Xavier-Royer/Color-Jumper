@@ -2,6 +2,7 @@ extends StaticBody2D
 
 var playerOn  = false
 signal invalidBlock
+signal deleting
 @onready var blockArea = $SpawnRadius
 var number =999 
 var deleted = false
@@ -45,6 +46,7 @@ func setColor(color):
 	
 
 func delete():
+	emit_signal("deleting")
 	$AnimationPlayer.play("blockLeft")
 
 
@@ -85,6 +87,7 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	emit_signal("deleting")
 	queue_free()
 
 

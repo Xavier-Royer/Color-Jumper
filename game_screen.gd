@@ -33,7 +33,7 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
-var spikeSpawnRate = 500  #higher = less common
+var spikeSpawnRate = 250#250  #higher = less common
 var coinSpawnRate = 100 #higher = less common
 var rainbowSpawnRate = 100 # higher = less common
 var randomColorRate = 3 # higher = less common
@@ -117,11 +117,11 @@ func loadGame():
 	
 	
 	#generates the rest of the starting blocks 
-	for i in randi_range(10,12):
+	for i in randi_range(15,18):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
 		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-50,screen_size.y * (2.0/3.0) - 100))
+		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
 		lastBlockSpawned = block
@@ -267,6 +267,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				
 
 func _process(delta: float) -> void:
+	
 	if gameState == "PLAYING":
 		#updates player movement
 		player.velocity = speed*direction
@@ -295,6 +296,7 @@ func comma_format(num_str: String) -> String:
 
 
 func spawnBlock():
+	var block2
 	var block = blockScene.instantiate()
 	movingObjects.call_deferred("add_child",block)
 	block.number = blocksSpawned
@@ -303,7 +305,7 @@ func spawnBlock():
 
 	
 	#set block position
-	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-400,-450))
+	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-750,-700))
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
@@ -331,10 +333,68 @@ func spawnBlock():
 			type = "COIN"
 		else:
 			type = "SPIKE"
-		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects, type)
+		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects,  lastBlockSpawned, block,type)
 		
+		#spawns another block so that you can go around the spike
+		block2 = blockScene.instantiate()
+		movingObjects.call_deferred("add_child",block2)
+		block2.number = -1
+		blocksSpawned += 1
+		block2.connect("invalidBlock",spawnBlock)
+		
+		#set block position
+		#var block2Position = Vector2(0,0)
+		#if block is on one end make new block on other end
+		#var spikePosition = (firstPosition + secondPosition) /2.0
+		#
+		#var displacement = firstPosition-secondPosition
+		#var verticle = true
+		#if abs(displacement.x) > abs(displacement.y):
+			#verticle = false
+		#if verticle: 
+			##if block is on one end make new block on other end
+			#if abs(spikePosition.x - (screen_size.x/2.0)) > 100:
+				#block2Position = Vector2( clamp(screen_size.x - spikePosition.x + randi_range(-50,-50),30,screen_size.x-30)  ,spikePosition.y + randi_range(-50,50))
+			#else:
+				##if block in middle, make new block on side
+				#var negative = randi_range(0,1) == 0
+				#if negative:
+					#negative = 1
+				#else:
+					#negative = -1
+				#block2Position = Vector2( clamp(spikePosition.x + (negative*randi_range(200,300)),30,screen_size.x-30)  ,spikePosition.y + randi_range(-50,50))
+		#else:
+			#block2Position.x = clamp(spikePosition.x + randi_range(-200,200),30,screen_size.x-30)
+			#block2Position.y = spikePosition.y + randi_range(150,250)
+		var block2Position = Vector2(0,0)
+		var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
+		var inverseSlope  = 1
+		if spikeSlope != 0:
+			inverseSlope = -1/spikeSlope
+		var distanceFromSpike = randf_range(150,250)
+		var spikePosition = (firstPosition + secondPosition) /2.0
+	
+		block2Position = spikePosition
+		block2Position += Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
+		if block2Position.y < -50:
+			Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
+		block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
+		block2Position.x = clamp(block2Position.x,30,screen_size.x)
+		
+		
+		block2.set_deferred("global_position", block2Position)
+		setBlockColor(block2)
+		#block2.setColor("RAINBOW")
+	
+	setBlockColor(block)
+	
 	lastBlockSpawned = block
 	
+	
+	
+	
+	
+func setBlockColor(block):
 	#set color 
 	#random variance
 	var random = randf_range(max(-2,-1*gameRunTime),2)
@@ -360,10 +420,6 @@ func spawnBlock():
 	#random chance of making it rainbow
 	if randi_range(0,rainbowSpawnRate) ==1 :
 		block.setColor("RAINBOW")
-	
-	
-	
-	
 	
 func gameOver():
 	if gameState == "PLAYING":
@@ -421,3 +477,12 @@ func _on_flash_timer_timeout() -> void:
 		
 func coinCollected():
 	coins += 1
+
+
+#func _input(event: InputEvent) -> void:
+	#if event.is_action_pressed("Tap"):
+		#for c in movingObjects.get_children():
+			#c.queue_free()
+		#lastBlockSpawned = null
+		#spawnBlock()
+		#spawnBlock()

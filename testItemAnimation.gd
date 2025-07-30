@@ -18,9 +18,6 @@ var airResistance = 0.999
 var linearVelocity
 var linearDirection 
 var size = 1.0
-
-
-
 var state = "STEADY"
 
 func _ready() -> void:
@@ -34,21 +31,11 @@ func _ready() -> void:
 	$Line2D.add_point(firstPosition)
 	$Line2D.add_point(secondPosition)
 	
-	if randi_range(0,1) ==1:
-		pivotPosition = firstPosition
-		endPosition = secondPosition
-		movingPointIndex = 1
-		pivotPointIndex = 0
-	else:
-		pivotPosition = secondPosition
-		endPosition = firstPosition
-		movingPointIndex = 0
-		pivotPointIndex = 1
+	
 	$Pivot.position = pivotPosition 
 	$NonPivot.position = endPosition 
 	$TextureRect.position = (pivotPosition +endPosition)/2.0 - $TextureRect.pivot_offset
 	
-	getAngle()
 
 func _process(delta: float) -> void:
 	if state == "STEADY":
@@ -62,7 +49,6 @@ func _process(delta: float) -> void:
 		
 		setAngle(angle)
 		$Line2D.points[movingPointIndex] = endPosition
-		
 		$TextureRect.position = (pivotPosition +endPosition)/2.0 - $TextureRect.pivot_offset
 		
 	elif state == "DELETING":
@@ -112,6 +98,17 @@ func _input(event: InputEvent) -> void:
 		if state == "STEADY":
 			state = "PIVOTING"
 			$NonPivot.hide()
+			if randi_range(0,1) ==1:
+				pivotPosition = firstPosition
+				endPosition = secondPosition
+				movingPointIndex = 1
+				pivotPointIndex = 0
+			else:
+				pivotPosition = secondPosition
+				endPosition = firstPosition
+				movingPointIndex = 0
+				pivotPointIndex = 1
+			getAngle()
 			#set wthich one is pivot
 		elif state == "PIVOTING":
 			$Pivot.hide()
