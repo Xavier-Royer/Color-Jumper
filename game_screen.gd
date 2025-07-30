@@ -366,25 +366,26 @@ func spawnBlock():
 		#else:
 			#block2Position.x = clamp(spikePosition.x + randi_range(-200,200),30,screen_size.x-30)
 			#block2Position.y = spikePosition.y + randi_range(150,250)
-		var block2Position = Vector2(0,0)
-		var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
-		var inverseSlope  = 1
-		if spikeSlope != 0:
-			inverseSlope = -1/spikeSlope
-		var distanceFromSpike = randf_range(150,250)
-		var spikePosition = (firstPosition + secondPosition) /2.0
+		if coinSpawn == false:
+			var block2Position = Vector2(0,0)
+			var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
+			var inverseSlope  = 1
+			if spikeSlope != 0:
+				inverseSlope = -1/spikeSlope
+			var distanceFromSpike = randf_range(150,250)
+			var spikePosition = (firstPosition + secondPosition) /2.0
 	
-		block2Position = spikePosition
-		block2Position += Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
-		if block2Position.y < -50:
-			Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
-		block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
-		block2Position.x = clamp(block2Position.x,30,screen_size.x)
+			block2Position = spikePosition
+			block2Position += Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
+			if block2Position.y < -50:
+				Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
+			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
+			block2Position.x = clamp(block2Position.x,30,screen_size.x)
 		
 		
-		block2.set_deferred("global_position", block2Position)
-		setBlockColor(block2)
-		#block2.setColor("RAINBOW")
+			block2.set_deferred("global_position", block2Position)
+			setBlockColor(block2)
+			#block2.setColor("RAINBOW")
 	
 	setBlockColor(block)
 	
