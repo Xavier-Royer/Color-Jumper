@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://qt0hublfhka5"]
+[gd_scene load_steps=14 format=3 uid="uid://qt0hublfhka5"]
 
 [ext_resource type="Script" uid="uid://6q3vbqb2ecbh" path="res://block.gd" id="1_im0tn"]
 
@@ -168,6 +168,24 @@ scale_min = 25.0
 scale_max = 25.0
 scale_curve = SubResource("CurveTexture_xfwl5")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_im0tn"]
+lifetime_randomness = 0.09
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 15, 0)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 661.89
+initial_velocity_max = 899.66
+gravity = Vector3(0, 3500, 0)
+linear_accel_min = -54.02
+linear_accel_max = -54.02
+damping_min = 28.736
+damping_max = 28.736
+scale_min = 25.0
+scale_max = 25.0
+scale_curve = SubResource("CurveTexture_xfwl5")
+
 [sub_resource type="Animation" id="Animation_5d32t"]
 resource_name = "CaughtBlock"
 length = 0.1
@@ -305,7 +323,6 @@ script = ExtResource("1_im0tn")
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]
-visible = false
 show_behind_parent = true
 z_as_relative = false
 scale = Vector2(1.5, 1.5)
@@ -326,7 +343,6 @@ pivot_offset = Vector2(20, 20)
 mouse_filter = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
 emitting = false
 amount = 50
 lifetime = 0.3
@@ -335,13 +351,22 @@ explosiveness = 1.0
 randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_5d32t")
 
+[node name="Dead" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 200
+lifetime = 5.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.9
+randomness = 0.1
+process_material = SubResource("ParticleProcessMaterial_im0tn")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_xfwl5")
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-visible = false
 rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]

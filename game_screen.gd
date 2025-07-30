@@ -128,6 +128,7 @@ func loadGame():
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
 		block.setColor("RED")
+		block.connect("blockMissed",gameOver)
 		lastBlockSpawned = block
 		blocksSpawned+=1
 	
@@ -328,6 +329,7 @@ func spawnBlock():
 	block.number = blocksSpawned
 	blocksSpawned += 1
 	block.connect("invalidBlock",spawnBlock)
+	block.connect("blockMissed",gameOver)
 
 	
 	#set block position
@@ -367,6 +369,7 @@ func spawnBlock():
 		block2.number = -1
 		blocksSpawned += 1
 		block2.connect("invalidBlock",spawnBlock)
+		block2.connect("blockMissed",gameOver)
 		
 		#set block position
 		#var block2Position = Vector2(0,0)

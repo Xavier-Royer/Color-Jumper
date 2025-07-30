@@ -1,5 +1,5 @@
 extends StaticBody2D
-
+signal blockMissed
 var playerOn  = false
 signal invalidBlock
 signal deleting
@@ -87,9 +87,26 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	emit_signal("deleting")
-	queue_free()
-
+	emit_signal("blockMissed")
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN)
+	#tween.set_trans(Tween.TRANS_EXPO)
+	tween.tween_property($Dead,"speed_scale",0.25,0.5)
+	tween.connect("finished",speedUp)
+	$Dead.emitting =true
+	
+	#queue_free()
+func speedUp():
+	var tween2 = create_tween()
+	tween2.tween_property($Dead,"speed_scale",0.25,0.3)
+	await tween2.finished
+	
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN)
+	#tween.set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property($Dead,"speed_scale",2,0.5)
+	await tween.finished
+	#queue_free()
 
 
 
