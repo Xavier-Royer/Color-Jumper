@@ -370,7 +370,7 @@ func spawnBlock():
 		#spawns another block so that you can go around the spike
 		block2 = blockScene.instantiate()
 		movingObjects.call_deferred("add_child",block2)
-		block2.number = -1
+		block2.number = blocksSpawned#-1
 		blocksSpawned += 1
 		block2.connect("invalidBlock",spawnBlock)
 		block2.connect("blockMissed",gameOver)
