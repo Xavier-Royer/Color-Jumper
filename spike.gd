@@ -1,8 +1,8 @@
 extends Node2D
 var number = -1
 @onready var blockArea = $spawnRadius
-@onready var spikeTexture = load("res://textures/Spike3.png") 
-@onready var coinTexture =  load("res://textures/Coin.png")
+@onready var spikeTexture = load("res://textures/ScaledDownSpike.png") 
+@onready var coinTexture =  load("res://textures/ScaledDownCoin.png")
 var item = "SPIKE"
 var spikeRotateSpeed = 20
 var deleted = false
@@ -62,8 +62,7 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	secondBlock = block2
 	
 	#button.connect("pressed",changeColor.bind(button.name))
-	block1.connect("deleting",holdingBlockDeleted.bind(block1))
-	block2.connect("deleting",holdingBlockDeleted.bind(block2))
+	
 	
 	firstPosition = firstPosition_ - Vector2(0,movingObjects.position.y)
 	secondPosition = secondPosition_ - Vector2(0,movingObjects.position.y)
@@ -79,7 +78,8 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	
 	radius = firstPosition.distance_to(secondPosition)
 	$Item.position = (firstPosition +secondPosition)/2.0 #- $Item/TextureRect.pivot_offset
-
+	
+	
 
 	if type == "COIN":
 		item  = "COIN"
@@ -87,14 +87,22 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 		line.modulate = Color(0.5,0.5,0)
 		$Item.set_collision_layer_value(5,false)
 		$Item.set_collision_layer_value(6,true)
+		block1.connect("leftBlock",updateState.bind(block1))
+		block2.connect("leftBlock",updateState.bind(block2))
+		momentOfInertia = 0.1
+	else:
+		block1.connect("caughtBlock",updateState.bind(block1))
+		block2.connect("caughtBlock",updateState.bind(block2))
 	
 
 func coinCaught():
+	$CoinAnimation.show()
+	$CoinAnimation.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
+	$AnimationPlayer.play("CoinCapture")
 	$Item.set_collision_layer_value(6,false)
 	var fadeOut = create_tween()
-	fadeOut.set_ease(Tween.EASE_IN)
-	fadeOut.set_trans(Tween.TRANS_BACK)
-	fadeOut.tween_property(self, "modulate", Color(0.5,0.5,0,0),.5)
+	fadeOut.set_ease(Tween.EASE_OUT)
+	fadeOut.tween_property($Item/TextureRect, "modulate", Color(0.5,0.5,0,0),.25)
 
 func _process(delta: float) -> void:
 	if item == "SPIKE":
@@ -155,7 +163,9 @@ func setAngleForCenterRotation(lineAngle):
 
 
 
-func holdingBlockDeleted(block):
+func updateState(block):
+	#if state == "STEADY" and item == "COIN":
+		#return
 	if state == "STEADY":
 		state = "PIVOTING"
 		if block == secondBlock:
@@ -182,5 +192,32 @@ func holdingBlockDeleted(block):
 		tween.set_trans(Tween.TRANS_BACK)
 		tween.tween_property(self, "size", 0.0,1.0)
 		tween.connect("finished",deleteNode)
+
+#func holdingBlockDeleted(block):
+	if item != "COIN" or state != "STEADY":
+		return
+	momentOfInertia = .10
+	#state = "WAITING"
+	#await get_tree().create_timer(0.5).timeout
+	#gravityForce = 5
+	#var tween = create_tween()
+	#tween.set_ease(Tween.EASE_IN)
+	#tween.tween_property(self,"gravityForce",25,1.5)
+	
+	state = "PIVOTING"
+	if block == secondBlock:
+		pivotPosition = firstPosition
+		endPosition = secondPosition
+		movingPointIndex = 1
+		pivotPointIndex = 0
+	else:
+		pivotPosition = secondPosition
+		endPosition = firstPosition
+		movingPointIndex = 0
+		pivotPointIndex = 1
+		getAngle()
+
+
+
 func deleteNode():
 	queue_free()

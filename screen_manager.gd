@@ -8,7 +8,7 @@ var onScreenPosition = Vector2(0,0)
 func _ready() -> void:
 	$Background/Control/TextureRect.scale = Vector2(Globals.screenSize.x/1024.0, Globals.screenSize.y/1536.0)
 	$SettingsScreen.offset = offScreenPosition
-	$GameScreen.connect("gameOverScreen",$GameOverScreen.show)
+	$GameScreen.connect("gameOverScreen",gameOver)
 
 func next_screen(nextScreen):
 	#screen transition
@@ -61,3 +61,14 @@ func _on_settings_pressed() -> void:
 func _on_home_pressed():
 	next_screen($GameScreen)
 	_on_play_pressed()
+
+func gameOver():
+	$GameOverScreen.show()
+	#$GameOverScreen/UI/VBoxContainer/Button.disabled  = true
+	$GameOverScreen.offset = Vector2(0,-1*Globals.screenSize.y)
+	var screenTransition = create_tween()
+	screenTransition.set_ease(Tween.EASE_OUT)
+	screenTransition.set_trans(Tween.TRANS_BACK)
+	screenTransition.tween_property($GameOverScreen, "offset", onScreenPosition,.5)
+	#await screenTransition.finished
+	#$GameOverScreen/UI/VBoxContainer/Button.disabled  = false

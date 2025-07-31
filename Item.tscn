@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://d188ef8dxjvfn"]
+[gd_scene load_steps=12 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://spike.gd" id="1_bp1wp"]
-[ext_resource type="Texture2D" uid="uid://dq4lc1en33sra" path="res://textures/spike4.png" id="2_ph0dh"]
+[ext_resource type="Texture2D" uid="uid://bkh781wiu3lfs" path="res://textures/ScaledDownSpike.png" id="2_6m5p0"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="3_6m5p0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
-radius = 41.0
+radius = 52.0
 
 [sub_resource type="Curve" id="Curve_8ryga"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(2e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.713235, 0.674157), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -30,6 +31,91 @@ scale_curve = SubResource("CurveTexture_xfwl5")
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_8ryga"]
 a = Vector2(51, 41.3333)
+
+[sub_resource type="Animation" id="Animation_k68pu"]
+resource_name = "CoinCapture"
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CoinAnimation/Position:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.966667),
+"transitions": PackedFloat32Array(1.41421, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(0.1, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CoinAnimation/Position:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.01, 0.966667),
+"transitions": PackedFloat32Array(1.41421, 1),
+"update": 0,
+"values": [Vector2(-64, -64), Vector2(50, -200)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CoinAnimation:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.34, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_tqdpn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CoinAnimation/Position:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.3, 0.3)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CoinAnimation/Position:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-64, -64)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CoinAnimation:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xk036"]
+_data = {
+&"CoinCapture": SubResource("Animation_k68pu"),
+&"RESET": SubResource("Animation_tqdpn")
+}
 
 [node name="Item" type="Node2D"]
 script = ExtResource("1_bp1wp")
@@ -62,13 +148,12 @@ process_material = SubResource("ParticleProcessMaterial_7k7bx")
 
 [node name="TextureRect" type="TextureRect" parent="Item"]
 z_index = 999
-offset_left = -512.0
-offset_top = -512.0
-offset_right = 512.0
-offset_bottom = 512.0
-scale = Vector2(0.1, 0.1)
-pivot_offset = Vector2(512, 512)
-texture = ExtResource("2_ph0dh")
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 63.0
+offset_bottom = 63.0
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("2_6m5p0")
 
 [node name="spawnRadius" type="Area2D" parent="."]
 collision_layer = 256
@@ -76,6 +161,52 @@ collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="spawnRadius"]
 shape = SubResource("SegmentShape2D_8ryga")
+
+[node name="CoinAnimation" type="Node2D" parent="."]
+visible = false
+position = Vector2(114, 0)
+
+[node name="Position" type="Control" parent="CoinAnimation"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 83.0
+offset_bottom = 67.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+pivot_offset = Vector2(64, 64)
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="TextureRect" type="TextureRect" parent="CoinAnimation/Position"]
+layout_mode = 2
+offset_right = 128.0
+offset_bottom = 128.0
+size_flags_horizontal = 4
+texture = ExtResource("3_6m5p0")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="CoinAnimation/Position"]
+layout_mode = 2
+offset_left = 110.0
+offset_top = 2.0
+offset_right = 137.0
+offset_bottom = 36.0
+theme_override_font_sizes/font_size = 24
+text = "+1"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_xk036")
+}
+speed_scale = 2.0
 
 [connection signal="screen_exited" from="Item/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="area_entered" from="spawnRadius" to="." method="_on_spawn_radius_area_entered"]

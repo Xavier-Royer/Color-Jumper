@@ -2,7 +2,8 @@ extends StaticBody2D
 signal blockMissed
 var playerOn  = false
 signal invalidBlock
-signal deleting
+signal caughtBlock
+signal leftBlock
 @onready var blockArea = $SpawnRadius
 var number =999 
 var deleted = false
@@ -47,7 +48,7 @@ func setColor(color):
 
 func delete():
 	deleted = true
-	#emit_signal("deleting")
+	emit_signal("leftBlock")
 	$AnimationPlayer.play("blockLeft")
 
 
@@ -75,7 +76,7 @@ func blockCaught(playerDirection, gameSpeed,collisionPosition):
 		$GPUParticles2D.emitting =true
 		#$GPUParticles2D.global_position = collisionPosition + (playerDirection * 30)
 		$AnimationPlayer.play("CaughtBlock")
-		emit_signal("deleting")
+		emit_signal("caughtBlock")
 		#var tween = create_tween()
 		#tween.tween_property(self, "scale", self.scale * 1.4, 0.15).set_ease(Tween.EASE_IN)
 		#tween.tween_property(self, "scale", self.scale, 0.15).set_ease(Tween.EASE_OUT)

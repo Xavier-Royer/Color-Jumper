@@ -23,6 +23,7 @@ var difficulties = ["EASY", "MEDIUM" , "HARD", "EXTREME"]
 var trueScore
 var score 
 var streak 
+var blockStreak
 var lastJumpStamp = 0 #gameruntime of last jump 
 var coins = 0 
 var changedColor = false
@@ -136,6 +137,7 @@ func loadGame():
 	
 	lastBlockSpawned = null
 	streak = 0 
+	blockStreak = 0 
 	score = 0 
 	$UI/Score.text = str(0) 
 	$UI/Streak.text = ""
@@ -224,6 +226,7 @@ func _on_block_caught():
 		if changedColor:
 			streakTime += colorChangeBonus
 		changedColor = false
+		blockStreak +=1 
 		if gameRunTime - lastJumpStamp < streakTime:
 			#streak continues
 			streak +=1 
@@ -239,7 +242,7 @@ func _on_block_caught():
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		#add 20 / howmuch time u were on block * streak 
-		tween.tween_property(self,"score", score + (  (20 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) ),.1)
+		tween.tween_property(self,"score", (streak *20)+ score + (  (20 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(blockStreak,1) ),.1)
 		
 		#score += round(  (100 /  (max(gameRunTime,0.2)- lastJumpStamp)) * max(streak,1) )
 		lastJumpStamp = gameRunTime
@@ -334,6 +337,7 @@ func spawnBlock():
 	
 	#set block position
 	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-750,-700))
+	
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
@@ -410,10 +414,12 @@ func spawnBlock():
 			block2Position += spikeDirection *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
 			
 			
-			if block2Position.y < -50 or (block2Position.x < 45) or (block2Position.x > screen_size.x -45):
-				Vector2(distanceFromSpike, -1*distanceFromSpike*inverseSlope)
+			if block2Position.y > -50 or (block2Position.x < 45) or (block2Position.x > screen_size.x -45):
+				block2Position -= spikeDirection *distanceFromSpike
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
 			block2Position.x = clamp(block2Position.x,30,screen_size.x)
+			block2Position.y = clamp(block2Position.y,-1000,-200)
+			
 		
 		
 			block2.set_deferred("global_position", block2Position)
