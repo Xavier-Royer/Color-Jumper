@@ -93,7 +93,8 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if deleted == false:
-		emit_signal("blockMissed")
+		pass
+		#emit_signal("blockMissed")
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN)
 	#tween.set_trans(Tween.TRANS_EXPO)

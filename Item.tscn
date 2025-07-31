@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://d188ef8dxjvfn"]
+[gd_scene load_steps=13 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://spike.gd" id="1_bp1wp"]
 [ext_resource type="Texture2D" uid="uid://bkh781wiu3lfs" path="res://textures/ScaledDownSpike.png" id="2_6m5p0"]
@@ -117,6 +117,16 @@ _data = {
 &"RESET": SubResource("Animation_tqdpn")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6m5p0"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 60.587
+initial_velocity_min = 150.0
+initial_velocity_max = 450.0
+gravity = Vector3(0, 400, 0)
+scale_min = 0.15
+scale_max = 0.2
+
 [node name="Item" type="Node2D"]
 script = ExtResource("1_bp1wp")
 
@@ -207,6 +217,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_xk036")
 }
 speed_scale = 2.0
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 75
+texture = ExtResource("3_6m5p0")
+lifetime = 1.5
+one_shot = true
+speed_scale = 3.0
+explosiveness = 0.4
+process_material = SubResource("ParticleProcessMaterial_6m5p0")
 
 [connection signal="screen_exited" from="Item/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="area_entered" from="spawnRadius" to="." method="_on_spawn_radius_area_entered"]

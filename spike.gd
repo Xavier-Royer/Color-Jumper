@@ -98,6 +98,8 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 func coinCaught():
 	$CoinAnimation.show()
 	$CoinAnimation.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
+	$GPUParticles2D.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
+	$GPUParticles2D.emitting = true
 	$AnimationPlayer.play("CoinCapture")
 	$Item.set_collision_layer_value(6,false)
 	var fadeOut = create_tween()

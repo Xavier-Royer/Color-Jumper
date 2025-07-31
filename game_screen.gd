@@ -35,8 +35,8 @@ var gameSpeed = baseGameSpeed
 var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 250#250  #higher = less common
-var coinSpawnRate = 100 #higher = less common
-var rainbowSpawnRate = 100 # higher = less common
+var coinSpawnRate = 5 #higher = less common
+var rainbowSpawnRate = 75 # higher = less common
 var randomColorRate = 3 # higher = less common
 var rainbowOver = false
 var particleSpeed = 3
@@ -368,12 +368,7 @@ func spawnBlock():
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects,  lastBlockSpawned, block,type)
 		
 		#spawns another block so that you can go around the spike
-		block2 = blockScene.instantiate()
-		movingObjects.call_deferred("add_child",block2)
-		block2.number = blocksSpawned#-1
-		blocksSpawned += 1
-		block2.connect("invalidBlock",spawnBlock)
-		block2.connect("blockMissed",gameOver)
+		
 		
 		#set block position
 		#var block2Position = Vector2(0,0)
@@ -400,6 +395,12 @@ func spawnBlock():
 			#block2Position.x = clamp(spikePosition.x + randi_range(-200,200),30,screen_size.x-30)
 			#block2Position.y = spikePosition.y + randi_range(150,250)
 		if coinSpawn == false:
+			block2 = blockScene.instantiate()
+			movingObjects.call_deferred("add_child",block2)
+			block2.number = blocksSpawned#-1
+			blocksSpawned += 1
+			block2.connect("invalidBlock",spawnBlock)
+			block2.connect("blockMissed",gameOver)
 			var block2Position = Vector2(0,0)
 			var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
 			var inverseSlope  = 1
@@ -423,7 +424,7 @@ func spawnBlock():
 		
 		
 			block2.set_deferred("global_position", block2Position)
-		setBlockColor(block2)
+			setBlockColor(block2)
 			#block2.setColor("RAINBOW")
 	
 	setBlockColor(block)
@@ -467,13 +468,13 @@ func gameOver():
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"
-		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + comma_format(score)
+		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + (comma_format(str(score)))
 		var index = difficulties.find(difficulty)
 		var currentHighScore = FileManager.highScore[index]
 		if score > currentHighScore:
 			currentHighScore = score
 			FileManager.setHighScore(score,index)
-		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + comma_format(currentHighScore)
+		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + (comma_format(str(currentHighScore)))
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():
 			c.disabled = true
