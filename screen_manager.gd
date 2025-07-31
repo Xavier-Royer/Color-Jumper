@@ -6,7 +6,7 @@ var onScreenPosition = Vector2(0,0)
 
 
 func _ready() -> void:
-	$Background/Control/TextureRect.scale = Vector2(Globals.screenSize.x/1024.0, Globals.screenSize.y/1536.0)
+	#$Background/Control/TextureRect.scale = Vector2(Globals.screenSize.x/1024.0, Globals.screenSize.y/1536.0)
 	$SettingsScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",gameOver)
 
