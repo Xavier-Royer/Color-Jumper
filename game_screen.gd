@@ -467,13 +467,13 @@ func gameOver():
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"
-		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + str(score)
+		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + comma_format(score)
 		var index = difficulties.find(difficulty)
 		var currentHighScore = FileManager.highScore[index]
 		if score > currentHighScore:
 			currentHighScore = score
 			FileManager.setHighScore(score,index)
-		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + str(currentHighScore)
+		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + comma_format(currentHighScore)
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():
 			c.disabled = true
