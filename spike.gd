@@ -6,7 +6,8 @@ var number = -1
 var item = "SPIKE"
 var spikeRotateSpeed = 20
 var deleted = false
-
+var animatingCoin = false
+var gameSpeed = 0 
 
 #stuff for physics:
 var pivotPosition = Vector2(0,0)
@@ -95,7 +96,9 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 		block2.connect("caughtBlock",updateState.bind(block2))
 	
 
-func coinCaught():
+func coinCaught(g):
+	gameSpeed = g
+	animatingCoin = true
 	$CoinAnimation.show()
 	$CoinAnimation.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
 	$GPUParticles2D.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
@@ -109,6 +112,8 @@ func coinCaught():
 func _process(delta: float) -> void:
 	if item == "SPIKE":
 		$Item/TextureRect.rotation += spikeRotateSpeed * delta
+	if animatingCoin: 
+		$CoinAnimation.position.y -= gameSpeed* delta
 	
 	if state == "STEADY":
 		pass

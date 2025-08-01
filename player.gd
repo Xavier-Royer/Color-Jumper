@@ -80,7 +80,7 @@ func _process(_delta: float) -> void:
 			#so taht it doesnt get stuckj on a coin
 			velocity = oldVelocity
 			emit_signal("collectCoin")
-			get_last_slide_collision().get_collider().get_parent().coinCaught()
+			get_last_slide_collision().get_collider().get_parent().coinCaught(gameSpeed)
 
 func disappear():
 	$ColorRect.self_modulate = Color(1,1,1,0)
