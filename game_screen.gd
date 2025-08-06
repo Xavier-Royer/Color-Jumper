@@ -32,12 +32,11 @@ var colorChangeBonus = 0.3
 #spawn rates / difficulty
 var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
-var spawnRate = .6 # higher spawn rate = less spawn 
 var blocksSpawned = 0 
 var spikeSpawnRate = 250#250  #higher = less common
-var coinSpawnRate = 5 #higher = less common
-var rainbowSpawnRate = 7 # higher = less common
-var randomColorRate = 3 # higher = less common
+var coinSpawnRate = 30 #higher = less common
+var rainbowSpawnRate = 10 # percentage out of 1000 that one spawns
+var randomColorRate = 300 # percentage out of 1000 that one spawns
 var rainbowOver = false
 var particleSpeed = 3
 var lastBlockSpawned = null
@@ -144,19 +143,25 @@ func loadGame():
 	
 	difficulty = FileManager.difficulty
 	
-	gameState = "READY"
+	
 	if difficulty == "EASY":
-		randomColorRate = 50
-		baseGameSpeed  = 700
-	elif difficulty == "MEDIUM":
-		randomColorRate = 30
-		baseGameSpeed  = 500
-	elif difficulty == "HARD":
-		randomColorRate = 10
-		baseGameSpeed  = 300
-	else:
+		randomColorRate = 100
 		baseGameSpeed  = 200
-		randomColorRate = 3
+		$SpawnTimer.wait_time = 1
+	elif difficulty == "MEDIUM":
+		randomColorRate = 250
+		baseGameSpeed  = 500
+		$SpawnTimer.wait_time = 0.75
+	elif difficulty == "HARD":
+		randomColorRate = 300
+		baseGameSpeed  = 700
+		$SpawnTimer.wait_time = 0.5
+	else: #EXTREME
+		randomColorRate = 750
+		baseGameSpeed  = 800
+		$SpawnTimer.wait_time = 0.35
+		
+	gameState = "READY"
 
 func changeColor(newColor):
 	
@@ -198,18 +203,18 @@ func _on_block_caught():
 		$UI/RainBowBar.show()
 		$UI/RainbowParticles.show()
 		$UI/RainBowBar.value = 100 
-		$UI/RainbowParticles.position =  $UI/RainBowBar.position + Vector2(60,885)
+		$UI/RainbowParticles.position =  $UI/RainBowBar.position + Vector2(984,-40)
 		var tween2 = create_tween()
-		var endPosition = ( $UI/RainBowBar.position + Vector2(60,885) - Vector2(0,850))
-		tween2.tween_property($UI/RainbowParticles, "position", endPosition, 5.5)
+		var endPosition = ( $UI/RainBowBar.position + Vector2(0, -40))
+		tween2.tween_property($UI/RainbowParticles, "position", endPosition, 5)
 		var tween = create_tween()
-		tween.tween_property($UI/RainBowBar, "value", 0,5.5)
+		tween.tween_property($UI/RainBowBar, "value", 0,5)
 		var tween3 = create_tween()
 		tween3.set_ease(Tween.EASE_IN)
 		tween3.set_trans(Tween.TRANS_EXPO)
 		tween2.connect("finished",hideRainbowParticles)
 		particleSpeed = 3
-		tween3.tween_property(self, "particleSpeed", 40,5.5)
+		#tween3.tween_property(self, "particleSpeed", 40,5.5)
 		
 		
 	#if rainbow over set color to block color
@@ -455,11 +460,11 @@ func setBlockColor(block):
 			block.setColor("BLUE")
 	
 	#random chance of making it a random color
-	if randi_range(0,randomColorRate) ==1:
+	if randi_range(1,1000) <= randomColorRate:
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
 	#random chance of making it rainbow
-	if randi_range(0,rainbowSpawnRate) ==1 :
+	if randi_range(0,1000) <= rainbowSpawnRate:
 		block.setColor("RAINBOW")
 	
 func gameOver():
@@ -489,8 +494,14 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_rainbow_timer_timeout() -> void:
 	#start flash animation bc rainbow is starting to wear off
-	$FlashTimer.wait_time = 0.3
-	$FlashTimer.start()
+	if currentBlock != null:
+		changeColor(currentBlock.blockColor)
+		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	else:
+		rainbowOver = true
+	
+	#$FlashTimer.wait_time = 0.3
+	#$FlashTimer.start()
 
 
 
