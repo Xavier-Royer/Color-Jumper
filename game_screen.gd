@@ -33,8 +33,8 @@ var colorChangeBonus = 0.3
 var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var blocksSpawned = 0 
-var spikeSpawnRate = 250#250  #higher = less common
-var coinSpawnRate = 30 #higher = less common
+var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
+var coinSpawnRate = 200 # percentage out of 1000 that one spawns
 var rainbowSpawnRate = 10 # percentage out of 1000 that one spawns
 var randomColorRate = 300 # percentage out of 1000 that one spawns
 var rainbowOver = false
@@ -153,13 +153,13 @@ func loadGame():
 		baseGameSpeed  = 500
 		$SpawnTimer.wait_time = 0.75
 	elif difficulty == "HARD":
-		randomColorRate = 300
+		randomColorRate = 450
 		baseGameSpeed  = 700
-		$SpawnTimer.wait_time = 0.5
+		$SpawnTimer.wait_time = 0.4
 	else: #EXTREME
 		randomColorRate = 750
 		baseGameSpeed  = 800
-		$SpawnTimer.wait_time = 0.35
+		$SpawnTimer.wait_time = 0.4
 		
 	gameState = "READY"
 
@@ -346,8 +346,8 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,ceil(spikeSpawnRate/gameRunTime)) ==1
-	var coinSpawn = randi_range(0,coinSpawnRate) ==1
+	var spikeSpawn = randi_range(0,1000) == spikeSpawnRate
+	var coinSpawn = randi_range(0,1000) == coinSpawnRate
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
