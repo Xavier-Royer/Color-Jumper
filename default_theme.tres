@@ -2,3 +2,4 @@
 
 [resource]
 default_font_size = 50
+PopupMenu/font_sizes/font_size = 100
