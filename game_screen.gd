@@ -33,17 +33,12 @@ var colorChangeBonus = 0.3
 var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var blocksSpawned = 0 
-<<<<<<< HEAD
-var spikeSpawnRate = 250#250  #higher = less common
-var coinSpawnRate = 100 #higher = less common
-var rainbowSpawnRate = 100 # higher = less common
-var randomColorRate = 3 # higher = less common
-=======
-var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
-var coinSpawnRate = 200 # percentage out of 1000 that one spawns
-var rainbowSpawnRate = 10 # percentage out of 1000 that one spawns
-var randomColorRate = 300 # percentage out of 1000 that one spawns
->>>>>>> 7046176bbfe122c25d31444d9cee44b2ca76760a
+
+var spikeSpawnRate = 15 # percentage out of 100 that one spawns
+var coinSpawnRate = 20 # percentage out of 100 that one spawns
+var rainbowSpawnRate = 1 # percentage out of 100 that one spawns
+var randomColorRate = 30 # percentage out of 100 that one spawns
+
 var rainbowOver = false
 var particleSpeed = 3
 var lastBlockSpawned = null
@@ -353,8 +348,8 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,1000) == spikeSpawnRate
-	var coinSpawn = randi_range(0,1000) == coinSpawnRate
+	var spikeSpawn = randi_range(0,100) == spikeSpawnRate
+	var coinSpawn = randi_range(0,100) == coinSpawnRate
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:

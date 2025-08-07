@@ -9,7 +9,6 @@ var number =999
 var deleted = false
 var blockColor
 var mouseOnBlock = false
-signal nextColor
 var onBlock = false
 #var spawnComplete = false
 
@@ -66,7 +65,7 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				break
 
 
-func blockCaught(playerDirection, gameSpeed,collisionPosition):
+func blockCaught(playerDirection, gameSpeed, collisionPosition):
 	
 	onBlock = true
 	if number !=0:
