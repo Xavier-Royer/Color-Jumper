@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=42 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -11,8 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://textures/redbuttonpressed.png" id="4_lgr22"]
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="4_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://textures/greenbutton.png" id="5_03owx"]
+[ext_resource type="Texture2D" uid="uid://btu0flseb36rl" path="res://textures/settingsbg.png" id="5_hhcpw"]
+[ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://textures/default_button.png" id="6_mxvw5"]
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://textures/greenbuttonpressed.png" id="6_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://textures/bluebutton.png" id="7_c6i3y"]
+[ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://textures/default_button_pressed.png" id="7_xrxkg"]
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://textures/bluebuttonpressed.png" id="8_c2ibq"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://textures/purplebutton.png" id="9_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://textures/purplebuttonpressed.png" id="10_fpfj3"]
@@ -268,6 +271,21 @@ offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("2_c2ibq")
 
+[node name="Background" type="TextureRect" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -674.0
+offset_right = 350.0
+offset_bottom = 726.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("5_hhcpw")
+
 [node name="Difficulty" type="OptionButton" parent="ScreenManager/SettingsScreen"]
 custom_minimum_size = Vector2(300, 100)
 anchors_preset = 8
@@ -275,10 +293,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -222.0
-offset_top = -120.0
-offset_right = 233.0
-offset_bottom = 118.5
+offset_left = -225.0
+offset_top = -375.0
+offset_right = 207.0
+offset_bottom = -206.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -296,27 +314,40 @@ popup/item_3/text = "Extreme"
 popup/item_3/id = 3
 
 [node name="Home" type="Button" parent="ScreenManager/SettingsScreen"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-offset_right = 57.0
+anchors_preset = -1
+anchor_left = 0.505
+anchor_top = 0.5
+anchor_right = 0.505
+anchor_bottom = 0.5
+offset_left = -100.400024
+offset_top = 541.0
+offset_right = 100.599976
+offset_bottom = 637.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 64
 text = "HOME"
 
-[node name="Button" type="Button" parent="ScreenManager/SettingsScreen"]
+[node name="ResetButton" type="TextureButton" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
 anchor_left = 0.50100005
 anchor_top = 0.5
 anchor_right = 0.50100005
 anchor_bottom = 0.5
-offset_left = -307.08008
-offset_top = -326.0
-offset_right = 307.91992
-offset_bottom = -199.0
-theme_override_font_sizes/font_size = 56
-text = "Reset all high scores"
+offset_left = -184.08008
+offset_top = -582.0
+offset_right = 165.91992
+offset_bottom = -424.0
+texture_normal = ExtResource("6_mxvw5")
+texture_pressed = ExtResource("7_xrxkg")
+stretch_mode = 0
+
+[node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
@@ -354,7 +385,7 @@ text = "score"
 label_settings = SubResource("LabelSettings_kjvhd")
 
 [node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
-z_index = 4096
+z_index = 10
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -474,6 +505,18 @@ scale = Vector2(1.6970006, 1.6970006)
 value = 100.0
 fill_mode = 2
 texture_progress = ExtResource("20_bg4s2")
+
+[node name="ScreenBG" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+z_index = 100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
 
 [node name="RainbowParticles" type="GPUParticles2D" parent="ScreenManager/GameScreen/UI"]
 position = Vector2(1073, -10)
@@ -601,7 +644,7 @@ text = "Play Again"
 
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
-[connection signal="pressed" from="ScreenManager/SettingsScreen/Button" to="ScreenManager/SettingsScreen" method="_on_settings_button_pressed"]
+[connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]

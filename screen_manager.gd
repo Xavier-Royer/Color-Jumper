@@ -3,6 +3,8 @@ extends Node
 var onScreenPosition = Vector2(0,0)
 @onready var offScreenPosition = Vector2(Globals.screenSize.x,0)
 
+var screenOpen = false;
+
 
 
 func _ready() -> void:
@@ -13,20 +15,32 @@ func _ready() -> void:
 func next_screen(nextScreen):
 	#screen transition
 	var screenTransition = create_tween()
-	screenTransition.set_ease(Tween.EASE_IN)
-	screenTransition.set_trans(Tween.TRANS_BACK)
-	screenTransition.tween_property(currentScreen, "offset", offScreenPosition,.5)
-	await screenTransition.finished
+	if screenOpen:
+		$SettingsScreen/NoInteractLayer.visible = true
+		screenTransition.set_ease(Tween.EASE_IN)
+		screenTransition.set_trans(Tween.TRANS_BACK)
+		screenTransition.tween_property(currentScreen, "offset", offScreenPosition,.5)
+		var bg_transition = create_tween()
+		bg_transition.set_ease(Tween.EASE_IN)
+		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0, 0.5)
+		await screenTransition.finished
+		$GameScreen/UI/ScreenBG.visible = false
 	
-	currentScreen.visible = false
-	nextScreen.visible = true
-
-	screenTransition = create_tween()
-	screenTransition.set_ease(Tween.EASE_IN)
-	screenTransition.set_trans(Tween.TRANS_BACK)
-	screenTransition.tween_property(nextScreen, "offset", onScreenPosition,.5)
-	currentScreen = nextScreen
-	await screenTransition.finished
+	#currentScreen.visible = false
+	#nextScreen.visible = true
+	if not screenOpen:
+		$GameScreen/UI/ScreenBG.visible = true
+		screenTransition = create_tween()
+		screenTransition.set_ease(Tween.EASE_OUT)
+		screenTransition.set_trans(Tween.TRANS_BACK)
+		screenTransition.tween_property(nextScreen, "offset", onScreenPosition,0.5)
+		currentScreen = nextScreen
+		var bg_transition = create_tween()
+		bg_transition.set_ease(Tween.EASE_OUT)
+		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0.9, 0.5)
+		await screenTransition.finished
+		$SettingsScreen/NoInteractLayer.visible = false
+	screenOpen = not screenOpen
 	
 
 

@@ -34,10 +34,10 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var blocksSpawned = 0 
 
-var spikeSpawnRate = 15 # percentage out of 100 that one spawns
-var coinSpawnRate = 20 # percentage out of 100 that one spawns
-var rainbowSpawnRate = 1 # percentage out of 100 that one spawns
-var randomColorRate = 30 # percentage out of 100 that one spawns
+var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
+var coinSpawnRate = 200 # percentage out of 1000 that one spawns
+var rainbowSpawnRate = 5 # percentage out of 1000 that one spawns
+var randomColorRate = 300 # percentage out of 1000 that one spawns
 
 var rainbowOver = false
 var particleSpeed = 3
