@@ -1,5 +1,8 @@
-[gd_resource type="Theme" format=3 uid="uid://inpjr0g2xmmk"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://inpjr0g2xmmk"]
+
+[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="1_e7bfs"]
 
 [resource]
+default_font = ExtResource("1_e7bfs")
 default_font_size = 50
 PopupMenu/font_sizes/font_size = 100

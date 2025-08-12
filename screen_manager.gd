@@ -10,6 +10,7 @@ var screenOpen = false;
 func _ready() -> void:
 	#$Background/Control/TextureRect.scale = Vector2(Globals.screenSize.x/1024.0, Globals.screenSize.y/1536.0)
 	$SettingsScreen.offset = offScreenPosition
+	$LeaderboardScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",gameOver)
 
 func next_screen(nextScreen):
@@ -17,6 +18,7 @@ func next_screen(nextScreen):
 	var screenTransition = create_tween()
 	if screenOpen:
 		$SettingsScreen/NoInteractLayer.visible = true
+		$LeaderboardScreen/NoInteractLayer.visible = true
 		screenTransition.set_ease(Tween.EASE_IN)
 		screenTransition.set_trans(Tween.TRANS_BACK)
 		screenTransition.tween_property(currentScreen, "offset", offScreenPosition,.5)
@@ -40,6 +42,7 @@ func next_screen(nextScreen):
 		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0.9, 0.5)
 		await screenTransition.finished
 		$SettingsScreen/NoInteractLayer.visible = false
+		$LeaderboardScreen/NoInteractLayer.visible = false
 	screenOpen = not screenOpen
 	
 
@@ -75,6 +78,10 @@ func _on_settings_pressed() -> void:
 func _on_home_pressed():
 	next_screen($GameScreen)
 	_on_play_pressed()
+	
+func _on_leaderboard_pressed() -> void:
+	$LeaderboardScreen.loadLeaderboard()
+	next_screen($LeaderboardScreen)
 
 func gameOver():
 	$GameOverScreen.show()

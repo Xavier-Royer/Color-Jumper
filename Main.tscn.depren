@@ -1,8 +1,9 @@
-[gd_scene load_steps=46 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=42 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
+[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_fos0i"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://textures/redbutton.png" id="3_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://textures/colorjumper_logo.png" id="3_fos0i"]
@@ -11,18 +12,13 @@
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="4_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://textures/greenbutton.png" id="5_03owx"]
 [ext_resource type="Texture2D" uid="uid://btu0flseb36rl" path="res://textures/settingsbg.png" id="5_hhcpw"]
-[ext_resource type="Texture2D" uid="uid://dhc0uf23mr7vo" path="res://textures/home_button.png" id="6_hri7i"]
 [ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://textures/resetall_button.png" id="6_mxvw5"]
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://textures/greenbuttonpressed.png" id="6_wkp8b"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://textures/bluebutton.png" id="7_c6i3y"]
-[ext_resource type="Texture2D" uid="uid://qdbygg7qbwac" path="res://textures/home_button_pressed.png" id="7_w3rk5"]
 [ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://textures/resetall_button_pressed.png" id="7_xrxkg"]
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://textures/bluebuttonpressed.png" id="8_c2ibq"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://textures/purplebutton.png" id="9_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://textures/purplebuttonpressed.png" id="10_fpfj3"]
-[ext_resource type="Script" uid="uid://cbpq4o5tbo37b" path="res://leaderboard_screen.gd" id="10_w3rk5"]
-[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="11_5mvff"]
-[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="11_oye8v"]
 [ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="15_5tuhn"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Player.gdshader" id="15_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://textures/leaderboard.png" id="16_2gh4u"]
@@ -304,7 +300,7 @@ offset_bottom = -206.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 theme_override_font_sizes/font_size = 99
 selected = 1
 item_count = 4
@@ -317,20 +313,19 @@ popup/item_2/id = 2
 popup/item_3/text = "Extreme"
 popup/item_3/id = 3
 
-[node name="Home" type="TextureButton" parent="ScreenManager/SettingsScreen"]
+[node name="Home" type="Button" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
 anchor_left = 0.505
 anchor_top = 0.5
 anchor_right = 0.505
 anchor_bottom = 0.5
-offset_left = 59.599976
-offset_top = 542.0
-offset_right = 259.59998
-offset_bottom = 642.0
+offset_left = -100.400024
+offset_top = 541.0
+offset_right = 100.599976
+offset_bottom = 637.0
 grow_vertical = 0
-texture_normal = ExtResource("6_hri7i")
-texture_pressed = ExtResource("7_w3rk5")
-stretch_mode = 0
+theme_override_font_sizes/font_size = 64
+text = "HOME"
 
 [node name="ResetButton" type="TextureButton" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
@@ -353,80 +348,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
-
-[node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
-offset = Vector2(1152, 0)
-transform = Transform2D(1, 0, 0, 1, 1152, 0)
-script = ExtResource("10_w3rk5")
-
-[node name="Background" type="TextureRect" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -674.0
-offset_right = 350.0
-offset_bottom = 726.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 0
-texture = ExtResource("5_hhcpw")
-
-[node name="Home" type="TextureButton" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = -1
-anchor_left = 0.505
-anchor_top = 0.5
-anchor_right = 0.505
-anchor_bottom = 0.5
-offset_left = 59.599976
-offset_top = 542.0
-offset_right = 259.59998
-offset_bottom = 642.0
-grow_vertical = 0
-texture_normal = ExtResource("6_hri7i")
-texture_pressed = ExtResource("7_w3rk5")
-stretch_mode = 0
-
-[node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
-
-[node name="ScoreText" type="RichTextLabel" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -256.5
-offset_top = -551.0
-offset_right = 256.5
-offset_bottom = 489.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("11_oye8v")
-theme_override_font_sizes/normal_font_size = 75
-bbcode_enabled = true
-text = "[u]High Scores[/u]
-
-[color=gold]easy
-[color=white]11,000,000
-
-[color=orange]medium
-[color=white]11,000,000
-
-[color=red]hard
-[color=white]11,000,000
-
-[color=purple]extreme
-[color=white]11,000,000"
-scroll_active = false
-horizontal_alignment = 1
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
@@ -478,7 +399,7 @@ mouse_filter = 0
 [node name="RED" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 texture_normal = ExtResource("3_3dxm6")
 texture_pressed = ExtResource("4_lgr22")
 stretch_mode = 0
@@ -486,7 +407,7 @@ stretch_mode = 0
 [node name="GREEN" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 texture_normal = ExtResource("5_03owx")
 texture_pressed = ExtResource("6_wkp8b")
 stretch_mode = 0
@@ -494,7 +415,7 @@ stretch_mode = 0
 [node name="BLUE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 texture_normal = ExtResource("7_c6i3y")
 texture_pressed = ExtResource("8_c2ibq")
 stretch_mode = 0
@@ -502,7 +423,7 @@ stretch_mode = 0
 [node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 texture_normal = ExtResource("9_j4qnp")
 texture_pressed = ExtResource("10_fpfj3")
 stretch_mode = 0
@@ -533,7 +454,7 @@ offset_bottom = -490.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(292.07, 40.05)
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 text = "Tap a square to play!"
 label_settings = SubResource("LabelSettings_5tuhn")
 
@@ -677,7 +598,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme = ExtResource("11_5mvff")
+theme = ExtResource("2_fos0i")
 
 [node name="ColorRect" type="ColorRect" parent="ScreenManager/GameOverScreen/UI"]
 layout_mode = 1
@@ -723,10 +644,8 @@ text = "Play Again"
 
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
-[connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]
-[connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
+[connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_settings_button_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]

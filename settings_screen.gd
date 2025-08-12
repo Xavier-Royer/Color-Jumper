@@ -11,6 +11,6 @@ func loadSettings():
 	$Difficulty.select(index)
 
 
-func _on_settings_button_pressed() -> void:
+func _on_resetscores_button_pressed() -> void:
 	for i in difficulties.size():
 		FileManager.setHighScore(0, i)
