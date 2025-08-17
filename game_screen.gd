@@ -138,7 +138,7 @@ func loadGame():
 		movingObjects.add_child(block)
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RAINBOW")
+		block.setColor("RED")
 		block.connect("blockMissed",gameOver)
 		lastBlockSpawned = block
 		blocksSpawned+=1

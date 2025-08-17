@@ -21,7 +21,7 @@ void fragment() {
 		float squareRadius = max(xPos,yPos);
 		float alpha = 1.0-(squareRadius/1.1); //1.0-(squareRadius/1.5);
 		alpha += sin(TIME*10.0)/40.0;
-	
+
 		if (rainbow) {
 				//clamp first value between 0 and 1
 			//COLOR = vec4(  max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)   , max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6),  COLOR.a);
@@ -29,7 +29,7 @@ void fragment() {
 			COLOR = vec4(  ((sin( (speed*TIME) + (UV.x * UV.y) + (PI/4.0) ))+ 1.0)/2.0, max((sin( (speed*TIME) +(UV.x * UV.y) + (PI/2.0) )+1.0)/2.0,0.5), (sin( (speed*TIME) +(UV.x * UV.y) )+1.0)/2.0, 1.0);
 			alpha -=0.1;
 		}
-	
+
 		if (squareRadius >0.55){
 			//uses +1 to allow for animation player to change alpha value
 			COLOR.a += clamp(0.0,alpha,1.0) -1.0;
@@ -37,9 +37,9 @@ void fragment() {
 			COLOR.r *=2.8;
 			COLOR.g *=2.8;
 		}
-		
-		
-	
+
+
+
 }
 
 
