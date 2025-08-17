@@ -138,7 +138,7 @@ func loadGame():
 		movingObjects.add_child(block)
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RAINBOW")
+		block.setColor("RED")
 		block.connect("blockMissed",gameOver)
 		lastBlockSpawned = block
 		blocksSpawned+=1
@@ -158,7 +158,7 @@ func loadGame():
 	
 	if difficulty == "EASY":
 		randomColorRate = 100
-		baseGameSpeed  = 10#200
+		baseGameSpeed  = 200#200
 		$SpawnTimer.wait_time = 1
 	elif difficulty == "MEDIUM":
 		randomColorRate = 250
@@ -502,6 +502,8 @@ func setBlockColor(block):
 func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
+		$UI/RainbowScreenOverLay.hide()
+		$UI/RainBowBar.hide()
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"
