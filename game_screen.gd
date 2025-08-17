@@ -65,8 +65,9 @@ var colorToRGB ={
 #rainbowFlashAnimationVariables
 var flashCount =0  
 var pastColor = Color()
-var rainbowTweenBar
-var rainbowTweenParticles
+
+var oldRainbowTweenBar
+var oldRainbowTweenParticles
 
 
 func _ready() -> void:
@@ -86,8 +87,8 @@ func _ready() -> void:
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	
-	rainbowTweenBar = create_tween()
-	rainbowTweenParticles = create_tween()
+	#rainbowTweenBar = create_tween()
+	#rainbowTweenParticles = create_tween()
 	
 	loadGame()
 
@@ -209,6 +210,8 @@ func _on_block_caught():
 	direction = Vector2(0,0)
 	#make rainbow happen
 	if currentBlock.get_collision_layer_value(10) :
+		$UI/RainbowScreenOverLay.rainbowStart()
+
 		$RainbowTimer.start()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
@@ -217,12 +220,15 @@ func _on_block_caught():
 		$UI/RainBowBar.value = 100 
 		$UI/RainbowParticles.position =  $UI/RainBowBar.position + Vector2(984,-40)
 		
-		if rainbowTweenBar.is_running:
-			rainbowTweenBar.stop()
-			rainbowTweenParticles.stop()
+		#if rainbowTweenBar.is_running:
+			#rainbowTweenBar.stop()
+			#rainbowTweenParticles.stop()
+		if oldRainbowTweenParticles != null:
+			oldRainbowTweenBar.stop()
+			oldRainbowTweenParticles.stop()
 		
-		rainbowTweenBar = create_tween()
-		rainbowTweenParticles = create_tween()
+		var rainbowTweenBar = create_tween()
+		var rainbowTweenParticles = create_tween()
 		rainbowTweenParticles.connect("finished",hideRainbowParticles)
 		
 		
@@ -230,6 +236,9 @@ func _on_block_caught():
 		var endPosition = ( $UI/RainBowBar.position + Vector2(0, -40))
 		rainbowTweenParticles.tween_property($UI/RainbowParticles, "position", endPosition, 5)
 		rainbowTweenBar.tween_property($UI/RainBowBar, "value", 0,5)
+		
+		oldRainbowTweenBar = rainbowTweenBar
+		oldRainbowTweenParticles = rainbowTweenParticles
 		
 		
 		
@@ -240,6 +249,8 @@ func _on_block_caught():
 		$UI/RainbowParticles.hide()
 		rainbowOver = false
 		player.rainbowOff()
+		
+		$UI/RainbowScreenOverLay.hide()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
 	
@@ -517,10 +528,12 @@ func _on_rainbow_timer_timeout() -> void:
 	#start flash animation bc rainbow is starting to wear off
 	if currentBlock != null:
 		player.rainbowOff()
+		$UI/RainbowScreenOverLay.hide()
 		changeColor(currentBlock.blockColor)
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 	else:
 		rainbowOver = true
+	
 	
 	#$FlashTimer.wait_time = 0.3
 	#$FlashTimer.start()
@@ -534,6 +547,7 @@ func _on_flash_timer_timeout() -> void:
 	if flashCount > 10: 
 		if currentBlock != null:
 			player.rainbowOff()
+			$UI/RainbowScreenOverLay.hide()
 			changeColor(currentBlock.blockColor)
 			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		else:
@@ -547,11 +561,13 @@ func _on_flash_timer_timeout() -> void:
 			$FlashTimer.wait_time = 0.1 #+ (flashCount*0.04)
 			player.modulate = pastColor
 			player.rainbowOff()
+			$UI/RainbowScreenOverLay.hide()
 		else:
 			player.rainbowOn()
 			$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 			$FlashTimer.wait_time = 0.3 - (flashCount*0.02)
 			player.modulate = Color(1,1,1)
+			$UI/RainbowScreenOverLay.show()
 		flashCount += 1
 		$FlashTimer.start()
 		
