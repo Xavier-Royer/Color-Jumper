@@ -34,7 +34,6 @@ func next_screen(nextScreen):
 	#nextScreen.visible = true
 	if not screenOpen:
 		$GameScreen/UI/ScreenBG.visible = true
-		screenTransition = create_tween()
 		screenTransition.set_ease(Tween.EASE_OUT)
 		screenTransition.set_trans(Tween.TRANS_BACK)
 		screenTransition.tween_property(nextScreen, "offset", onScreenPosition,0.5)
