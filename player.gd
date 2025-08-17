@@ -1,4 +1,6 @@
 extends CharacterBody2D
+@onready var rainbowGradient = preload("res://RainbowColorGradient.tres")
+
 var oldVelocity = Vector2.ZERO
 
 var gameSpeed = 0
@@ -21,7 +23,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if died == false:
 		emit_signal("screenExited")
 
-
+func _ready() -> void:
+	rainbowOff()
 		
 
 func _process(_delta: float) -> void:
@@ -100,3 +103,10 @@ func reset():
 	$Trail.emitting = true
 	died = false
 	oldVelocity = Vector2.ZERO
+
+
+func rainbowOff():
+	$Trail.process_material.color_initial_ramp =null
+
+func rainbowOn():
+	$Trail.process_material.color_initial_ramp = rainbowGradient

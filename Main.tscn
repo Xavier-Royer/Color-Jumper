@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=48 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -33,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://textures/shop.png" id="22_40n85"]
 [ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://textures/shop_pressed.png" id="23_gb15f"]
 [ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="29_5mvff"]
+[ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://RainbowColorGradient.tres" id="34_sph85"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -66,12 +67,12 @@ particle_flag_disable_z = true
 emission_shape_scale = Vector3(0.04, 51.245, 1)
 emission_shape = 3
 emission_box_extents = Vector3(50, 1, 1)
-angle_min = 1.0728836e-05
-angle_max = 1.0728836e-05
+angle_min = 1.07288e-05
+angle_max = 1.07288e-05
 direction = Vector3(-1, 0, 0)
 spread = 41.667
 initial_velocity_min = 29.41
-initial_velocity_max = 47.059998
+initial_velocity_max = 47.06
 gravity = Vector3(0, 0, 0)
 scale_min = 0.0
 scale_max = 23.76
@@ -79,7 +80,7 @@ hue_variation_min = -1.0
 hue_variation_max = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
-size = Vector2(6.0734406, 30)
+size = Vector2(6.07344, 30)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfj3"]
 shader = ExtResource("15_j4qnp")
@@ -98,13 +99,6 @@ gravity = Vector3(0, 1000, 0)
 scale_min = 10.0
 scale_max = 20.0
 
-[sub_resource type="Gradient" id="Gradient_devvj"]
-offsets = PackedFloat32Array(0, 0.181818, 0.354545, 0.536364, 0.736364, 0.927273)
-colors = PackedColorArray(1, 0, 0, 1, 0.945098, 0.521569, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_3b0ty"]
-gradient = SubResource("Gradient_devvj")
-
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpfj3"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(4, 1, 1)
@@ -116,7 +110,7 @@ initial_velocity_max = 29.23
 gravity = Vector3(0, 0, 0)
 scale_min = 1.5
 scale_max = 1.5
-color_initial_ramp = SubResource("GradientTexture1D_3b0ty")
+color_initial_ramp = ExtResource("34_sph85")
 
 [sub_resource type="Animation" id="Animation_fos0i"]
 length = 0.001
@@ -354,15 +348,15 @@ stretch_mode = 0
 
 [node name="ResetButton" type="TextureButton" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
-anchor_left = 0.50100005
+anchor_left = 0.501
 anchor_top = 0.5
-anchor_right = 0.50100005
+anchor_right = 0.501
 anchor_bottom = 0.5
-offset_left = -252.08008
-offset_top = 66.00012
-offset_right = 97.91992
-offset_bottom = 224.00012
-scale = Vector2(0.7199975, 0.7199975)
+offset_left = -252.08
+offset_top = 66.0001
+offset_right = 97.9199
+offset_bottom = 224.0
+scale = Vector2(0.719998, 0.719998)
 texture_normal = ExtResource("6_mxvw5")
 texture_pressed = ExtResource("7_xrxkg")
 stretch_mode = 0
@@ -376,7 +370,6 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="ScreenManager/SettingsScreen"]
-oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(862, 378)
 unresizable = true
@@ -411,9 +404,9 @@ anchor_left = 0.505
 anchor_top = 0.5
 anchor_right = 0.505
 anchor_bottom = 0.5
-offset_left = 59.599976
+offset_left = 59.6
 offset_top = 542.0
-offset_right = 259.59998
+offset_right = 259.6
 offset_bottom = 642.0
 grow_vertical = 0
 texture_normal = ExtResource("6_hri7i")
@@ -456,9 +449,9 @@ anchor_left = 0.505
 anchor_top = 0.5
 anchor_right = 0.505
 anchor_bottom = 0.5
-offset_left = 59.599976
+offset_left = 59.6
 offset_top = 542.0
-offset_right = 259.59998
+offset_right = 259.6
 offset_bottom = 642.0
 grow_vertical = 0
 texture_normal = ExtResource("6_hri7i")
@@ -666,13 +659,13 @@ anchor_top = 1.0
 anchor_right = 0.505
 anchor_bottom = 1.0
 offset_left = -487.0
-offset_top = -299.99988
-offset_right = -452.40002
-offset_bottom = 280.00024
+offset_top = -300.0
+offset_right = -452.4
+offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5707941
-scale = Vector2(1.6970006, 1.6970006)
+rotation = -1.57079
+scale = Vector2(1.697, 1.697)
 value = 100.0
 fill_mode = 2
 texture_progress = ExtResource("20_bg4s2")
@@ -701,13 +694,13 @@ z_index = -1
 
 [node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(1344, 0)
-scale = Vector2(5.0799904, 3.2157748)
+scale = Vector2(5.07999, 3.21577)
 collision_mask = 561
 script = ExtResource("4_cm0pq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(5.014099, 15.000001)
-scale = Vector2(0.9999999, 1)
+position = Vector2(5.0141, 15)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_r0du0")
 
 [node name="ColorRect" type="TextureRect" parent="ScreenManager/GameScreen/Objects/Player"]
