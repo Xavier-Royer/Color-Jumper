@@ -50,6 +50,8 @@ void fragment() {
 			//COLOR.r = getColor(index).x;
 			//COLOR.g = getColor(index).y;
 			//COLOR.b = getColor(index).z;
+		} else {
+			//COLOR = vec4(input_color.r,input_color.g,input_color.b,alpha);
 		}
 	
 	

@@ -12,5 +12,11 @@ func loadSettings():
 
 
 func _on_resetscores_button_pressed() -> void:
-	for i in difficulties.size():
-		FileManager.setHighScore(0, i)
+	$ConfirmationDialog.size = Vector2i(Globals.screenSize.x * 0.75, Globals.screenSize.y * 0.15)
+	$ConfirmationDialog.popup_centered()
+
+
+
+func _on_confirmed():
+	var index = difficulties.find(FileManager.difficulty)
+	FileManager.setHighScore(0, index)

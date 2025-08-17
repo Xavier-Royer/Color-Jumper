@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=49 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -20,9 +20,9 @@
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://textures/bluebuttonpressed.png" id="8_c2ibq"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://textures/purplebutton.png" id="9_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://textures/purplebuttonpressed.png" id="10_fpfj3"]
+[ext_resource type="PackedScene" uid="uid://cnoobnjt5omfj" path="res://scroll_locker.tscn" id="10_gb15f"]
 [ext_resource type="Script" uid="uid://cbpq4o5tbo37b" path="res://leaderboard_screen.gd" id="10_w3rk5"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="11_5mvff"]
-[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="11_oye8v"]
 [ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="15_5tuhn"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Player.gdshader" id="15_j4qnp"]
 [ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://textures/leaderboard.png" id="16_2gh4u"]
@@ -30,6 +30,9 @@
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="16_fpfj3"]
 [ext_resource type="Texture2D" uid="uid://dmgukeat5acuo" path="res://textures/leaderboard_pressed.png" id="18_3b0ty"]
 [ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://textures/rainbow_bar_new.png" id="20_bg4s2"]
+[ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://textures/shop.png" id="22_40n85"]
+[ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://textures/shop_pressed.png" id="23_gb15f"]
+[ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="29_5mvff"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -76,7 +79,7 @@ hue_variation_min = -1.0
 hue_variation_max = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
-size = Vector2(10, 30)
+size = Vector2(6.0734406, 30)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfj3"]
 shader = ExtResource("15_j4qnp")
@@ -107,10 +110,12 @@ particle_flag_disable_z = true
 emission_shape_scale = Vector3(4, 1, 1)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
-spread = 10.0
-initial_velocity_min = 100.0
-initial_velocity_max = 100.0
+spread = 19.114
+initial_velocity_min = 15.38
+initial_velocity_max = 29.23
 gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 1.5
 color_initial_ramp = SubResource("GradientTexture1D_3b0ty")
 
 [sub_resource type="Animation" id="Animation_fos0i"]
@@ -290,6 +295,20 @@ grow_vertical = 2
 mouse_filter = 0
 texture = ExtResource("5_hhcpw")
 
+[node name="DifficultyLabel" type="RichTextLabel" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -255.0
+offset_top = -382.0
+offset_right = 241.0
+offset_bottom = -285.0
+theme = ExtResource("11_5mvff")
+theme_override_font_sizes/normal_font_size = 90
+text = "Difficulty:"
+
 [node name="Difficulty" type="OptionButton" parent="ScreenManager/SettingsScreen"]
 custom_minimum_size = Vector2(300, 100)
 anchors_preset = 8
@@ -297,16 +316,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -225.0
-offset_top = -375.0
-offset_right = 207.0
-offset_bottom = -206.0
+offset_left = -259.0
+offset_top = -269.0
+offset_right = 173.0
+offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("11_5mvff")
 theme_override_font_sizes/font_size = 99
 selected = 1
+allow_reselect = true
 item_count = 4
 popup/item_0/text = "Easy"
 popup/item_0/id = 0
@@ -318,6 +338,74 @@ popup/item_3/text = "Extreme"
 popup/item_3/id = 3
 
 [node name="Home" type="TextureButton" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 65.0
+offset_top = 542.0
+offset_right = 265.0
+offset_bottom = 642.0
+grow_vertical = 0
+texture_normal = ExtResource("6_hri7i")
+texture_pressed = ExtResource("7_w3rk5")
+stretch_mode = 0
+
+[node name="ResetButton" type="TextureButton" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.50100005
+anchor_top = 0.5
+anchor_right = 0.50100005
+anchor_bottom = 0.5
+offset_left = -252.08008
+offset_top = 66.00012
+offset_right = 97.91992
+offset_bottom = 224.00012
+scale = Vector2(0.7199975, 0.7199975)
+texture_normal = ExtResource("6_mxvw5")
+texture_pressed = ExtResource("7_xrxkg")
+stretch_mode = 0
+
+[node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="ScreenManager/SettingsScreen"]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(862, 378)
+unresizable = true
+borderless = true
+always_on_top = true
+theme = ExtResource("11_5mvff")
+dialog_text = "Are you sure you want to reset this score?"
+dialog_autowrap = true
+
+[node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
+offset = Vector2(1152, 0)
+transform = Transform2D(1, 0, 0, 1, 1152, 0)
+
+[node name="Background" type="TextureRect" parent="ScreenManager/ShopScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -674.0
+offset_right = 350.0
+offset_bottom = 726.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("5_hhcpw")
+
+[node name="Home" type="TextureButton" parent="ScreenManager/ShopScreen"]
 anchors_preset = -1
 anchor_left = 0.505
 anchor_top = 0.5
@@ -332,27 +420,15 @@ texture_normal = ExtResource("6_hri7i")
 texture_pressed = ExtResource("7_w3rk5")
 stretch_mode = 0
 
-[node name="ResetButton" type="TextureButton" parent="ScreenManager/SettingsScreen"]
-anchors_preset = -1
-anchor_left = 0.50100005
-anchor_top = 0.5
-anchor_right = 0.50100005
-anchor_bottom = 0.5
-offset_left = -184.08008
-offset_top = -582.0
-offset_right = 165.91992
-offset_bottom = -424.0
-texture_normal = ExtResource("6_mxvw5")
-texture_pressed = ExtResource("7_xrxkg")
-stretch_mode = 0
-
-[node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/SettingsScreen"]
+[node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/ShopScreen"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 1, 1, 0)
+
+[node name="ScrollLocker" parent="ScreenManager/ShopScreen" instance=ExtResource("10_gb15f")]
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
 offset = Vector2(1152, 0)
@@ -409,7 +485,7 @@ offset_right = 256.5
 offset_bottom = 489.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("11_oye8v")
+theme = ExtResource("11_5mvff")
 theme_override_font_sizes/normal_font_size = 75
 bbcode_enabled = true
 text = "[u]High Scores[/u]
@@ -537,6 +613,22 @@ theme = ExtResource("11_5mvff")
 text = "Tap a square to play!"
 label_settings = SubResource("LabelSettings_5tuhn")
 
+[node name="Shop" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
+z_index = 50
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = 175.0
+offset_right = 186.0
+offset_bottom = 338.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("22_40n85")
+texture_pressed = ExtResource("23_gb15f")
+stretch_mode = 4
+
 [node name="Settings" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
 z_index = 50
 layout_mode = 1
@@ -609,18 +701,20 @@ z_index = -1
 
 [node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
 position = Vector2(1344, 0)
-scale = Vector2(2.88, 1.82312)
+scale = Vector2(5.0799904, 3.2157748)
 collision_mask = 561
 script = ExtResource("4_cm0pq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(5, 15)
+position = Vector2(5.014099, 15.000001)
+scale = Vector2(0.9999999, 1)
 shape = SubResource("RectangleShape2D_r0du0")
 
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/GameScreen/Objects/Player"]
+[node name="ColorRect" type="TextureRect" parent="ScreenManager/GameScreen/Objects/Player"]
 material = SubResource("ShaderMaterial_fpfj3")
 offset_right = 10.0
 offset_bottom = 30.0
+texture = ExtResource("29_5mvff")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ScreenManager/GameScreen/Objects/Player"]
 position = Vector2(5.0347, 15)
@@ -638,9 +732,9 @@ process_material = SubResource("ParticleProcessMaterial_sc1dx")
 [node name="Trail" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
 process_priority = 500
 position = Vector2(5.20833, 30.1681)
-amount = 50
+amount = 130
 texture = ExtResource("16_fpfj3")
-speed_scale = 9.0
+speed_scale = 2.84
 fixed_fps = 200
 process_material = SubResource("ParticleProcessMaterial_fpfj3")
 
@@ -724,7 +818,10 @@ text = "Play Again"
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]
+[connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmed"]
+[connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]

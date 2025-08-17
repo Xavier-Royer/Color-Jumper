@@ -11,6 +11,7 @@ func _ready() -> void:
 	#$Background/Control/TextureRect.scale = Vector2(Globals.screenSize.x/1024.0, Globals.screenSize.y/1536.0)
 	$SettingsScreen.offset = offScreenPosition
 	$LeaderboardScreen.offset = offScreenPosition
+	$ShopScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",gameOver)
 
 func next_screen(nextScreen):
@@ -19,6 +20,7 @@ func next_screen(nextScreen):
 	if screenOpen:
 		$SettingsScreen/NoInteractLayer.visible = true
 		$LeaderboardScreen/NoInteractLayer.visible = true
+		$ShopScreen/NoInteractLayer.visible = true
 		screenTransition.set_ease(Tween.EASE_IN)
 		screenTransition.set_trans(Tween.TRANS_BACK)
 		screenTransition.tween_property(currentScreen, "offset", offScreenPosition,.5)
@@ -43,6 +45,7 @@ func next_screen(nextScreen):
 		await screenTransition.finished
 		$SettingsScreen/NoInteractLayer.visible = false
 		$LeaderboardScreen/NoInteractLayer.visible = false
+		$ShopScreen/NoInteractLayer.visible = false
 	screenOpen = not screenOpen
 	
 
@@ -60,8 +63,11 @@ func _on_play_pressed() -> void:
 	$GameScreen/UI/Settings.disabled = false
 	$GameScreen/UI/Leaderboard.modulate.a = 1.0
 	$GameScreen/UI/Leaderboard.disabled = false
+	$GameScreen/UI/Shop.modulate.a = 1.0
+	$GameScreen/UI/Shop.disabled = false
 	$GameScreen/UI/Settings.mouse_filter = 0 #Stop
 	$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
+	$GameScreen/UI/Shop.mouse_filter = 0 #Stop
 	for c in $GameScreen/UI/ColorButtons.get_children():
 			c.disabled = false
 	$GameOverScreen.hide()
@@ -82,6 +88,9 @@ func _on_home_pressed():
 func _on_leaderboard_pressed() -> void:
 	$LeaderboardScreen.loadLeaderboard()
 	next_screen($LeaderboardScreen)
+	
+func _on_shop_pressed() -> void:
+	next_screen($ShopScreen)
 
 func gameOver():
 	$GameOverScreen.show()

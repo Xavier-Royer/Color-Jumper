@@ -134,7 +134,8 @@ func loadGame():
 		lastBlockSpawned = block
 		blocksSpawned+=1
 	
-	player.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
+	player.velocity = Vector2(0, -7000)
 	
 	lastBlockSpawned = null
 	streak = 0 
@@ -257,12 +258,12 @@ func _on_block_caught():
 	
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.pressed:  #event.is_action_pressed("Tap"):
+	if event is InputEventMouseButton and event.pressed:
 		var mousePosition = get_viewport().get_mouse_position()
 		#ensure its not where the buttons are
 		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
 		#hi dominic that is a pretty cool comment
-		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER": # and  not ( mousePosition.y < $UI/Settings.position.y +$UI/Settings.size.y  and mousePosition.x >$UI/Settings.position.x):
+		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
@@ -280,10 +281,13 @@ func _unhandled_input(event: InputEvent) -> void:
 					tween.tween_property($UI/Logo, "modulate:a", 0.0, 0.5)
 					$UI/Settings.disabled = true
 					$UI/Leaderboard.disabled = true
+					$UI/Shop.disabled = true
 					$UI/Settings.mouse_filter = 1 #Passthrough
 					$UI/Leaderboard.mouse_filter = 1 #Passthrough
+					$UI/Shop.mouse_filter = 1 #Passthrough
 					tween.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
 					tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
+					tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
 					
 					
 				#update direction vector of the player

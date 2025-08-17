@@ -1,8 +1,28 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://inpjr0g2xmmk"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://inpjr0g2xmmk"]
 
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="1_e7bfs"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_e7bfs"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_3taad"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_7j863"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_50bnw"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cefca"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_ed8xq"]
+
 [resource]
 default_font = ExtResource("1_e7bfs")
-default_font_size = 50
+default_font_size = 85
+AcceptDialog/constants/buttons_min_height = 50
+AcceptDialog/constants/buttons_min_width = 100
 PopupMenu/font_sizes/font_size = 100
+PopupMenu/icons/radio_checked = SubResource("PlaceholderTexture2D_e7bfs")
+PopupMenu/icons/radio_checked_disabled = SubResource("PlaceholderTexture2D_3taad")
+PopupMenu/icons/radio_unchecked = SubResource("PlaceholderTexture2D_7j863")
+PopupMenu/icons/radio_unchecked_disabled = SubResource("PlaceholderTexture2D_50bnw")
+PopupMenu/icons/submenu = SubResource("PlaceholderTexture2D_cefca")
+PopupMenu/icons/submenu_mirrored = SubResource("PlaceholderTexture2D_ed8xq")

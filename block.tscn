@@ -320,6 +320,7 @@ input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2(0.5485327, 0.5485327)
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]
