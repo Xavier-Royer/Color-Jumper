@@ -12,7 +12,7 @@ radius = 25.0
 code = "shader_type canvas_item;
 uniform bool rainbow;
 uniform float speed;
-uniform float RAINBOWSPEED = 2.0;
+uniform float RAINBOWSPEED = 0.1;
 
 
 
@@ -26,7 +26,7 @@ vec3 hsv2rgb(vec3 c) {
 }
 
 vec3 getColor(int i) {
-    float hue = float(i) / 100.0;
+    float hue = float(i) / 20.0;
     return hsv2rgb(vec3(hue, 1.0, 1.0));
 }
    
@@ -79,7 +79,7 @@ void fragment() {
 			float offset;  
 			
 
-			offset = mod(TIME/0.5,4);
+			offset = mod(TIME/2.0,4);
 			xValue = xValue + offset;
 			
 			//xValue = mod(TIME/0.5,4);
@@ -101,7 +101,7 @@ void fragment() {
 			COLOR.b = getColor(index).z;
 			
 		}
-	
+		
 		if (squareRadius >0.55){
 			//uses +1 to allow for animation player to change alpha value
 			COLOR.a += clamp(0.0,alpha,1.0) -1.0;
@@ -109,16 +109,37 @@ void fragment() {
 				COLOR.b *=2.8;
 				COLOR.r *=2.8;
 				COLOR.g *=2.8;
-			};
+			}
 			
 			if (rainbow){
+				
+				float xValue = 1.0- max(xPos,yPos) ;
+				xValue = (UV.x+UV.y);
+				float offset;  
+				offset = mod((TIME+0.0)/1.0,4);
+				xValue = xValue + offset;
+			
+				float indexf = (floor(xValue*25.0));
+				int index = int(indexf);
+				COLOR.r = getColor(index).x;
+				COLOR.g = getColor(index).y;
+				COLOR.b = getColor(index).z;
+
 				COLOR.a += sin(TIME*10.0)/40.0;
-				COLOR.b *=.8;
-				COLOR.r *=.8;
-				COLOR.g *=.8;
+				COLOR.b *=0.3;
+				COLOR.r *=0.3;
+				COLOR.g *=0.3;
 			}
 			
 		}
+		if (squareRadius >0.0 && squareRadius < 0.55){
+			if (UV.x > 0.71 || UV.y <0.27){
+				COLOR.a  = 0.7;
+				COLOR.b *=0.8;
+				COLOR.r *=0.8;
+				COLOR.g *=0.8;
+			}
+			}
 		
 		
 	
@@ -140,7 +161,7 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5d32t"]
 shader = SubResource("Shader_im0tn")
-shader_parameter/rainbow = false
+shader_parameter/rainbow = true
 shader_parameter/speed = 2.0
 shader_parameter/RAINBOWSPEED = 2.0
 
@@ -320,10 +341,12 @@ input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(0.5485327, 0.5485327)
+visible = false
+scale = Vector2(0.548533, 0.548533)
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]
+visible = false
 show_behind_parent = true
 z_as_relative = false
 scale = Vector2(1.5, 1.5)
@@ -332,6 +355,7 @@ collision_mask = 256
 input_pickable = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="SpawnRadius"]
+visible = false
 shape = SubResource("CircleShape2D_im0tn")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -344,6 +368,7 @@ pivot_offset = Vector2(20, 20)
 mouse_filter = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+visible = false
 emitting = false
 amount = 50
 lifetime = 0.3
@@ -353,6 +378,7 @@ randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_5d32t")
 
 [node name="Dead" type="GPUParticles2D" parent="."]
+visible = false
 emitting = false
 amount = 200
 lifetime = 5.0
@@ -368,6 +394,7 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
 rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
