@@ -415,7 +415,7 @@ func spawnBlock():
 	$SpawnTimer.wait_time = blockSpawnTime
 	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >250):
 		setBlockColor(block,true)
-		setBlockColor(lastBlockSpawned,true)
+		#setBlockColor(lastBlockSpawned,true)
 	
 		lastBlockSpawned.number = -1#blocksSpawned-10 #-1
 		block.number = -1#blocksSpawned-10 #-1
