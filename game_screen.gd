@@ -36,7 +36,7 @@ var blocksSpawned = 0
 
 var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
 var coinSpawnRate = 200 # percentage out of 1000 that one spawns
-var rainbowSpawnRate = 5 # percentage out of 1000 that one spawns
+var rainbowSpawnRate = 50 # percentage out of 1000 that one spawns
 var randomColorRate = 300 # percentage out of 1000 that one spawns
 
 var rainbowOver = false
@@ -216,7 +216,7 @@ func _on_block_caught():
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
 		$UI/RainBowBar.show()
-		#$UI/RainbowParticles.show()
+		$UI/RainbowParticles.show()
 		$UI/RainBowBar.value = 100 
 		$UI/RainbowParticles.position =  $UI/RainBowBar.position + Vector2(984,-40)
 		
@@ -226,6 +226,8 @@ func _on_block_caught():
 		if oldRainbowTweenParticles != null:
 			oldRainbowTweenBar.stop()
 			oldRainbowTweenParticles.stop()
+		
+		$UI/RainbowParticles.restart()
 		
 		var rainbowTweenBar = create_tween()
 		var rainbowTweenParticles = create_tween()
@@ -378,8 +380,8 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,100) == spikeSpawnRate
-	var coinSpawn = randi_range(0,100) == coinSpawnRate
+	var spikeSpawn = randi_range(0,1000) == spikeSpawnRate
+	var coinSpawn = randi_range(0,1000) == coinSpawnRate
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
@@ -504,6 +506,7 @@ func gameOver():
 		$SpawnTimer.stop()
 		$UI/RainbowScreenOverLay.hide()
 		$UI/RainBowBar.hide()
+		$UI/RainbowParticles.hide()
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"

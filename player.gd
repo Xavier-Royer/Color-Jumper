@@ -97,6 +97,7 @@ func _on_gpu_particles_2d_finished() -> void:
 	#reset playeres death
 
 func reset():
+	$Trail.restart()
 	show()
 	$GPUParticles2D.emitting = false
 	$ColorRect.self_modulate.a = 1

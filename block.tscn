@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://6q3vbqb2ecbh" path="res://block.gd" id="1_im0tn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
-size = Vector2(40.3333, 40)
+size = Vector2(55.144, 54.321)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_im0tn"]
 radius = 25.0
@@ -133,7 +133,7 @@ void fragment() {
 			
 		}
 		if (squareRadius >0.0 && squareRadius < 0.55){
-			if (UV.x > 0.71 || UV.y <0.27){
+			if ( UV.y >0.65){
 				COLOR.a  = 0.7;
 				COLOR.b *=0.8;
 				COLOR.r *=0.8;
@@ -341,7 +341,7 @@ input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+position = Vector2(-0.225734, -0.225734)
 scale = Vector2(0.548533, 0.548533)
 shape = SubResource("RectangleShape2D_xfwl5")
 
@@ -355,7 +355,6 @@ collision_mask = 256
 input_pickable = false
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="SpawnRadius"]
-visible = false
 shape = SubResource("CircleShape2D_im0tn")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -368,7 +367,6 @@ pivot_offset = Vector2(20, 20)
 mouse_filter = 2
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
 emitting = false
 amount = 50
 lifetime = 0.3
@@ -378,7 +376,6 @@ randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_5d32t")
 
 [node name="Dead" type="GPUParticles2D" parent="."]
-visible = false
 emitting = false
 amount = 200
 lifetime = 5.0
@@ -394,7 +391,6 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-visible = false
 rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]

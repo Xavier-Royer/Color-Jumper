@@ -828,6 +828,7 @@ process_material = SubResource("ParticleProcessMaterial_sc1dx")
 [node name="Trail" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
 process_priority = 500
 position = Vector2(5.20833, 30.1681)
+emitting = false
 amount = 130
 texture = ExtResource("16_fpfj3")
 speed_scale = 2.84
