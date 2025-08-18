@@ -143,6 +143,7 @@ offset_left = -20.0
 offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
+mouse_filter = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="Item"]
 rect = Rect2(-20, -20, 40, 40)
@@ -194,6 +195,7 @@ scale = Vector2(0.3, 0.3)
 pivot_offset = Vector2(64, 64)
 size_flags_horizontal = 6
 size_flags_vertical = 6
+mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="CoinAnimation/Position"]
 layout_mode = 2
@@ -209,6 +211,7 @@ offset_left = 110.0
 offset_top = 2.0
 offset_right = 137.0
 offset_bottom = 36.0
+mouse_filter = 1
 theme_override_font_sizes/font_size = 24
 text = "+1"
 
