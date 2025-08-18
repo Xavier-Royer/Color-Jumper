@@ -36,7 +36,7 @@ var blocksSpawned = 0
 
 var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
 var coinSpawnRate = 200 # percentage out of 1000 that one spawns
-var rainbowSpawnRate = 50 # percentage out of 1000 that one spawns
+var rainbowSpawnRate = 5 # percentage out of 1000 that one spawns
 var randomColorRate = 300 # percentage out of 1000 that one spawns
 
 var rainbowOver = false
@@ -132,13 +132,13 @@ func loadGame():
 	
 	
 	#generates the rest of the starting blocks 
-	for i in randi_range(15,18):
+	for i in randi_range(1,3):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
 		movingObjects.add_child(block)
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RED")
+		block.setColor("RAINBOW")
 		block.connect("blockMissed",gameOver)
 		lastBlockSpawned = block
 		blocksSpawned+=1
@@ -165,7 +165,7 @@ func loadGame():
 		baseGameSpeed  = 500
 		$SpawnTimer.wait_time = 0.75
 	elif difficulty == "HARD":
-		randomColorRate = 450
+		randomColorRate = 300
 		baseGameSpeed  = 700
 		$SpawnTimer.wait_time = 0.4
 	else: #EXTREME
@@ -380,8 +380,8 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,1000) == spikeSpawnRate
-	var coinSpawn = randi_range(0,1000) == coinSpawnRate
+	var spikeSpawn = randi_range(0,1000) < spikeSpawnRate
+	var coinSpawn = randi_range(0,1000) < coinSpawnRate
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
@@ -505,8 +505,10 @@ func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
 		$UI/RainbowScreenOverLay.hide()
+		$UI/RainbowScreenOverLay.gameOver = true
 		$UI/RainBowBar.hide()
 		$UI/RainbowParticles.hide()
+		$UI/FlashScreen.hide()
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"

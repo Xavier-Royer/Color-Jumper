@@ -754,7 +754,6 @@ fill_mode = 2
 texture_progress = ExtResource("20_bg4s2")
 
 [node name="RainbowScreenOverLay" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
-visible = false
 modulate = Color(1, 1, 1, 0.588235)
 z_index = -100
 material = SubResource("ShaderMaterial_sph85")
@@ -768,8 +767,12 @@ mouse_filter = 1
 color = Color(0.864675, 0.864675, 0.864675, 1)
 script = ExtResource("30_o7g6l")
 
+[node name="FlashTimer" type="Timer" parent="ScreenManager/GameScreen/UI/RainbowScreenOverLay"]
+one_shot = true
+
 [node name="RainbowFade" type="Timer" parent="ScreenManager/GameScreen/UI/RainbowScreenOverLay"]
 wait_time = 4.5
+one_shot = true
 
 [node name="ScreenBG" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
 visible = false
@@ -783,8 +786,18 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.864675, 0.864675, 0.864675, 1)
 
-[node name="RainbowFade" type="Timer" parent="ScreenManager/GameScreen/UI/ScreenBG"]
-wait_time = 4.5
+[node name="FlashScreen" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
+visible = false
+modulate = Color(1, 1, 1, 0.27451)
+z_index = -100
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0.864675, 0.864675, 0.864675, 1)
 
 [node name="RainbowParticles" type="GPUParticles2D" parent="ScreenManager/GameScreen/UI"]
 position = Vector2(1073, -10)
@@ -921,8 +934,8 @@ text = "Play Again"
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
+[connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/FlashTimer" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/RainbowFade" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_rainbow_fade_timeout"]
-[connection signal="timeout" from="ScreenManager/GameScreen/UI/ScreenBG/RainbowFade" to="ScreenManager/GameScreen/UI/ScreenBG" method="_on_rainbow_fade_timeout"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
