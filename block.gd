@@ -66,7 +66,6 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 
 
 func blockCaught(playerDirection, gameSpeed, collisionPosition):
-	
 	onBlock = true
 	if number !=0:
 		#$GPUParticles2D.process_material.

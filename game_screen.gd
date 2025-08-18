@@ -477,23 +477,6 @@ func spawnBlock():
 	
 func setBlockColor(block,itemAttached):
 	#set color 
-	#random variance
-	var random = randf_range(max(-2,-1*gameRunTime),2)
-	#xvalue of the sin function based on run time; a greater constant of muliplication equals higher frequency
-	var xvalue = (gameRunTime + random)*.08
-	#inner function is x to some power the greater the power the quicker the frequency
-	xvalue = pow(xvalue,1.4)
-	if sin(xvalue) > 0:
-		if cos(xvalue) > 0:
-			block.setColor("RED")
-		else:
-			block.setColor("GREEN")
-	else:
-		if cos(xvalue) > 0:
-			block.setColor("PURPLE")
-		else:
-			block.setColor("BLUE")
-	
 	#if an item is attached, its more likely to be the same color
 	var maxRange = 1000
 	if itemAttached:
@@ -509,6 +492,25 @@ func setBlockColor(block,itemAttached):
 	#random chance of making it rainbow
 	if randi_range(0,1000) <= rainbowSpawnRate:
 		block.setColor("RAINBOW")
+	else:
+		#random variance
+		var random = randf_range(max(-2,-1*gameRunTime),2)
+		#xvalue of the sin function based on run time; a greater constant of muliplication equals higher frequency
+		var xvalue = (gameRunTime + random)*.08
+		#inner function is x to some power the greater the power the quicker the frequency
+		xvalue = pow(xvalue,1.4)
+		if sin(xvalue) > 0:
+			if cos(xvalue) > 0:
+				block.setColor("RED")
+			else:
+				block.setColor("GREEN")
+		else:
+			if cos(xvalue) > 0:
+				block.setColor("PURPLE")
+			else:
+				block.setColor("BLUE")
+	
+	
 	
 func gameOver():
 	if gameState == "PLAYING":
