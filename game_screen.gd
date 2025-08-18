@@ -51,7 +51,7 @@ var randomColorRate = 300 # percentage out of 1000 that one spawns
 var spikeSpawnStreak = 1
 var randomColorStreak = 1
 
-var rainbowOver = false
+var rainbowOver = true
 var particleSpeed = 3
 var lastBlockSpawned = null
 

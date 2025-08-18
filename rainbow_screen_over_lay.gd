@@ -43,5 +43,5 @@ func flashColor(blockColor):
 	#get_parent().get_node("FlashScreen").modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.5)
 #	get_parent().get_node("FlashScreen").modulate.a = 1
 	
-	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.4)
+	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.3)
 	$FlashTimer.start(0.1)
