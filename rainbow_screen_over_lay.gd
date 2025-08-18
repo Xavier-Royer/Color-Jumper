@@ -5,10 +5,10 @@ var gameOver = false
 func rainbowStart():
 	gameOver = false
 	get_parent().get_node("FlashScreen").hide()
-	self.modulate = Color(0,0,0,.5)
+	self.modulate = Color(1.0,1.0,1.0,.5)
 	self.show()
-	$RainbowFade.start(4.7)
-	$FlashTimer.start(4.9)
+	$RainbowFade.start(5)
+	#$FlashTimer.start(4.8)
 
 
 
@@ -21,15 +21,27 @@ func _on_rainbow_fade_timeout() -> void:
 	currentTween.set_ease(Tween.EASE_OUT)
 	currentTween.set_trans(Tween.TRANS_CIRC)
 	
-	currentTween.tween_property(self, "modulate", Color(1,1,1,0) ,0.3)
-	currentTween.connect("finished",hideFlash)
+	currentTween.tween_property(self, "modulate", Color(0.3,0.3,0.3,0.3) ,0.4)
+	#currentTween.connect("finished",hideFlash)
 	previousTween = currentTween
 
 
 func _on_flash_timer_timeout() -> void:
-	if gameOver == false:
-		get_parent().get_node("FlashScreen").show()
-
+	hideFlash()
+	#if gameOver == false:
+		#get_parent().get_node("FlashScreen").show()
+		#if get_parent().get_parent().currentBlock != null:
+			#get_parent().get_node("FlashScreen").modulate = get_parent().get_parent().currentBlock.modulate
+		#get_parent().get_node("FlashScreen").modulate.a = 70
 func hideFlash():
 	print("HIDE")
-	get_parent().get_node("FlashScreen").hide()
+	#get_parent().get_node("FlashScreen").hide()
+	self.hide()
+
+func flashColor(blockColor):
+	#get_parent().get_node("FlashScreen").show()
+	#get_parent().get_node("FlashScreen").modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.5)
+#	get_parent().get_node("FlashScreen").modulate.a = 1
+	
+	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.4)
+	$FlashTimer.start(0.1)

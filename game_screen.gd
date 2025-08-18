@@ -44,10 +44,12 @@ var baseGameSpeed  = 200
 var gameSpeed = baseGameSpeed
 var blocksSpawned = 0 
 
-var spikeSpawnRate = 150 # percentage out of 1000 that one spawns
-var coinSpawnRate = 200 # percentage out of 1000 that one spawns
+var spikeSpawnRate = 70 # percentage out of 1000 that one spawns
+var coinSpawnRate = 100 # percentage out of 1000 that one spawns
 var rainbowSpawnRate = 5 # percentage out of 1000 that one spawns
 var randomColorRate = 300 # percentage out of 1000 that one spawns
+var spikeSpawnStreak = 1
+var randomColorStreak = 1
 
 var rainbowOver = false
 var particleSpeed = 3
@@ -150,7 +152,7 @@ func loadGame():
 		movingObjects.add_child(block)
 		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
 		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RED")
+		block.setColor("RAINBOW")
 		block.connect("blockMissed",gameOver)
 		lastBlockSpawned = block
 		blocksSpawned+=1
@@ -179,8 +181,8 @@ func loadGame():
 		blockSpawnTime = 0.75
 		$SpawnTimer.wait_time = 0.75
 	elif difficulty == "HARD":
-		randomColorRate = 300
-		baseGameSpeed  = 700
+		randomColorRate = 200
+		baseGameSpeed  = 730
 		blockSpawnTime = 0.4
 		$SpawnTimer.wait_time = 0.4
 	else: #EXTREME
@@ -268,9 +270,11 @@ func _on_block_caught():
 		rainbowOver = false
 		player.rainbowOff()
 		
-		$UI/RainbowScreenOverLay.hide()
+		#$UI/RainbowScreenOverLay.hide()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
+		if currentBlock.blockColor != "RAINBOW" and gameRunTime >0.0:
+			$UI/RainbowScreenOverLay.flashColor(currentBlock.modulate)
 	
 	if gameState == "PLAYING":
 		#update streak
@@ -359,6 +363,7 @@ func _process(delta: float) -> void:
 		player.gameSpeed = gameSpeed
 		#updates game time and moves background down
 		gameRunTime += delta
+		spikeSpawnRate += delta/5.0
 		gameSpeed = baseGameSpeed + 100*(log(gameRunTime))
 		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
@@ -388,7 +393,7 @@ func spawnBlock():
 	blocksSpawned += 1
 	block.connect("invalidBlock",spawnBlock)
 	block.connect("blockMissed",gameOver)
-
+	
 	
 	#set block position
 	var blockPosition = Vector2(randi_range(40,screen_size.x-40),randi_range(-750,-700))
@@ -396,8 +401,10 @@ func spawnBlock():
 	block.set_deferred("global_position", blockPosition)
 	
 	#spawn a spike connected to the block
-	var spikeSpawn = randi_range(0,1000) < spikeSpawnRate
+	
+	var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
 	var coinSpawn = randi_range(0,1000) < coinSpawnRate
+	spikeSpawnStreak = 1
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
@@ -405,14 +412,17 @@ func spawnBlock():
 		firstPosition  = lastBlockSpawned.get_global_position()
 	var secondPosition = blockPosition
 	#if both blocks exist and its time to spawn coin/spike
+	$SpawnTimer.wait_time = blockSpawnTime
 	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >250):
-		$SpawnTimer.wait_time = (blockSpawnTime *1.2)
-		lastBlockSpawned.number = blocksSpawned-10 #-1
-		block.number = blocksSpawned-10 #-1
-		
+		setBlockColor(block,true)
+		setBlockColor(lastBlockSpawned,true)
+	
+		lastBlockSpawned.number = -1#blocksSpawned-10 #-1
+		block.number = -1#blocksSpawned-10 #-1
+		#print("SPIKE OR COIN SPAWN")
 		#spawn the item
 		var item = itemScene.instantiate()
-		item.number = blocksSpawned-10 
+		item.number =-1# blocksSpawned-10 
 		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
 		#set the item type
@@ -423,8 +433,11 @@ func spawnBlock():
 			type = "SPIKE"
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects,  lastBlockSpawned, block,type)
 		
+		
 		#spawn another block
 		if coinSpawn == false:
+			spikeSpawnStreak *=10
+			$SpawnTimer.wait_time = (blockSpawnTime *1.3)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
 			block2.number = blocksSpawned#-1
@@ -451,12 +464,10 @@ func spawnBlock():
 			block2Position.x = clamp(block2Position.x,40,screen_size.x-40)
 			block2Position.y = clamp(block2Position.y,-1000,-200)
 			block2.set_deferred("global_position", block2Position)
-			
 			setBlockColor(block2,true)
-		else:
-			$SpawnTimer.wait_time = blockSpawnTime
+	else:
+		setBlockColor(block,false)
 	
-	setBlockColor(block,true)
 	
 	lastBlockSpawned = block
 	
@@ -489,9 +500,12 @@ func setBlockColor(block,itemAttached):
 		maxRange = 10000
 	
 	#random chance of making it a random color
-	if randi_range(1,maxRange) <= randomColorRate:
+	if randi_range(1,maxRange *randomColorStreak) <= randomColorRate:
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
+		randomColorStreak*=2
+	else:
+		randomColorStreak = 1
 	#random chance of making it rainbow
 	if randi_range(0,1000) <= rainbowSpawnRate:
 		block.setColor("RAINBOW")
@@ -528,12 +542,14 @@ func _on_spawn_timer_timeout() -> void:
 
 func _on_rainbow_timer_timeout() -> void:
 	#start flash animation bc rainbow is starting to wear off
-	if currentBlock != null:
-		player.rainbowOff()
-		$UI/RainbowScreenOverLay.hide()
-		changeColor(currentBlock.blockColor)
-		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
-	else:
+	#if currentBlock != null:
+		#if currentBlock.blockColor != "RAINBOW":
+			#$UI/RainbowScreenOverLay.flashColor(currentBlock.modulate)
+		#player.rainbowOff()
+		#$UI/RainbowScreenOverLay.hide()
+		#changeColor(currentBlock.blockColor)
+		#$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	#else:
 		rainbowOver = true
 	
 	

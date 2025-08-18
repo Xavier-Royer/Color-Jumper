@@ -102,7 +102,7 @@ void fragment() {
 	
 		if (rainbow) {
 			//old rainbow code
-			COLOR = vec4(  max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)   , max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6),  COLOR.a);
+			COLOR = vec4( ((-1.0 + COLOR.r)/2.0)  + max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)  , ((-1.0+COLOR.g)/2.0)+ max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  ((-1.0+ COLOR.b)/2.0) + max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6) ,  COLOR.a);
 			alpha -=0.1;
 			
 			//float xValue = 1.0 - max(xPos,yPos);
@@ -163,7 +163,7 @@ hue_variation_min = -1.0
 hue_variation_max = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
-size = Vector2(6.07344, 30)
+size = Vector2(8.85825, 30)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfj3"]
 shader = ExtResource("15_j4qnp")
@@ -754,7 +754,7 @@ fill_mode = 2
 texture_progress = ExtResource("20_bg4s2")
 
 [node name="RainbowScreenOverLay" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
-modulate = Color(1, 1, 1, 0.588235)
+modulate = Color(1, 0, 0, 0.239216)
 z_index = -100
 material = SubResource("ShaderMaterial_sph85")
 layout_mode = 1
@@ -810,13 +810,14 @@ process_material = SubResource("ParticleProcessMaterial_bg4s2")
 z_index = -1
 
 [node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
-position = Vector2(1344, 0)
+position = Vector2(1344, -200)
 scale = Vector2(5.07999, 3.21577)
 collision_mask = 561
 script = ExtResource("4_cm0pq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(5.0141, 15)
+position = Vector2(5.01962, 15)
+scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_r0du0")
 
 [node name="ColorRect" type="TextureRect" parent="ScreenManager/GameScreen/Objects/Player"]
