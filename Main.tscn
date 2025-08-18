@@ -755,7 +755,7 @@ texture_progress = ExtResource("20_bg4s2")
 
 [node name="RainbowScreenOverLay" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
 visible = false
-modulate = Color(1, 0, 0, 0.239216)
+modulate = Color(1, 1, 1, 0.392157)
 z_index = -100
 material = SubResource("ShaderMaterial_sph85")
 layout_mode = 1

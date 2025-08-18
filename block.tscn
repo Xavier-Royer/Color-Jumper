@@ -390,7 +390,6 @@ libraries = {
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-visible = false
 rect = Rect2(-20, -20, 40, 40)
 
 [connection signal="area_entered" from="SpawnRadius" to="." method="_on_spawn_radius_area_entered"]
