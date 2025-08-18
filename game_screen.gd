@@ -1,5 +1,15 @@
 extends CanvasLayer
 
+#change block hitbox done
+#make player move down w screen done
+#make spikes have cool down
+#make blocks less common after spike
+#make blocks not be able to be on edge
+#change game modes, easy, classic, extreme/colorful and rainbow
+#make tutorial
+#add sound?
+
+
 signal gameOverScreen
 
 @onready var blockScene = preload("res://block.tscn")
@@ -46,7 +56,9 @@ var lastBlockSpawned = null
 
 var gameState = "OVER" #OVER, READY, PLAYING
 var gameRunTime = 0 
+var blockSpawnTime = 0 
 var screen_size
+
 
 var colorToNumber ={
 	"RED": 1,
@@ -159,18 +171,22 @@ func loadGame():
 	if difficulty == "EASY":
 		randomColorRate = 100
 		baseGameSpeed  = 200#200
+		blockSpawnTime = 1
 		$SpawnTimer.wait_time = 1
 	elif difficulty == "MEDIUM":
 		randomColorRate = 250
 		baseGameSpeed  = 500
+		blockSpawnTime = 0.75
 		$SpawnTimer.wait_time = 0.75
 	elif difficulty == "HARD":
 		randomColorRate = 300
 		baseGameSpeed  = 700
+		blockSpawnTime = 0.4
 		$SpawnTimer.wait_time = 0.4
 	else: #EXTREME
 		randomColorRate = 750
 		baseGameSpeed  = 800
+		blockSpawnTime = 0.4
 		$SpawnTimer.wait_time = 0.4
 		
 	gameState = "READY"
@@ -375,7 +391,7 @@ func spawnBlock():
 
 	
 	#set block position
-	var blockPosition = Vector2(randi_range(30,screen_size.x-30),randi_range(-750,-700))
+	var blockPosition = Vector2(randi_range(40,screen_size.x-40),randi_range(-750,-700))
 	
 	block.set_deferred("global_position", blockPosition)
 	
@@ -390,12 +406,13 @@ func spawnBlock():
 	var secondPosition = blockPosition
 	#if both blocks exist and its time to spawn coin/spike
 	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >250):
-		lastBlockSpawned.number = -1 
-		block.number = -1
+		$SpawnTimer.wait_time = (blockSpawnTime *1.2)
+		lastBlockSpawned.number = blocksSpawned-10 #-1
+		block.number = blocksSpawned-10 #-1
 		
 		#spawn the item
 		var item = itemScene.instantiate()
-		item.number = -1 
+		item.number = blocksSpawned-10 
 		movingObjects.call_deferred("add_child",item)
 		blocksSpawned += 1
 		#set the item type
@@ -406,33 +423,7 @@ func spawnBlock():
 			type = "SPIKE"
 		item.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects,  lastBlockSpawned, block,type)
 		
-		#spawns another block so that you can go around the spike
-		
-		
-		#set block position
-		#var block2Position = Vector2(0,0)
-		#if block is on one end make new block on other end
-		#var spikePosition = (firstPosition + secondPosition) /2.0
-		#
-		#var displacement = firstPosition-secondPosition
-		#var verticle = true
-		#if abs(displacement.x) > abs(displacement.y):
-			#verticle = false
-		#if verticle: 
-			##if block is on one end make new block on other end
-			#if abs(spikePosition.x - (screen_size.x/2.0)) > 100:
-				#block2Position = Vector2( clamp(screen_size.x - spikePosition.x + randi_range(-50,-50),30,screen_size.x-30)  ,spikePosition.y + randi_range(-50,50))
-			#else:
-				##if block in middle, make new block on side
-				#var negative = randi_range(0,1) == 0
-				#if negative:
-					#negative = 1
-				#else:
-					#negative = -1
-				#block2Position = Vector2( clamp(spikePosition.x + (negative*randi_range(200,300)),30,screen_size.x-30)  ,spikePosition.y + randi_range(-50,50))
-		#else:
-			#block2Position.x = clamp(spikePosition.x + randi_range(-200,200),30,screen_size.x-30)
-			#block2Position.y = spikePosition.y + randi_range(150,250)
+		#spawn another block
 		if coinSpawn == false:
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
@@ -457,16 +448,15 @@ func spawnBlock():
 			if block2Position.y > -50 or (block2Position.x < 45) or (block2Position.x > screen_size.x -45):
 				block2Position -= spikeDirection *distanceFromSpike
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
-			block2Position.x = clamp(block2Position.x,30,screen_size.x)
+			block2Position.x = clamp(block2Position.x,40,screen_size.x-40)
 			block2Position.y = clamp(block2Position.y,-1000,-200)
-			
-		
-		
 			block2.set_deferred("global_position", block2Position)
-			setBlockColor(block2)
-			#block2.setColor("RAINBOW")
+			
+			setBlockColor(block2,true)
+		else:
+			$SpawnTimer.wait_time = blockSpawnTime
 	
-	setBlockColor(block)
+	setBlockColor(block,true)
 	
 	lastBlockSpawned = block
 	
@@ -474,7 +464,7 @@ func spawnBlock():
 	
 	
 	
-func setBlockColor(block):
+func setBlockColor(block,itemAttached):
 	#set color 
 	#random variance
 	var random = randf_range(max(-2,-1*gameRunTime),2)
@@ -493,8 +483,13 @@ func setBlockColor(block):
 		else:
 			block.setColor("BLUE")
 	
+	#if an item is attached, its more likely to be the same color
+	var maxRange = 1000
+	if itemAttached:
+		maxRange = 10000
+	
 	#random chance of making it a random color
-	if randi_range(1,1000) <= randomColorRate:
+	if randi_range(1,maxRange) <= randomColorRate:
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
 	#random chance of making it rainbow
