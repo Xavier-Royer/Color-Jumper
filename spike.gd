@@ -94,6 +94,8 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	else:
 		block1.connect("caughtBlock",updateState.bind(block1))
 		block2.connect("caughtBlock",updateState.bind(block2))
+	if "RAINBOW" == FileManager.difficulty:
+		momentOfInertia *=2.0
 	
 
 func coinCaught(g):

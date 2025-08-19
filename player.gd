@@ -113,3 +113,5 @@ func rainbowOff():
 
 func rainbowOn():
 	$Trail.process_material.color_initial_ramp = rainbowGradient
+	for i in range(4):
+		self.set_collision_mask_value(i+1,true)

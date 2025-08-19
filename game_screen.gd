@@ -50,6 +50,9 @@ var rainbowSpawnRate = 5#5 # percentage out of 1000 that one spawns
 var randomColorRate = 300 # percentage out of 1000 that one spawns
 var spikeSpawnStreak = 1
 var randomColorStreak = 1
+var colorTransitionSpeed = 1.0
+var spikeDivisorCoolDown = 2.0
+var spikeCoolDownTime = 1.3
 
 var rainbowOver = true
 var particleSpeed = 3
@@ -114,6 +117,7 @@ func _ready() -> void:
 func loadGame():
 	print(difficulty)
 	#resets everything 
+	gameRunTime = 0
 	player.reset()
 	#if difficulty != "RAINBOW":
 	#rest rainbow
@@ -123,6 +127,7 @@ func loadGame():
 	$UI/RainBowBar.hide()
 	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
 	$UI/RainbowParticles.hide()
+	$UI/RainbowScreenOverLay.hide()
 	rainbowOver = true
 	
 	#reset velocity and delete game screen objects 
@@ -172,8 +177,9 @@ func loadGame():
 	$UI/Streak.text = ""
 	
 	difficulty = FileManager.difficulty
-	
-	
+	speed = 7000
+	spikeCoolDownTime = 1.3
+	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
 		
 		randomColorRate = 100
@@ -182,12 +188,15 @@ func loadGame():
 		$SpawnTimer.wait_time = 1
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 200
-		baseGameSpeed  = 800
-		blockSpawnTime = 0.4
-		$SpawnTimer.wait_time = 0.4
-		spikeSpawnRate = 70 # percentage out of 1000 that one spawns
+		randomColorRate = 250
+		spikeSpawnRate = 150
 		coinSpawnRate = 100
+		baseGameSpeed  = 820
+		blockSpawnTime = 0.35
+		spikeDivisorCoolDown = 2.5
+		spikeCoolDownTime = 1.6
+		$SpawnTimer.wait_time = 0.35
+	
 	elif difficulty == "COLORFUL": #EXTREME
 		randomColorRate = 600
 		baseGameSpeed  = 600
@@ -195,19 +204,25 @@ func loadGame():
 		$SpawnTimer.wait_time = 0.4
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 250
-		baseGameSpeed  = 1100
-		blockSpawnTime = 0.3
-		spikeSpawnRate = 120 # percentage out of 1000 that one spawns
+		baseGameSpeed  = 1130
+		blockSpawnTime = 0.25
+		spikeSpawnRate = 170 # percentage out of 1000 that one spawns
 		coinSpawnRate = 100
+		spikeDivisorCoolDown = 2.0
 		$SpawnTimer.wait_time = 0.3
+		colorTransitionSpeed = 1.5
+		spikeCoolDownTime = 1.6
+		speed = 8000
 		player.rainbowOn()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		player.modulate = Color(1,1,1)
 		$UI/RainbowScreenOverLay.show()
+		rainbowOver = false
 	gameState = "READY"
 
 func changeColor(newColor):
-	
+	if difficulty == "RAINBOW":
+		return
 	#update collision masks and color to netural for trail
 	if newColor == "RAINBOW":
 		for i in range(4):
@@ -417,7 +432,10 @@ func spawnBlock():
 	
 	var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
 	var coinSpawn = randi_range(0,1000) < coinSpawnRate
-	spikeSpawnStreak = 1
+	if spikeSpawnStreak > 1:
+		spikeSpawnStreak = max(1,spikeSpawnStreak/spikeDivisorCoolDown)
+	
+	#spikeSpawnStreak = 1
 	var lastBlockExists = lastBlockSpawned != null
 	var firstPosition = Vector2.ZERO
 	if lastBlockExists:
@@ -450,7 +468,7 @@ func spawnBlock():
 		#spawn another block
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
-			$SpawnTimer.wait_time = (blockSpawnTime *1.3)
+			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
 			block2.number = blocksSpawned#-1
@@ -509,7 +527,7 @@ func setBlockColor(block,itemAttached):
 		#random variance
 		var random = randf_range(max(-2,-1*gameRunTime),2)
 		#xvalue of the sin function based on run time; a greater constant of muliplication equals higher frequency
-		var xvalue = (gameRunTime + random)*.08
+		var xvalue = ((gameRunTime*colorTransitionSpeed) + random)*.08
 		#inner function is x to some power the greater the power the quicker the frequency
 		xvalue = pow(xvalue,1.4)
 		if sin(xvalue) > 0:
