@@ -82,7 +82,8 @@ func _process(_delta: float) -> void:
 		#checks if player caught a coin
 		elif get_last_slide_collision().get_collider().get_collision_layer_value(6):
 			#so taht it doesnt get stuckj on a coin
-			velocity = oldVelocity
+			if oldVelocity != Vector2(0,0):
+				velocity = oldVelocity
 			emit_signal("collectCoin")
 			get_last_slide_collision().get_collider().get_parent().coinCaught(gameSpeed)
 
