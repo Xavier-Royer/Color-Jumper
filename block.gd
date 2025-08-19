@@ -5,11 +5,14 @@ signal invalidBlock
 signal caughtBlock
 signal leftBlock
 @onready var blockArea = $SpawnRadius
+@onready var rainbowDead = preload("res://RainbowDead.tres")
+@onready var rainbowCaught = preload("res://RainbowBlockCaught.tres")
 var number =999 
 var deleted = false
 var blockColor
 var mouseOnBlock = false
 var onBlock = false
+
 #var spawnComplete = false
 
 func setColor(color):
@@ -22,6 +25,8 @@ func setColor(color):
 		self.set_collision_layer_value(i+1,false)
 	
 	#setup blocks color and collision layers
+	
+	
 	if color == "RED":
 		self.modulate = Color(255,0,0)
 		self.set_collision_layer_value(1,true)
@@ -35,11 +40,14 @@ func setColor(color):
 		self.modulate = Color(255,0,255)
 		self.set_collision_layer_value(4,true)
 	else: # for rainbow set all color collision layers to true
-		self.modulate = Color(0,0,0)
+		self.modulate = Color(255,255,255)
 		self.set_collision_layer_value(10,true)
+		$Dead.process_material = rainbowDead
+		$GPUParticles2D.process_material =rainbowCaught
 		var unique = $ColorRect.material.duplicate(true)
 		$ColorRect.material = unique 
 		$ColorRect.material.set_shader_parameter("rainbow",true)
+
 
 		
 	#print($ColorRect.material.get_shader_parameter("Rainbow"))

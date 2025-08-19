@@ -1,5 +1,5 @@
 extends CanvasLayer
-var difficulties = ["EASY", "MEDIUM" , "HARD", "EXTREME"]
+var difficulties = ["EASY", "CLASSIC" , "COLORFUL", "RAINBOW"]
 
 
 func _on_menu_button_item_selected(index: int) -> void:

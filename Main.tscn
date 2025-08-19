@@ -407,11 +407,11 @@ allow_reselect = true
 item_count = 4
 popup/item_0/text = "Easy"
 popup/item_0/id = 0
-popup/item_1/text = "Medium"
+popup/item_1/text = "Classic"
 popup/item_1/id = 1
-popup/item_2/text = "Hard"
+popup/item_2/text = "Colorful"
 popup/item_2/id = 2
-popup/item_3/text = "Extreme"
+popup/item_3/text = "Rainbow"
 popup/item_3/id = 3
 
 [node name="Home" type="TextureButton" parent="ScreenManager/SettingsScreen"]
@@ -569,13 +569,13 @@ text = "[u]High Scores[/u]
 [color=gold]easy
 [color=white]11,000,000
 
-[color=orange]medium
+[color=orange]Classic
 [color=white]11,000,000
 
-[color=red]hard
+[color=red]Colorful
 [color=white]11,000,000
 
-[color=purple]extreme
+[color=purple]Rainbow
 [color=white]11,000,000"
 scroll_active = false
 horizontal_alignment = 1
@@ -764,7 +764,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 color = Color(0.864675, 0.864675, 0.864675, 1)
 script = ExtResource("30_o7g6l")
 

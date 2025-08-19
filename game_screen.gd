@@ -25,8 +25,8 @@ var speed = 7000
 var currentColor
 var currentBlock
 #game control stuff
-var difficulty = "EASY" #easy, medium, hard or extreme
-var difficulties = ["EASY", "MEDIUM" , "HARD", "EXTREME"]
+var difficulty = "CLASSIC" #easy, medium, hard or extreme
+var difficulties = ["EASY", "CLASSIC" , "COLORFUL", "RAINBOW"]
 
 
 #streaks/scroes
@@ -112,8 +112,10 @@ func _ready() -> void:
 
 
 func loadGame():
+	print(difficulty)
 	#resets everything 
 	player.reset()
+	#if difficulty != "RAINBOW":
 	#rest rainbow
 	$RainbowTimer.stop()
 	$FlashTimer.stop()
@@ -122,6 +124,7 @@ func loadGame():
 	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
 	$UI/RainbowParticles.hide()
 	rainbowOver = true
+	
 	#reset velocity and delete game screen objects 
 	player.velocity = Vector2(0,0)
 	for i in movingObjects.get_children():
@@ -135,6 +138,7 @@ func loadGame():
 	currentBlock = null
 	changeColor("RED")
 	player.rotation =0
+		
 	
 	#generate first block which the layer is on
 	var block = blockScene.instantiate()
@@ -171,26 +175,35 @@ func loadGame():
 	
 	
 	if difficulty == "EASY":
+		
 		randomColorRate = 100
 		baseGameSpeed  = 200#200
 		blockSpawnTime = 1
 		$SpawnTimer.wait_time = 1
-	elif difficulty == "MEDIUM":
-		randomColorRate = 250
-		baseGameSpeed  = 500
-		blockSpawnTime = 0.75
-		$SpawnTimer.wait_time = 0.75
-	elif difficulty == "HARD":
+
+	elif difficulty == "CLASSIC":
 		randomColorRate = 200
-		baseGameSpeed  = 730
-		blockSpawnTime = 0.4
-		$SpawnTimer.wait_time = 0.4
-	else: #EXTREME
-		randomColorRate = 750
 		baseGameSpeed  = 800
 		blockSpawnTime = 0.4
 		$SpawnTimer.wait_time = 0.4
-		
+		spikeSpawnRate = 70 # percentage out of 1000 that one spawns
+		coinSpawnRate = 100
+	elif difficulty == "COLORFUL": #EXTREME
+		randomColorRate = 600
+		baseGameSpeed  = 600
+		blockSpawnTime = 0.4
+		$SpawnTimer.wait_time = 0.4
+	else:# difficulty == "RAINBOW":
+		randomColorRate = 250
+		baseGameSpeed  = 1100
+		blockSpawnTime = 0.3
+		spikeSpawnRate = 120 # percentage out of 1000 that one spawns
+		coinSpawnRate = 100
+		$SpawnTimer.wait_time = 0.3
+		player.rainbowOn()
+		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
+		player.modulate = Color(1,1,1)
+		$UI/RainbowScreenOverLay.show()
 	gameState = "READY"
 
 func changeColor(newColor):
@@ -273,7 +286,7 @@ func _on_block_caught():
 		#$UI/RainbowScreenOverLay.hide()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 		changeColor(currentBlock.blockColor)
-		if currentBlock.blockColor != "RAINBOW" and gameRunTime >0.0:
+		if currentBlock.blockColor != "RAINBOW" and gameRunTime >0.0 and difficulty != "RAINBOW":
 			$UI/RainbowScreenOverLay.flashColor(currentBlock.modulate)
 	
 	if gameState == "PLAYING":
@@ -490,7 +503,7 @@ func setBlockColor(block,itemAttached):
 	else:
 		randomColorStreak = 1
 	#random chance of making it rainbow
-	if randi_range(0,1000) <= rainbowSpawnRate:
+	if randi_range(0,1000) <= rainbowSpawnRate and difficulty != "RAINBOW":
 		block.setColor("RAINBOW")
 	else:
 		#random variance
@@ -515,11 +528,12 @@ func setBlockColor(block,itemAttached):
 func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
-		$UI/RainbowScreenOverLay.hide()
-		$UI/RainbowScreenOverLay.gameOver = true
-		$UI/RainBowBar.hide()
-		$UI/RainbowParticles.hide()
-		$UI/FlashScreen.hide()
+		if difficulty != "RAINBOW":
+			$UI/RainbowScreenOverLay.hide()
+			$UI/RainbowScreenOverLay.gameOver = true
+			$UI/RainBowBar.hide()
+			$UI/RainbowParticles.hide()
+			$UI/FlashScreen.hide()
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"
