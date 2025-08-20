@@ -747,9 +747,11 @@ func hideRainbowParticles():
 
 func loadTutorial():
 	#reset player
+	gameState = "TUTORIAL"
 	$UI/Parent.show()
 	$UI/Pointer.show()
 	$UI/SkipTutorial.show()
+	$UI/StartTutorial.hide()
 	fadeOutButtons()
 	$UI/Streak.hide()
 	$UI/Score.hide()
@@ -882,12 +884,15 @@ func fadeOutButtons():
 	$UI/Settings.disabled = true
 	$UI/Leaderboard.disabled = true
 	$UI/Shop.disabled = true
+	$UI/StartTutorial.disabled = true
 	$UI/Settings.mouse_filter = 1 #Passthrough
 	$UI/Leaderboard.mouse_filter = 1 #Passthrough
 	$UI/Shop.mouse_filter = 1 #Passthrough
 	tween.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
+	tween.tween_property($UI/StartTutorial, "modulate:a", 0.0, 0.5)
+	
 
 func tutorialOver():
 
@@ -917,8 +922,15 @@ func showButtons():
 	$UI/Leaderboard.disabled = false
 	$UI/Shop.modulate.a = 1.0
 	$UI/Shop.disabled = false
+	$UI/StartTutorial.modulate.a = 1.0
+	$UI/StartTutorial.disabled = false
 	$UI/Settings.mouse_filter = 0 #Stop
 	$UI/Leaderboard.mouse_filter = 0 #Stop
 	$UI/Shop.mouse_filter = 0 #Stop
 	for c in $UI/ColorButtons.get_children():
 		c.disabled = false
+
+
+func _on_start_tutorial_pressed() -> void:
+	
+	loadTutorial()

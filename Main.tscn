@@ -990,6 +990,7 @@ grow_horizontal = 0
 text = "SkipTutorial"
 
 [node name="Parent" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1019,6 +1020,13 @@ layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("29_5mvff")
 stretch_mode = 5
+
+[node name="StartTutorial" type="Button" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "StartTutorial
+"
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 z_index = -1
@@ -1151,6 +1159,7 @@ text = "Play Again"
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/FlashTimer" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/RainbowFade" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_rainbow_fade_timeout"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/SkipTutorial" to="ScreenManager/GameScreen" method="_on_skip_tutorial_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/StartTutorial" to="ScreenManager/GameScreen" method="_on_start_tutorial_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]

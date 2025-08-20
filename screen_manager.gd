@@ -56,22 +56,23 @@ func next_screen(nextScreen):
 func _on_play_pressed() -> void:
 	#on play press reset everything
 	$GameScreen.loadGame(false)
-	$GameScreen/UI/TouchAnywhereText.show()
-	$GameScreen/UI/Logo.modulate.a = 1.0
-	$GameScreen/UI/Settings.modulate.a = 1.0
-	$GameScreen/UI/Settings.disabled = false
-	$GameScreen/UI/Leaderboard.modulate.a = 1.0
-	$GameScreen/UI/Leaderboard.disabled = false
-	$GameScreen/UI/Shop.modulate.a = 1.0
-	$GameScreen/UI/Shop.disabled = false
-	$GameScreen/UI/Settings.mouse_filter = 0 #Stop
-	$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
-	$GameScreen/UI/Shop.mouse_filter = 0 #Stop
-	for c in $GameScreen/UI/ColorButtons.get_children():
-			c.disabled = false
+	$GameScreen.showButtons()
+	#$GameScreen/UI/TouchAnywhereText.show()
+	#$GameScreen/UI/Logo.modulate.a = 1.0
+	#$GameScreen/UI/Settings.modulate.a = 1.0
+	#$GameScreen/UI/Settings.disabled = false
+	#$GameScreen/UI/Leaderboard.modulate.a = 1.0
+	#$GameScreen/UI/Leaderboard.disabled = false
+	#$GameScreen/UI/Shop.modulate.a = 1.0
+	#$GameScreen/UI/Shop.disabled = false
+	#$GameScreen/UI/Settings.mouse_filter = 0 #Stop
+	#$GameScreen/UI/Leaderboard.mouse_filter = 0 #Stop
+	#$GameScreen/UI/Shop.mouse_filter = 0 #Stop
+	#for c in $GameScreen/UI/ColorButtons.get_children():
+			#c.disabled = false
 	$GameOverScreen.hide()
 	$GameScreen.show()
-	$GameScreen.show()
+	#$GameScreen.show()
 	
 	
 
