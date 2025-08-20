@@ -80,7 +80,8 @@ var oldRainbowTweenParticles
 
 #tutorialVariables
 var tutorialBlockPositions = []
-var tuturialTexts = []
+#would be nice if we had another name for blocks
+var tuturialTexts = ["Click where you want to go", "Dont miss any blocks","                ","Change colors to match the block","                    ","Tip: Use one hand for colors and one for blocks"]
 var tutorialChangeColor = false
 var tutorialStep = 0 
 var buttonAnimationPlayed = false
@@ -113,6 +114,12 @@ func _ready() -> void:
 		gameState = "TUTORIAL"
 	else:
 		gameState = "OVER"
+	
+	
+		
+	gameState = "TUTORIAL"
+#	loadTutorial()
+	#return
 	
 	if gameState != "TUTORIAL":
 		loadGame(false)
@@ -363,6 +370,9 @@ func _on_block_caught():
 	if player.blockOn.number == -100:
 		var tweenDistance = -player.blockOn.global_position.y + (screen_size.y * (2.0/3.0))
 		loadGame(true,tweenDistance)
+		$UI/Parent.hide()
+		$UI/Pointer.hide()
+		$UI/SkipTutorial.hide()
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)
 		tween.set_trans(Tween.TRANS_SINE)
@@ -385,6 +395,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				if (mousePosition.x < blockPosition.x + 80 and  mousePosition.x > blockPosition.x - 80) and (mousePosition.y < blockPosition.y + 80 and  mousePosition.y > blockPosition.y + -80):
 					tutorialStep+=1
 					if not tutorialStep > len(tutorialBlockPositions)-1:
+						$UI/Parent/TextContainer/Text.text = tuturialTexts[tutorialStep]
+						
 						if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor:
 							if not buttonAnimationPlayed:
 								buttonAnimationPlayed = true
@@ -453,6 +465,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _process(delta: float) -> void:
 	
+	
 	if rainbowOver == false:
 		$UI/RainbowParticles.speed_scale = particleSpeed
 	
@@ -470,15 +483,20 @@ func _process(delta: float) -> void:
 		$UI/Score.text = str(comma_format(str(score)))
 	
 	if gameState == "TUTORIAL":
-		gameSpeed =2000
+		if tutorialStep == 0:
+			$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+		gameSpeed =2500
 		player.velocity = speed*direction
 		player.gameSpeed = gameSpeed
 		if player.velocity != Vector2.ZERO:
-			
+			#$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+			#var tween2 = create_tween().set_loops()
+			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
+			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
 			movingObjects.position.y += delta*gameSpeed
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
-			
+				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
 	
 #nice function
 func comma_format(num_str: String) -> String:
@@ -716,6 +734,8 @@ func hideRainbowParticles():
 
 func loadTutorial():
 	#reset player
+	$UI/Parent.show()
+	$UI/Pointer.show()
 	$UI/SkipTutorial.show()
 	fadeOutButtons()
 	$UI/Streak.hide()
@@ -731,6 +751,9 @@ func loadTutorial():
 	$UI/RainbowParticles.hide()
 	$UI/RainbowScreenOverLay.hide()
 	rainbowOver = true
+	
+	$UI/Parent/TextContainer/Text.text = tuturialTexts[0]
+	$UI/Parent.show()
 	
 	#reset velocity and delete game screen objects 
 	player.velocity = Vector2(0,0)
@@ -793,10 +816,25 @@ func loadTutorial():
 	for i in $UI/ColorButtons.get_children():
 		i.disabled = true
 
+	$UI/Parent.position = Vector2(0,0)
+	$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+	
+	#var tween = create_tween().set_loops()
+	#tween.tween_property($UI/Parent, "scale", Vector2(1.1, 1.1), 0.1).set_ease(Tween.EASE_IN)
+	#tween.tween_property($UI/Parent, "scale", Vector2(1, 1), 0.4).set_ease(Tween.EASE_OUT)
+	
+	#var tween2 = create_tween().set_loops()
+	#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
+	#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
+
+
 	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
 	player.velocity = Vector2(0, -7000)
 	$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position -Vector2(64,64)
 	$UI/PointerAnimation.play("Hover")
+	
+	
+	
 	
 	
 	
@@ -833,6 +871,7 @@ func fadeOutButtons():
 	tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
 
 func tutorialOver():
+
 	FileManager.saveTutorial()
 	gameState = "READY"
 	currentBlock = player.blockOn
@@ -843,6 +882,7 @@ func _on_skip_tutorial_pressed() -> void:
 	$UI/Pointer.hide()
 	$UI/ButtonPointer.hide()
 	$UI/SkipTutorial.hide()
+	$UI/Parent.hide()
 	FileManager.saveTutorial()
 	showButtons()
 
