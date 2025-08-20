@@ -45,7 +45,8 @@ func flashColor(blockColor):
 	#get_parent().get_node("FlashScreen").show()
 	#get_parent().get_node("FlashScreen").modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.5)
 #	get_parent().get_node("FlashScreen").modulate.a = 1
-	previousTween.stop() 
+	if previousTween != null:
+		previousTween.stop() 
 	rainbowGoing = false
 	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.3)
 	$FlashTimer.start(.12)

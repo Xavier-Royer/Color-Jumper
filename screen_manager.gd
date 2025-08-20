@@ -55,7 +55,7 @@ func next_screen(nextScreen):
 #when play pressed load in new game
 func _on_play_pressed() -> void:
 	#on play press reset everything
-	$GameScreen.loadGame()
+	$GameScreen.loadGame(false)
 	$GameScreen/UI/TouchAnywhereText.show()
 	$GameScreen/UI/Logo.modulate.a = 1.0
 	$GameScreen/UI/Settings.modulate.a = 1.0
