@@ -78,8 +78,10 @@ var pastColor = Color()
 var oldRainbowTweenBar
 var oldRainbowTweenParticles
 
-
+#tutorialVariables
 var tutorialBlockPositions = []
+var tuturialTexts = []
+var tutorialChangeColor = false
 var tutorialStep = 0 
 
 
@@ -244,6 +246,12 @@ func changeColor(newColor):
 	#change the players color
 	player.modulate = colorToRGB[newColor]
 	
+	if gameState == "TUTORIAL":
+		for i in $UI/ColorButtons.get_children():
+			i.disabled = true
+		$UI/ButtonPointer.hide()
+		$UI/ButtonAnimation.stop()
+		tutorialChangeColor = false
 	
 
 #player captureing block
@@ -340,22 +348,34 @@ func _unhandled_input(event: InputEvent) -> void:
 		#hi dominic that is a pretty cool comment
 		if gameState == "TUTORIAL":
 			var blockPosition = tutorialBlockPositions[tutorialStep]
-			if (mousePosition.x < blockPosition.x + 100 and  mousePosition.x > blockPosition.x - 100) and (mousePosition.y < blockPosition.y + 100 and  mousePosition.y > blockPosition.y + -100):
-				tutorialStep+=1
-				if not tutorialStep > len(tutorialBlockPositions)-1:
-					$UI/Pointer.position = tutorialBlockPositions[tutorialStep] -Vector2(64,64)
-				#jump
-				var playerPosition  = player.get_global_position()
-				direction = mousePosition-playerPosition
-				direction = direction.normalized()
-				player.blockOn.collision_layer = 0
-				player.blockOn.delete()
-				player.blockOn = null
-				currentBlock = null
-				#Change direction of the player to look at mouse
-				player.look_at(mousePosition)
-				player.rotation += deg_to_rad(90)
-				
+			if not tutorialChangeColor:
+				if (mousePosition.x < blockPosition.x + 80 and  mousePosition.x > blockPosition.x - 80) and (mousePosition.y < blockPosition.y + 80 and  mousePosition.y > blockPosition.y + -80):
+					tutorialStep+=1
+					if tutorialStep == 3:
+						$UI/ButtonPointer.show()
+						tutorialChangeColor  =true
+						var tween = create_tween()
+						$UI/ButtonPointer.position = Vector2(0,screen_size.y - $UI/ButtonPointer.size.y)
+						tween.set_ease(Tween.EASE_IN_OUT)
+						tween.set_trans(Tween.TRANS_SINE)
+						tween.tween_property($UI/ButtonPointer,"position",Vector2(screen_size.x,$UI/ButtonPointer.position.y),1.2)
+						tween.connect("finished",hoverButton)
+						
+					if not tutorialStep > len(tutorialBlockPositions)-1:
+						$UI/Pointer.position = tutorialBlockPositions[tutorialStep] -Vector2(64,64)
+					#jump
+					var playerPosition  = player.get_global_position()
+					direction = mousePosition-playerPosition
+					direction = direction.normalized()
+					player.blockOn.collision_layer = 0
+					player.blockOn.delete()
+					player.blockOn = null
+					currentBlock = null
+					#Change direction of the player to look at mouse
+					player.look_at(mousePosition)
+					player.rotation += deg_to_rad(90)
+			else:
+				pass
 		
 		elif mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
 			#if player.velocity == Vector2(0,0):
@@ -720,11 +740,39 @@ func loadTutorial():
 	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.17))
 	tutorialBlockPositions.append(block.position)
 	block.setColor("GREEN")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.3))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("GREEN")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.6))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("BLUE")
 
+	for i in $UI/ColorButtons.get_children():
+		i.disabled = true
 
 	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
 	player.velocity = Vector2(0, -7000)
 	$UI/Pointer.position = tutorialBlockPositions[tutorialStep] -Vector2(64,64)
 	$UI/PointerAnimation.play("Hover")
 	
+	
+	
+#	tween.start()
+	#$UI/ColorRect
+	#$UI/ButtonAnimation.play("TraverseButtons")
+	
+func hoverButton():
+	#for i in $UI/ColorButtons.get_children():
+		#i.disabled = false
+	$UI/ColorButtons/GREEN.disabled = false
+	$UI/ButtonPointer.size.x = screen_size.x/4
+	$UI/ButtonPointer.pivot_offset.x = $UI/ButtonPointer.size.x/2
+	$UI/ButtonPointer.position = Vector2($UI/ColorButtons.size.x*.25,screen_size.y - $UI/ButtonPointer.size.y)
+	$UI/ButtonAnimation.play("Hover")
 	
