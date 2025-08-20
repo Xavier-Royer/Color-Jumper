@@ -13,6 +13,7 @@ var blockColor
 var mouseOnBlock = false
 var onBlock = false
 
+
 #var spawnComplete = false
 
 func setColor(color):
@@ -42,8 +43,10 @@ func setColor(color):
 	else: # for rainbow set all color collision layers to true
 		self.modulate = Color(255,255,255)
 		self.set_collision_layer_value(10,true)
+		rainbowCaught = preload("res://RainbowBlockCaught.tres")
+		rainbowDead = preload("res://RainbowDead.tres")
 		$Dead.process_material = rainbowDead
-		$GPUParticles2D.process_material =rainbowCaught
+		$GPUParticles2D.process_material = rainbowCaught
 		var unique = $ColorRect.material.duplicate(true)
 		$ColorRect.material = unique 
 		$ColorRect.material.set_shader_parameter("rainbow",true)
