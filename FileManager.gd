@@ -1,6 +1,7 @@
 extends Node
 var difficulty = "CLASSIC"
 var highScore = [0,0,0,0]
+var tutorial = true
 
 
 func _ready():
@@ -37,4 +38,16 @@ func loadHighScore():
 	var file = FileAccess.open("user://highScore.dat", FileAccess.READ)
 	if FileAccess.file_exists("user://highScore.dat"):
 		highScore = file.get_var()
+		file.close()
+
+
+func saveTutorial():
+	var file = FileAccess.open("user://tutorial.dat", FileAccess.WRITE)
+	file.store_var(false)
+	file.close()
+
+func loadTutorial():
+	var file = FileAccess.open("user://tutorial.dat", FileAccess.READ)
+	if FileAccess.file_exists("user://tutorial.dat"):
+		tutorial = file.get_var()
 		file.close()

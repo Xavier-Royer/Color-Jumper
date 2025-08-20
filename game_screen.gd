@@ -106,6 +106,14 @@ func _ready() -> void:
 	
 	#rainbowTweenBar = create_tween()
 	#rainbowTweenParticles = create_tween()
+	
+	#if tutorial already done then switch state to over
+	FileManager.loadTutorial()
+	if FileManager.tutorial:
+		gameState = "TUTORIAL"
+	else:
+		gameState = "OVER"
+	
 	if gameState != "TUTORIAL":
 		loadGame(false)
 	else:
@@ -226,22 +234,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$UI/RainbowScreenOverLay.show()
 		rainbowOver = false
 	if fromTutorial:
-		$UI/Streak.show()
-		$UI/Score.show()
-		#do stuff
-		$UI/TouchAnywhereText.show()
-		$UI/Logo.modulate.a = 1.0
-		$UI/Settings.modulate.a = 1.0
-		$UI/Settings.disabled = false
-		$UI/Leaderboard.modulate.a = 1.0
-		$UI/Leaderboard.disabled = false
-		$UI/Shop.modulate.a = 1.0
-		$UI/Shop.disabled = false
-		$UI/Settings.mouse_filter = 0 #Stop
-		$UI/Leaderboard.mouse_filter = 0 #Stop
-		$UI/Shop.mouse_filter = 0 #Stop
-		for c in $UI/ColorButtons.get_children():
-			c.disabled = false
+		showButtons()
 		#$GameOverScreen.hide()
 		#$GameScreen.show()
 		#$GameScreen.show()
@@ -723,6 +716,7 @@ func hideRainbowParticles():
 
 func loadTutorial():
 	#reset player
+	$UI/SkipTutorial.show()
 	fadeOutButtons()
 	$UI/Streak.hide()
 	$UI/Score.hide()
@@ -839,5 +833,33 @@ func fadeOutButtons():
 	tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
 
 func tutorialOver():
+	FileManager.saveTutorial()
 	gameState = "READY"
 	currentBlock = player.blockOn
+
+
+func _on_skip_tutorial_pressed() -> void:
+	loadGame(false)
+	$UI/Pointer.hide()
+	$UI/ButtonPointer.hide()
+	$UI/SkipTutorial.hide()
+	FileManager.saveTutorial()
+	showButtons()
+
+func showButtons():
+	$UI/Streak.show()
+	$UI/Score.show()
+	#do stuff
+	$UI/TouchAnywhereText.show()
+	$UI/Logo.modulate.a = 1.0
+	$UI/Settings.modulate.a = 1.0
+	$UI/Settings.disabled = false
+	$UI/Leaderboard.modulate.a = 1.0
+	$UI/Leaderboard.disabled = false
+	$UI/Shop.modulate.a = 1.0
+	$UI/Shop.disabled = false
+	$UI/Settings.mouse_filter = 0 #Stop
+	$UI/Leaderboard.mouse_filter = 0 #Stop
+	$UI/Shop.mouse_filter = 0 #Stop
+	for c in $UI/ColorButtons.get_children():
+		c.disabled = false
