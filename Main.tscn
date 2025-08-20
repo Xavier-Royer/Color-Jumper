@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=57 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -34,6 +34,8 @@
 [ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://textures/shop_pressed.png" id="23_gb15f"]
 [ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="29_5mvff"]
 [ext_resource type="Script" uid="uid://dr5w573nvvrov" path="res://rainbow_screen_over_lay.gd" id="30_o7g6l"]
+[ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://allWhiteTempshader.gdshader" id="31_5mkgo"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="32_3ccbu"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://RainbowColorGradient.tres" id="34_sph85"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
@@ -161,6 +163,72 @@ scale_min = 0.0
 scale_max = 23.76
 hue_variation_min = -1.0
 hue_variation_max = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ny7u2"]
+shader = ExtResource("31_5mkgo")
+
+[sub_resource type="Animation" id="Animation_x3yn0"]
+resource_name = "Hover"
+length = 2.0
+loop_mode = 1
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pointer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1.5, 1.5, 1.5),
+"update": 0,
+"values": [Color(1, 1, 1, 0.27451), Color(1, 1, 1, 0.0784314), Color(1, 1, 1, 0.27451)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pointer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1.5, 1.5, 1.5),
+"update": 0,
+"values": [Vector2(3.5, 3.5), Vector2(3, 3), Vector2(3.5, 3.5)]
+}
+
+[sub_resource type="Animation" id="Animation_1w2xm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pointer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pointer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gngx1"]
+_data = {
+&"Hover": SubResource("Animation_x3yn0"),
+&"RESET": SubResource("Animation_1w2xm")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(8.85825, 30)
@@ -806,6 +874,29 @@ amount = 150
 lifetime = 1.3
 speed_scale = 3.0
 process_material = SubResource("ParticleProcessMaterial_bg4s2")
+
+[node name="Pointer" type="TextureRect" parent="ScreenManager/GameScreen/UI"]
+material = SubResource("ShaderMaterial_ny7u2")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("32_3ccbu")
+metadata/_edit_use_anchors_ = true
+
+[node name="PointerAnimation" type="AnimationPlayer" parent="ScreenManager/GameScreen/UI"]
+libraries = {
+&"": SubResource("AnimationLibrary_gngx1")
+}
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 z_index = -1

@@ -1,13 +1,5 @@
 extends CanvasLayer
 
-#change block hitbox done
-#make player move down w screen done
-#make spikes have cool down
-#make blocks less common after spike
-#make blocks not be able to be on edge
-#change game modes, easy, classic, extreme/colorful and rainbow
-#make tutorial
-#add sound?
 
 
 signal gameOverScreen
@@ -59,7 +51,7 @@ var particleSpeed = 3
 var lastBlockSpawned = null
 
 
-var gameState = "OVER" #OVER, READY, PLAYING
+var gameState = "TUTORIAL" #OVER, READY, PLAYING, TUTORIAL
 var gameRunTime = 0 
 var blockSpawnTime = 0 
 var screen_size
@@ -87,6 +79,10 @@ var oldRainbowTweenBar
 var oldRainbowTweenParticles
 
 
+var tutorialBlockPositions = []
+var tutorialStep = 0 
+
+
 func _ready() -> void:
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
@@ -107,7 +103,10 @@ func _ready() -> void:
 	#rainbowTweenBar = create_tween()
 	#rainbowTweenParticles = create_tween()
 	
-	loadGame()
+	if gameState != "TUTORIAL":
+		loadGame()
+	else:
+		loadTutorial()
 
 
 
@@ -339,7 +338,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		#ensure its not where the buttons are
 		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
 		#hi dominic that is a pretty cool comment
-		if mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
+		if gameState == "TUTORIAL":
+			var blockPosition = tutorialBlockPositions[tutorialStep]
+			if (mousePosition.x < blockPosition.x + 100 and  mousePosition.x > blockPosition.x - 100) and (mousePosition.y < blockPosition.y + 100 and  mousePosition.y > blockPosition.y + -100):
+				tutorialStep+=1
+				if not tutorialStep > len(tutorialBlockPositions)-1:
+					$UI/Pointer.position = tutorialBlockPositions[tutorialStep] -Vector2(64,64)
+				#jump
+				var playerPosition  = player.get_global_position()
+				direction = mousePosition-playerPosition
+				direction = direction.normalized()
+				player.blockOn.collision_layer = 0
+				player.blockOn.delete()
+				player.blockOn = null
+				currentBlock = null
+				#Change direction of the player to look at mouse
+				player.look_at(mousePosition)
+				player.rotation += deg_to_rad(90)
+				
+		
+		elif mousePosition.y < $UI/ColorButtons.position.y and gameState != "OVER":
 			#if player.velocity == Vector2(0,0):
 			if currentBlock != null:
 				#Begin game if in ready position
@@ -378,7 +396,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				#Change direction of the player to look at mouse
 				player.look_at(mousePosition)
 				player.rotation += deg_to_rad(90)
-				
+		
 
 func _process(delta: float) -> void:
 	
@@ -397,7 +415,20 @@ func _process(delta: float) -> void:
 		movingObjects.position.y += delta*gameSpeed
 		#update score
 		$UI/Score.text = str(comma_format(str(score)))
-		
+	
+	if gameState == "TUTORIAL":
+		gameSpeed =2000
+		player.velocity = speed*direction
+		player.gameSpeed = gameSpeed
+		if player.velocity != Vector2.ZERO:
+			
+			movingObjects.position.y += delta*gameSpeed
+			for i in range(len(tutorialBlockPositions)):
+				tutorialBlockPositions[i].y +=delta*gameSpeed
+			print(tutorialBlockPositions)
+			if not tutorialStep > len(tutorialBlockPositions)-1:
+				$UI/Pointer.position = tutorialBlockPositions[tutorialStep] - Vector2(64,64)
+	
 #nice function
 func comma_format(num_str: String) -> String:
 	var result := ""
@@ -630,3 +661,70 @@ func coinCollected():
 
 func hideRainbowParticles():
 	$UI/RainbowParticles.hide()
+	
+
+func loadTutorial():
+	#reset player
+	gameRunTime = 0
+	player.reset()
+	$RainbowTimer.stop()
+	$FlashTimer.stop()
+	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	$UI/RainBowBar.hide()
+	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
+	$UI/RainbowParticles.hide()
+	$UI/RainbowScreenOverLay.hide()
+	rainbowOver = true
+	
+	#reset velocity and delete game screen objects 
+	player.velocity = Vector2(0,0)
+	for i in movingObjects.get_children():
+		if i.name != "Player":
+			i.queue_free()
+	movingObjects.position.y = 0 
+	
+	#show the player 
+	player.show()
+	blocksSpawned = 0 
+	currentBlock = null
+	changeColor("RED")
+	player.rotation =0
+	
+	
+	#Spawn all of the setup blocks
+	var block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+	block.setColor("RED")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x / 4.0,screen_size.y * (5.00/10.0))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("RED")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (2.0/6.0),screen_size.y * (2.2/10.0))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("RED")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (5.0/6.0),screen_size.y * (1.0/10.0))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("RED")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.17))
+	tutorialBlockPositions.append(block.position)
+	block.setColor("GREEN")
+
+
+	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
+	player.velocity = Vector2(0, -7000)
+	$UI/Pointer.position = tutorialBlockPositions[tutorialStep] -Vector2(64,64)
+	$UI/PointerAnimation.play("Hover")
+	
+	
