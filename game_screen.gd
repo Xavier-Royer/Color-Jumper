@@ -85,6 +85,8 @@ var tuturialTexts = ["Click where you want to go", "Dont miss any blocks","     
 var tutorialChangeColor = false
 var tutorialStep = 0 
 var buttonAnimationPlayed = false
+var textTween 
+var textTweenAlpha
 
 
 
@@ -116,10 +118,9 @@ func _ready() -> void:
 		gameState = "OVER"
 	
 	
-		
-	gameState = "TUTORIAL"
-#	loadTutorial()
-	#return
+	#uncomment this to get the tutorial everytime 
+	#gameState = "TUTORIAL"
+
 	
 	if gameState != "TUTORIAL":
 		loadGame(false)
@@ -378,6 +379,14 @@ func _on_block_caught():
 		tween.set_trans(Tween.TRANS_SINE)
 		tween.tween_property(movingObjects,"position",movingObjects.position + Vector2(0,tweenDistance),0.5)
 		tween.connect("finished", tutorialOver)
+	if player.blockOn.number == -99:
+		textTween = create_tween().set_loops()
+		textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,350),1.0).set_ease(Tween.EASE_OUT)
+		textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300),1.0).set_ease(Tween.EASE_IN)
+		
+		textTweenAlpha = create_tween().set_loops()
+		textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,0.5),1.0).set_ease(Tween.EASE_OUT)
+		textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,1),1.0).set_ease(Tween.EASE_IN)
 		
 		#Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	
@@ -390,6 +399,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
 		#hi dominic that is a pretty cool comment
 		if gameState == "TUTORIAL":
+			if textTween != null:
+				textTween.stop()
+				textTweenAlpha.stop()
 			var blockPosition = tutorialBlockPositions[tutorialStep].global_position
 			if not tutorialChangeColor:
 				if (mousePosition.x < blockPosition.x + 80 and  mousePosition.x > blockPosition.x - 80) and (mousePosition.y < blockPosition.y + 80 and  mousePosition.y > blockPosition.y + -80):
@@ -497,7 +509,8 @@ func _process(delta: float) -> void:
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
 				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
-	
+		
+		
 #nice function
 func comma_format(num_str: String) -> String:
 	var result := ""
@@ -774,36 +787,42 @@ func loadTutorial():
 	var block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+	block.number = -99
 	block.setColor("RED")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x / 4.0,screen_size.y * (5.00/10.0))
 	tutorialBlockPositions.append(block)
+	block.number = -99
 	block.setColor("RED")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x * (2.0/6.0),screen_size.y * (2.2/10.0))
 	tutorialBlockPositions.append(block)
+	block.number = -99
 	block.setColor("RED")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x * (5.0/6.0),screen_size.y * (1.0/10.0))
 	tutorialBlockPositions.append(block)
+	block.number = -99
 	block.setColor("RED")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.17))
 	tutorialBlockPositions.append(block)
+	block.number = -99
 	block.setColor("GREEN")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.3))
 	tutorialBlockPositions.append(block)
+	block.number = -99
 	block.setColor("GREEN")
 	
 	block = blockScene.instantiate()
