@@ -5,10 +5,10 @@
 [ext_resource type="Material" uid="uid://bu48js7s1b6pi" path="res://normalDead.tres" id="3_5d32t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
-size = Vector2(73, 73)
+size = Vector2(72.59254, 72.59254)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_im0tn"]
-radius = 25.0
+radius = 21.11228
 
 [sub_resource type="Shader" id="Shader_im0tn"]
 code = "shader_type canvas_item;
@@ -219,7 +219,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(4.43, 4.43)]
+"values": [Vector2(6, 6)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -271,7 +271,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(3, 3), Vector2(0, 0)]
+"values": [Vector2(6, 6), Vector2(0, 0)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -295,14 +295,14 @@ _data = {
 
 [node name="Block" type="StaticBody2D"]
 z_index = 8
-scale = Vector2(4.43, 4.43)
+scale = Vector2(6, 6)
 collision_layer = 129
 input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.225734, -0.225734)
-scale = Vector2(0.548533, 0.548533)
+position = Vector2(8.745603e-08, 8.745603e-08)
+scale = Vector2(0.3047406, 0.3047406)
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]

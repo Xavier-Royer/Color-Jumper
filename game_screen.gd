@@ -81,7 +81,7 @@ var oldRainbowTweenParticles
 #tutorialVariables
 var tutorialBlockPositions = []
 #would be nice if we had another name for blocks
-var tuturialTexts = ["Click where you want to go", "Dont miss any blocks","                ","Change colors to match the block","                    ","Tip: Use one hand for colors and one for blocks"]
+var tuturialTexts = ["Click where you\nwant to go", "Dont miss any blocks","                ","Change colors to\nmatch the block","                    ","Tip: Use one hand for colors\nand one for blocks"]
 var tutorialChangeColor = false
 var tutorialStep = 0 
 var buttonAnimationPlayed = false
@@ -505,7 +505,7 @@ func _process(delta: float) -> void:
 			#var tween2 = create_tween().set_loops()
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
-			movingObjects.position.y += delta*gameSpeed
+			movingObjects.position.y += delta*gameSpeed*1.75
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
 				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
