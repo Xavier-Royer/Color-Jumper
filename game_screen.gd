@@ -893,10 +893,12 @@ func fadeOutButtons():
 	$UI/Settings.mouse_filter = 1 #Passthrough
 	$UI/Leaderboard.mouse_filter = 1 #Passthrough
 	$UI/Shop.mouse_filter = 1 #Passthrough
+	$UI/StartTutorial.mouse_filter = 1
 	tween.tween_property($UI/Settings, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/StartTutorial, "modulate:a", 0.0, 0.5)
+	$UI/StartTutorial.hide()
 	
 
 func tutorialOver():
