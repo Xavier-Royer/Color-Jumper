@@ -409,6 +409,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					if not tutorialStep > len(tutorialBlockPositions)-1:
 						$UI/Parent/TextContainer/Text.text = tuturialTexts[tutorialStep]
 						
+						
 						if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor:
 							if not buttonAnimationPlayed:
 								buttonAnimationPlayed = true
@@ -751,7 +752,7 @@ func loadTutorial():
 	$UI/Parent.show()
 	$UI/Pointer.show()
 	$UI/SkipTutorial.show()
-	$UI/StartTutorial.hide()
+	#$UI/StartTutorial.hide()
 	fadeOutButtons()
 	$UI/Streak.hide()
 	$UI/Score.hide()
@@ -786,6 +787,9 @@ func loadTutorial():
 	
 	
 	#Spawn all of the setup blocks
+	tutorialBlockPositions = []
+	tutorialStep=0
+	movingObjects.position.y = 0
 	var block = blockScene.instantiate()
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
@@ -914,6 +918,7 @@ func showButtons():
 	$UI/Streak.show()
 	$UI/Score.show()
 	#do stuff
+	$UI/StartTutorial.show()
 	$UI/TouchAnywhereText.show()
 	$UI/Logo.modulate.a = 1.0
 	$UI/Settings.modulate.a = 1.0

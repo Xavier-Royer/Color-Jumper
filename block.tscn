@@ -5,10 +5,10 @@
 [ext_resource type="Material" uid="uid://bu48js7s1b6pi" path="res://normalDead.tres" id="3_5d32t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
-size = Vector2(72.59254, 72.59254)
+size = Vector2(72.5925, 72.5925)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_im0tn"]
-radius = 21.11228
+radius = 21.1123
 
 [sub_resource type="Shader" id="Shader_im0tn"]
 code = "shader_type canvas_item;
@@ -301,8 +301,8 @@ input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8.745603e-08, 8.745603e-08)
-scale = Vector2(0.3047406, 0.3047406)
+position = Vector2(8.7456e-08, 8.7456e-08)
+scale = Vector2(0.304741, 0.304741)
 shape = SubResource("RectangleShape2D_xfwl5")
 
 [node name="SpawnRadius" type="Area2D" parent="."]

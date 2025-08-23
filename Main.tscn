@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=64 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -31,11 +31,15 @@
 [ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://textures/rainbow_bar_new.png" id="20_bg4s2"]
 [ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://textures/shop.png" id="22_40n85"]
 [ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://textures/shop_pressed.png" id="23_gb15f"]
+[ext_resource type="Texture2D" uid="uid://cjhmkumdx0hiv" path="res://TutorialIcon.png" id="28_5mkgo"]
 [ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="29_5mvff"]
 [ext_resource type="Script" uid="uid://dr5w573nvvrov" path="res://rainbow_screen_over_lay.gd" id="30_o7g6l"]
 [ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://allWhiteTempshader.gdshader" id="31_5mkgo"]
 [ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="32_3ccbu"]
+[ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://SkipIcon.png" id="33_3ccbu"]
+[ext_resource type="Texture2D" uid="uid://drod183p6tvt6" path="res://Arrow.png" id="34_ny7u2"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://RainbowColorGradient.tres" id="34_sph85"]
+[ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://TextBox.png" id="34_x3yn0"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -291,6 +295,8 @@ _data = {
 &"Hover": SubResource("Animation_5mkgo"),
 &"RESET": SubResource("Animation_3ccbu")
 }
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ny7u2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
 size = Vector2(8.85825, 30)
@@ -635,7 +641,7 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
 [node name="Label" type="Label" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -877,6 +883,16 @@ texture_normal = ExtResource("16_2gh4u")
 texture_pressed = ExtResource("18_3b0ty")
 stretch_mode = 4
 
+[node name="StartTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 0
+offset_left = 43.0
+offset_top = 1319.0
+offset_right = 149.0
+offset_bottom = 1356.0
+scale = Vector2(4, 4)
+texture_normal = ExtResource("28_5mkgo")
+stretch_mode = 4
+
 [node name="RainBowBar" type="TextureProgressBar" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
 anchors_preset = -1
@@ -920,7 +936,7 @@ one_shot = true
 
 [node name="ScreenBG" type="ColorRect" parent="ScreenManager/GameScreen/UI"]
 visible = false
-modulate = Color(1, 1, 1, 0.73333335)
+modulate = Color(1, 1, 1, 0.733333)
 z_index = 100
 layout_mode = 1
 anchors_preset = 15
@@ -990,16 +1006,18 @@ libraries = {
 &"": SubResource("AnimationLibrary_ny7u2")
 }
 
-[node name="SkipTutorial" type="Button" parent="ScreenManager/GameScreen/UI"]
+[node name="SkipTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
 visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -300.0
-offset_bottom = 150.0
+offset_left = -106.0
+offset_top = 9.0
+offset_right = 194.0
+offset_bottom = 159.0
 grow_horizontal = 0
-text = "SkipTutorial"
+texture_normal = ExtResource("33_3ccbu")
 
 [node name="Parent" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
 visible = false
@@ -1011,7 +1029,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -415.5
 offset_top = -198.5
-offset_right = 415.5
+offset_right = 184.5
 offset_bottom = 198.5
 grow_horizontal = 2
 grow_vertical = 2
@@ -1024,22 +1042,30 @@ size_flags_horizontal = 3
 [node name="Text" type="Label" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ny7u2")
 text = "Click where you
 want to go"
 horizontal_alignment = 1
 
+[node name="TextureRect" type="TextureRect" parent="ScreenManager/GameScreen/UI/Parent/TextContainer/Text"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.337255)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("34_x3yn0")
+expand_mode = 5
+stretch_mode = 5
+
 [node name="Finger" type="TextureRect" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("29_5mvff")
+texture = ExtResource("34_ny7u2")
 stretch_mode = 5
-
-[node name="StartTutorial" type="Button" parent="ScreenManager/GameScreen/UI"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "StartTutorial
-"
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 z_index = -1
@@ -1169,10 +1195,10 @@ text = "Play Again"
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/StartTutorial" to="ScreenManager/GameScreen" method="_on_start_tutorial_pressed"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/FlashTimer" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/RainbowFade" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_rainbow_fade_timeout"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/SkipTutorial" to="ScreenManager/GameScreen" method="_on_skip_tutorial_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/StartTutorial" to="ScreenManager/GameScreen" method="_on_start_tutorial_pressed"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
