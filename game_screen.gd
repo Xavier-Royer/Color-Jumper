@@ -214,7 +214,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	elif difficulty == "CLASSIC":
 		randomColorRate = 100
 		spikeSpawnRate = 180
-		coinSpawnRate = 125
+		coinSpawnRate = 80
 		baseGameSpeed  = 820
 		blockSpawnTime = 0.35
 		spikeDivisorCoolDown = 2.5
@@ -585,7 +585,7 @@ func spawnBlock():
 		#spawn another block
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
-			currentDifficulty*=5
+			currentDifficulty*=3
 			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
@@ -630,11 +630,11 @@ func setBlockColor(block,itemAttached):
 	var maxRange = 1000
 	if itemAttached:
 		maxRange = 2000
-	maxRange *= (currentDifficulty/1.0)
+	maxRange *= (max(currentDifficulty/2.0,0.75))
 	
 	#random chance of making it a random color
 	if randi_range(1, maxRange) <= randomColorRate: # + randomColorStreak
-		currentDifficulty*=5
+		currentDifficulty*=3
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
 		return
