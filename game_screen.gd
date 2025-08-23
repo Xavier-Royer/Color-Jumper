@@ -205,13 +205,13 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
 		
-		randomColorRate = 100
-		baseGameSpeed  = 200#200
+		randomColorRate = 50
+		baseGameSpeed  = 220#200
 		blockSpawnTime = 1
 		$SpawnTimer.wait_time = 1
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 250
+		randomColorRate = 100
 		spikeSpawnRate = 150
 		coinSpawnRate = 100
 		baseGameSpeed  = 820
@@ -221,14 +221,14 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$SpawnTimer.wait_time = 0.35
 	
 	elif difficulty == "COLORFUL": #EXTREME
-		randomColorRate = 600
-		baseGameSpeed  = 600
-		blockSpawnTime = 0.4
-		$SpawnTimer.wait_time = 0.4
+		randomColorRate = 750
+		baseGameSpeed  = 650
+		blockSpawnTime = 0.5
+		$SpawnTimer.wait_time = 0.5
 	else:# difficulty == "RAINBOW":
-		randomColorRate = 250
+		randomColorRate = 1000
 		baseGameSpeed  = 1130
-		blockSpawnTime = 0.25
+		blockSpawnTime = 0.3
 		spikeSpawnRate = 170 # percentage out of 1000 that one spawns
 		coinSpawnRate = 100
 		spikeDivisorCoolDown = 2.0
@@ -625,15 +625,16 @@ func setBlockColor(block,itemAttached):
 	#if an item is attached, its more likely to be the same color
 	var maxRange = 1000
 	if itemAttached:
-		maxRange = 10000
+		maxRange = 2000
 	
 	#random chance of making it a random color
-	if randi_range(1,maxRange *randomColorStreak) <= randomColorRate:
+	if randi_range(1, maxRange) <= randomColorRate: # + randomColorStreak
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
-		randomColorStreak*=2
-	else:
-		randomColorStreak = 1
+		return
+		#randomColorStreak += 20
+	#else:
+		#randomColorStreak = 0
 	#random chance of making it rainbow
 	if randi_range(0,1000) <= rainbowSpawnRate and difficulty != "RAINBOW":
 		block.setColor("RAINBOW")
