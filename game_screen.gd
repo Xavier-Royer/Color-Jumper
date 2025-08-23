@@ -45,6 +45,7 @@ var randomColorStreak = 1
 var colorTransitionSpeed = 1.0
 var spikeDivisorCoolDown = 2.0
 var spikeCoolDownTime = 1.3
+var currentDifficulty = 1.0
 
 var rainbowOver = true
 var particleSpeed = 3
@@ -212,8 +213,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 
 	elif difficulty == "CLASSIC":
 		randomColorRate = 100
-		spikeSpawnRate = 150
-		coinSpawnRate = 100
+		spikeSpawnRate = 180
+		coinSpawnRate = 125
 		baseGameSpeed  = 820
 		blockSpawnTime = 0.35
 		spikeDivisorCoolDown = 2.5
@@ -489,7 +490,7 @@ func _process(delta: float) -> void:
 		#updates game time and moves background down
 		gameRunTime += delta
 		spikeSpawnRate += delta/5.0
-		gameSpeed = baseGameSpeed + 100*(log(gameRunTime))
+		gameSpeed = baseGameSpeed + 150*(log(gameRunTime)) 
 		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
 		#update score
@@ -545,9 +546,11 @@ func spawnBlock():
 	#spawn a spike connected to the block
 	
 	var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
-	var coinSpawn = randi_range(0,1000) < coinSpawnRate
+	var coinSpawn = randi_range(0,1000/(max(currentDifficulty,1))) < coinSpawnRate
 	if spikeSpawnStreak > 1:
 		spikeSpawnStreak = max(1,spikeSpawnStreak/spikeDivisorCoolDown)
+	if currentDifficulty > 1:
+		currentDifficulty = max(1,currentDifficulty/1.5)
 	
 	#spikeSpawnStreak = 1
 	var lastBlockExists = lastBlockSpawned != null
@@ -582,6 +585,7 @@ func spawnBlock():
 		#spawn another block
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
+			currentDifficulty*=5
 			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
@@ -626,9 +630,11 @@ func setBlockColor(block,itemAttached):
 	var maxRange = 1000
 	if itemAttached:
 		maxRange = 2000
+	maxRange *= (currentDifficulty/1.0)
 	
 	#random chance of making it a random color
 	if randi_range(1, maxRange) <= randomColorRate: # + randomColorStreak
+		currentDifficulty*=5
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
 		return
