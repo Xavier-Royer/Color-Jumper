@@ -46,6 +46,7 @@ var colorTransitionSpeed = 1.0
 var spikeDivisorCoolDown = 2.0
 var spikeCoolDownTime = 1.3
 var currentDifficulty = 1.0
+var lastBlocksColor = "RED"
 
 var rainbowOver = true
 var particleSpeed = 3
@@ -212,9 +213,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$SpawnTimer.wait_time = 1
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 100
-		spikeSpawnRate = 180
-		coinSpawnRate = 80
+		randomColorRate = 120
+		spikeSpawnRate = 250
+		coinSpawnRate = 60
 		baseGameSpeed  = 820
 		blockSpawnTime = 0.35
 		spikeDivisorCoolDown = 2.5
@@ -230,7 +231,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		randomColorRate = 1000
 		baseGameSpeed  = 1130
 		blockSpawnTime = 0.3
-		spikeSpawnRate = 170 # percentage out of 1000 that one spawns
+		spikeSpawnRate = 300 # percentage out of 1000 that one spawns
 		coinSpawnRate = 100
 		spikeDivisorCoolDown = 2.0
 		$SpawnTimer.wait_time = 0.3
@@ -247,6 +248,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		#$GameOverScreen.hide()
 		#$GameScreen.show()
 		#$GameScreen.show()
+	lastBlocksColor = "RED"
+	currentDifficulty = 1
 	gameState = "READY"
 
 func changeColor(newColor):
@@ -478,8 +481,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			print($UI/ColorButtons.position.y)
 
 func _process(delta: float) -> void:
-	
-	
+	$UI/Difficulty.text = str((round(currentDifficulty*10000))/10000)
+	#$UI/Difficulty.text =str(currentDifficulty)
 	if rainbowOver == false:
 		$UI/RainbowParticles.speed_scale = particleSpeed
 	
@@ -507,7 +510,7 @@ func _process(delta: float) -> void:
 			#var tween2 = create_tween().set_loops()
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
-			movingObjects.position.y += delta*gameSpeed#delta*gameSpeed*1.75
+			movingObjects.position.y += delta*gameSpeed*1.75
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
 				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
@@ -545,10 +548,11 @@ func spawnBlock():
 	
 	#spawn a spike connected to the block
 	
-	var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
+	#var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
+	var spikeSpawn = randi_range(0,1000*(max(1,currentDifficulty/4.2))) < spikeSpawnRate
 	var coinSpawn = randi_range(0,1000/(max(currentDifficulty,1))) < coinSpawnRate
-	if spikeSpawnStreak > 1:
-		spikeSpawnStreak = max(1,spikeSpawnStreak/spikeDivisorCoolDown)
+	#if spikeSpawnStreak > 1:
+		#spikeSpawnStreak = max(1,spikeSpawnStreak/spikeDivisorCoolDown)
 	if currentDifficulty > 1:
 		currentDifficulty = max(1,currentDifficulty/1.5)
 	
@@ -561,12 +565,16 @@ func spawnBlock():
 	var secondPosition = blockPosition
 	#if both blocks exist and its time to spawn coin/spike
 	$SpawnTimer.wait_time = blockSpawnTime
-	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >250):
+	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >350):
 		setBlockColor(block,true)
 		#setBlockColor(lastBlockSpawned,true)
 	
-		lastBlockSpawned.number = -1#blocksSpawned-10 #-1
-		block.number = -1#blocksSpawned-10 #-1
+		#lastBlockSpawned.number = -1#blocksSpawned-10 #-1
+		#block.number = -1#blocksSpawned-10 #-1
+		
+		lastBlockSpawned.number = -101 - blocksSpawned
+		block.number = -102 - blocksSpawned
+		
 		#print("SPIKE OR COIN SPAWN")
 		#spawn the item
 		var item = itemScene.instantiate()
@@ -585,7 +593,7 @@ func spawnBlock():
 		#spawn another block
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
-			currentDifficulty*=3
+			currentDifficulty+=10
 			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
@@ -634,9 +642,11 @@ func setBlockColor(block,itemAttached):
 	
 	#random chance of making it a random color
 	if randi_range(1, maxRange) <= randomColorRate: # + randomColorStreak
-		currentDifficulty*=3
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
+		if (block.blockColor != lastBlocksColor) and (block.blockColor != "RAINBOW") and (lastBlocksColor != "RAINBOW") and (difficulty != "RAINBOW"):
+			currentDifficulty+=10
+		lastBlocksColor = block.blockColor 
 		return
 		#randomColorStreak += 20
 	#else:
@@ -661,8 +671,9 @@ func setBlockColor(block,itemAttached):
 				block.setColor("PURPLE")
 			else:
 				block.setColor("BLUE")
-	
-	
+	if (block.blockColor != lastBlocksColor) and (block.blockColor != "RAINBOW") and (lastBlocksColor != "RAINBOW") and (difficulty != "RAINBOW"):
+		currentDifficulty+=5
+	lastBlocksColor = block.blockColor 
 	
 func gameOver():
 	if gameState == "PLAYING":
@@ -826,14 +837,14 @@ func loadTutorial():
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.17))
+	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.11))
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("GREEN")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.3))
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.35))
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("GREEN")

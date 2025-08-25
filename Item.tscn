@@ -158,7 +158,7 @@ randomness = 0.1
 process_material = SubResource("ParticleProcessMaterial_7k7bx")
 
 [node name="TextureRect" type="TextureRect" parent="Item"]
-z_index = 999
+z_index = 49
 offset_left = -64.0
 offset_top = -64.0
 offset_right = 63.0

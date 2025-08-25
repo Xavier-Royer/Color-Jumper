@@ -764,8 +764,18 @@ theme_override_font_sizes/font_size = 64
 text = "score"
 label_settings = SubResource("LabelSettings_kjvhd")
 
+[node name="Difficulty" type="Label" parent="ScreenManager/GameScreen/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 64
+
 [node name="ColorButtons" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
-z_index = 10
+z_index = 60
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -777,6 +787,7 @@ grow_vertical = 0
 mouse_filter = 0
 
 [node name="RED" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+z_index = 25
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("11_5mvff")
@@ -785,6 +796,7 @@ texture_pressed = ExtResource("4_lgr22")
 stretch_mode = 0
 
 [node name="GREEN" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+z_index = 25
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("11_5mvff")
@@ -793,6 +805,7 @@ texture_pressed = ExtResource("6_wkp8b")
 stretch_mode = 0
 
 [node name="BLUE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+z_index = 25
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("11_5mvff")
@@ -801,6 +814,7 @@ texture_pressed = ExtResource("8_c2ibq")
 stretch_mode = 0
 
 [node name="PURPLE" type="TextureButton" parent="ScreenManager/GameScreen/UI/ColorButtons"]
+z_index = 25
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("11_5mvff")

@@ -4,6 +4,7 @@ var playerOn  = false
 signal invalidBlock
 signal caughtBlock
 signal leftBlock
+signal deleteItem
 @onready var blockArea = $SpawnRadius
 @onready var rainbowDead = preload("res://RainbowDead.tres")
 @onready var rainbowCaught = preload("res://RainbowBlockCaught.tres")
@@ -63,14 +64,16 @@ func delete():
 
 
 func _on_spawn_radius_area_entered(_area: Area2D) -> void:
-	if not deleted and number != -1:
+	if not deleted:
 		var areas = $SpawnRadius.get_overlapping_areas()
 		for a in areas:
-			if a.get_parent().number < number:
+			if (number > -1  and a.get_parent().number < number) or (number < 0 and a.get_parent().number > number and a.get_parent.number < 0):
 				blockArea.set_collision_mask_value(9,false)
 				blockArea.set_collision_layer_value(9,false)
-				if number != -1:
-					queue_free()
+				if number < 0:
+					emit_signal("deleteItem")
+				
+				queue_free()
 				deleted = true
 				emit_signal("invalidBlock")
 				break
