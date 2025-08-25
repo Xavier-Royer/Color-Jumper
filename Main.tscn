@@ -37,9 +37,9 @@
 [ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://allWhiteTempshader.gdshader" id="31_5mkgo"]
 [ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="32_3ccbu"]
 [ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://SkipIcon.png" id="33_3ccbu"]
-[ext_resource type="Texture2D" uid="uid://drod183p6tvt6" path="res://Arrow.png" id="34_ny7u2"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://RainbowColorGradient.tres" id="34_sph85"]
 [ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://TextBox.png" id="34_x3yn0"]
+[ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://snkinnyArrow.png" id="35_x3yn0"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -884,12 +884,16 @@ texture_pressed = ExtResource("18_3b0ty")
 stretch_mode = 4
 
 [node name="StartTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
-layout_mode = 0
-offset_left = 43.0
-offset_top = 1319.0
-offset_right = 149.0
-offset_bottom = 1356.0
-scale = Vector2(4, 4)
+z_index = 50
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 39.0
+offset_top = 360.0
+offset_right = 191.0
+offset_bottom = 527.0
+action_mode = 0
 texture_normal = ExtResource("28_5mkgo")
 stretch_mode = 4
 
@@ -1041,7 +1045,8 @@ size_flags_horizontal = 3
 
 [node name="Text" type="Label" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("4_sc1dx")
+theme_override_font_sizes/font_size = 48
 theme_override_styles/normal = SubResource("StyleBoxEmpty_ny7u2")
 text = "Click where you
 want to go"
@@ -1064,7 +1069,8 @@ stretch_mode = 5
 [node name="Finger" type="TextureRect" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("34_ny7u2")
+texture = ExtResource("35_x3yn0")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]

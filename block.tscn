@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://bu48js7s1b6pi" path="res://normalDead.tres" id="3_5d32t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
-size = Vector2(101.726, 100.632)
+size = Vector2(130, 130)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_im0tn"]
 radius = 21.1123
@@ -301,7 +301,7 @@ input_pickable = true
 script = ExtResource("1_im0tn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.166667, -0.333333)
+position = Vector2(-0.2, -0.0999998)
 scale = Vector2(0.304741, 0.304741)
 shape = SubResource("RectangleShape2D_xfwl5")
 

@@ -376,8 +376,8 @@ func _on_block_caught():
 		$UI/Pointer.hide()
 		$UI/SkipTutorial.hide()
 		var tween = create_tween()
-		tween.set_ease(Tween.EASE_IN)
-		tween.set_trans(Tween.TRANS_SINE)
+		#tween.set_ease(Tween.EASE_IN)
+		#tween.set_trans(Tween.TRANS_SINE)
 		tween.tween_property(movingObjects,"position",movingObjects.position + Vector2(0,tweenDistance),0.5)
 		tween.connect("finished", tutorialOver)
 	if player.blockOn.number == -99:
@@ -412,9 +412,9 @@ func _unhandled_input(event: InputEvent) -> void:
 						
 						
 						if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor:
+							tutorialChangeColor  =true
 							if not buttonAnimationPlayed:
 								buttonAnimationPlayed = true
-								tutorialChangeColor  =true
 								$UI/ButtonPointer.show()
 								var tween = create_tween()
 								$UI/ButtonPointer.position = Vector2(0,screen_size.y - $UI/ButtonPointer.size.y)
@@ -507,7 +507,7 @@ func _process(delta: float) -> void:
 			#var tween2 = create_tween().set_loops()
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
 			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
-			movingObjects.position.y += delta*gameSpeed*1.75
+			movingObjects.position.y += delta*gameSpeed#delta*gameSpeed*1.75
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
 				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
@@ -946,5 +946,4 @@ func showButtons():
 
 
 func _on_start_tutorial_pressed() -> void:
-	
 	loadTutorial()
