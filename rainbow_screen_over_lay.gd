@@ -14,9 +14,7 @@ func rainbowStart():
 
 
 
-func _on_rainbow_fade_timeout() -> void:
-
-	
+func _on_rainbow_fade_timeout() -> void:	
 	if previousTween != null:
 		previousTween.stop()
 	var currentTween = create_tween()
@@ -44,7 +42,7 @@ func hideFlash():
 func flashColor(blockColor):
 	#get_parent().get_node("FlashScreen").show()
 	#get_parent().get_node("FlashScreen").modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.5)
-#	get_parent().get_node("FlashScreen").modulate.a = 1
+	#get_parent().get_node("FlashScreen").modulate.a = 1
 	if previousTween != null:
 		previousTween.stop() 
 	rainbowGoing = false

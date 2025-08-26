@@ -1,5 +1,5 @@
 extends Node2D
-var number = -1
+var number = -999999999999
 @onready var blockArea = $spawnRadius
 @onready var spikeTexture = load("res://textures/ScaledDownSpike.png") 
 @onready var coinTexture =  load("res://textures/ScaledDownCoin.png")
@@ -61,6 +61,8 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	
 	firstBlock = block1
 	secondBlock = block2
+	block1.connect("deleteItem",queue_free)
+	block2.connect("deleteItem",queue_free)
 	
 	#button.connect("pressed",changeColor.bind(button.name))
 	
@@ -94,8 +96,7 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	else:
 		block1.connect("caughtBlock",updateState.bind(block1))
 		block2.connect("caughtBlock",updateState.bind(block2))
-	block1.connect("deleteItem",queue_free)
-	block2.connect("deleteItem",queue_free)
+	
 	if "RAINBOW" == FileManager.difficulty:
 		momentOfInertia *=2.0
 	

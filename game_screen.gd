@@ -47,6 +47,7 @@ var spikeDivisorCoolDown = 2.0
 var spikeCoolDownTime = 1.3
 var currentDifficulty = 1.0
 var lastBlocksColor = "RED"
+var coinStreak = 1
 
 var rainbowOver = true
 var particleSpeed = 3
@@ -176,19 +177,44 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		blocksSpawned+=1
 	
 	
-	#generates the rest of the starting blocks 
-	for i in randi_range(15,18):
+	#generates the rest of the starting blocks
+	var blockPositions = []
+	var numberOfBlocks = randi_range(15,18) 
+	for i in range(numberOfBlocks):
+		#spawnStarterBlock(i,fromTutorial,tweenDistance)
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
-		movingObjects.add_child(block)
-		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
-		if fromTutorial == true:
-			block.position.y += -tweenDistance - movingObjects.position.y - 50
-		#block.connect("invalidBlock",spawnBlock)
-		block.setColor("RED")
-		block.connect("blockMissed",gameOver)
-		lastBlockSpawned = block
-		blocksSpawned+=1
+		
+		#var spacedOutBlocks = 4
+		var yStartPos = screen_size.y * (2.0/3.0) - 150
+		var yRange = (screen_size.y * (2.0/3.0) - 150) + 700.0
+		var yIncriments = yRange/numberOfBlocks
+		print(yIncriments)
+	#	if i > spacedOutBlocks:
+		var invalid = false
+		var blockPosition = Vector2(randi_range(35,screen_size.x - 35),min(yStartPos-(yIncriments*i) + randi_range(-50,50),  yStartPos))
+		#var blockPosition = Vector2(500,min(yStartPos-(yIncriments*i) + randi_range(-20,20),  yStartPos))
+		for x in blockPositions:
+			if blockPosition.distance_to(x) < 350:
+				block.queue_free()
+				invalid = true
+		if not invalid:
+			blockPositions.append(blockPosition)
+			block.position = blockPosition
+			print(block.position)
+			movingObjects.add_child(block)
+			if fromTutorial == true:
+				block.position.y += -tweenDistance - movingObjects.position.y - 50
+			##block.connect("invalidBlock",spawnBlock)
+			block.setColor("RED")
+			block.connect("blockMissed",gameOver)
+			#block.connect("invalidBlock",spawnStarterBlock.bind(i))
+			lastBlockSpawned = block
+			blocksSpawned+=1
+			#var timer = Timer.new()
+			#self.add_child(timer)
+			#timer.start(0.001)
+			#await timer.timeout
 	
 	if fromTutorial == false:
 		player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
@@ -207,15 +233,15 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
 		
-		randomColorRate = 50
-		baseGameSpeed  = 220#200
-		blockSpawnTime = 1
-		$SpawnTimer.wait_time = 1
+		randomColorRate = 100
+		baseGameSpeed  = 410#200
+		blockSpawnTime = 0.6
+		$SpawnTimer.wait_time = 0.6
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 120
-		spikeSpawnRate = 250
-		coinSpawnRate = 60
+		randomColorRate = 140
+		spikeSpawnRate = 260
+		coinSpawnRate = 70
 		baseGameSpeed  = 820
 		blockSpawnTime = 0.35
 		spikeDivisorCoolDown = 2.5
@@ -223,18 +249,18 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$SpawnTimer.wait_time = 0.35
 	
 	elif difficulty == "COLORFUL": #EXTREME
-		randomColorRate = 750
-		baseGameSpeed  = 650
+		randomColorRate = 820
+		baseGameSpeed  = 670
 		blockSpawnTime = 0.5
 		$SpawnTimer.wait_time = 0.5
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
 		baseGameSpeed  = 1130
-		blockSpawnTime = 0.3
-		spikeSpawnRate = 300 # percentage out of 1000 that one spawns
-		coinSpawnRate = 100
+		blockSpawnTime = 0.27
+		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
+		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
-		$SpawnTimer.wait_time = 0.3
+		$SpawnTimer.wait_time = 0.27
 		colorTransitionSpeed = 1.5
 		spikeCoolDownTime = 1.6
 		speed = 8000
@@ -251,6 +277,25 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	lastBlocksColor = "RED"
 	currentDifficulty = 1
 	gameState = "READY"
+
+
+func spawnStarterBlock(i,fromTutorial,tweenDistance):
+	var block
+	block = blockScene.instantiate()
+	block.number = blocksSpawned
+	movingObjects.add_child(block)
+	if i <3:
+		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(-600,screen_size.y * (2.0/3.0) - 100))
+	else:
+		block.position = Vector2(randi_range(30,screen_size.x - 35),randi_range(0,screen_size.y * (2.0/3.0) - 100))
+	if fromTutorial == true:
+		block.position.y += -tweenDistance - movingObjects.position.y - 50
+	#block.connect("invalidBlock",spawnBlock)
+	block.setColor("RED")
+	block.connect("blockMissed",gameOver)
+	block.connect("invalidBlock",spawnStarterBlock.bind(i,fromTutorial,tweenDistance))
+	lastBlockSpawned = block
+	blocksSpawned+=1
 
 func changeColor(newColor):
 	if difficulty == "RAINBOW":
@@ -276,6 +321,21 @@ func changeColor(newColor):
 	
 	#change the players color
 	player.modulate = colorToRGB[newColor]
+	
+	if $Objects/Player/ColorRect.material.get_shader_parameter("rainbow"):
+		$UI/RainBowBar.hide()
+		$UI/RainbowParticles.hide()
+		$UI/RainbowScreenOverLay/RainbowFade.stop()
+		$UI/RainbowScreenOverLay/FlashTimer.stop()
+		#$UI/RainbowScreenOverLay.hide()
+		$UI/RainbowScreenOverLay.flashColor(colorToRGB[newColor])
+		rainbowOver = false
+		player.rainbowOff()
+		#$UI/RainbowScreenOverLay.hide()
+		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+		#$UI/RainbowScreenOverLay.flashColor(currentBlock.modulate)
+		$RainbowTimer.stop()
+	
 	
 	if gameState == "TUTORIAL":
 		for i in $UI/ColorButtons.get_children():
@@ -492,8 +552,12 @@ func _process(delta: float) -> void:
 		player.gameSpeed = gameSpeed
 		#updates game time and moves background down
 		gameRunTime += delta
-		spikeSpawnRate += delta/5.0
-		gameSpeed = baseGameSpeed + 150*(log(gameRunTime)) 
+		spikeSpawnRate += delta/3.0
+		
+		gameSpeed = baseGameSpeed + 140*(log(gameRunTime)) 
+		#gameSpeed = baseGameSpeed + 150*(log(gameRunTime)) 
+		#gameSpeed = baseGameSpeed + (130*   pow((log((10+gameRunTime)*0.1)),2))
+		
 		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
 		#update score
@@ -531,13 +595,13 @@ func comma_format(num_str: String) -> String:
 
 
 
-func spawnBlock():
+func spawnBlock(respawning = false):
 	var block2
 	var block = blockScene.instantiate()
 	movingObjects.call_deferred("add_child",block)
 	block.number = blocksSpawned
 	blocksSpawned += 1
-	block.connect("invalidBlock",spawnBlock)
+	block.connect("invalidBlock",spawnBlock.bind(true))
 	block.connect("blockMissed",gameOver)
 	
 	
@@ -550,11 +614,22 @@ func spawnBlock():
 	
 	#var spikeSpawn = randi_range(0,1000*spikeSpawnStreak) < spikeSpawnRate
 	var spikeSpawn = randi_range(0,1000*(max(1,currentDifficulty/4.2))) < spikeSpawnRate
-	var coinSpawn = randi_range(0,1000/(max(currentDifficulty,1))) < coinSpawnRate
+	#var coinSpawn = randi_range(0,1000/(max(currentDifficulty/3.0,1))) < coinSpawnRate
+	var coinSpawn = randi_range(0,1000/(min(coinStreak,15))) < coinSpawnRate
 	#if spikeSpawnStreak > 1:
 		#spikeSpawnStreak = max(1,spikeSpawnStreak/spikeDivisorCoolDown)
 	if currentDifficulty > 1:
 		currentDifficulty = max(1,currentDifficulty/1.5)
+	
+	if coinSpawn and not spikeSpawn:
+		coinStreak*=10
+		if randi_range(0,10) < 4:
+			coinStreak = 1
+	else:
+		coinStreak = 1
+		if currentDifficulty < 2:
+			coinStreak = 2
+		coinSpawn = false
 	
 	#spikeSpawnStreak = 1
 	var lastBlockExists = lastBlockSpawned != null
@@ -565,7 +640,7 @@ func spawnBlock():
 	var secondPosition = blockPosition
 	#if both blocks exist and its time to spawn coin/spike
 	$SpawnTimer.wait_time = blockSpawnTime
-	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >350):
+	if (spikeSpawn or coinSpawn) and lastBlockExists and (firstPosition.distance_to(secondPosition) >350 and not respawning and gameRunTime >1.0):
 		setBlockColor(block,true)
 		#setBlockColor(lastBlockSpawned,true)
 	
@@ -573,14 +648,17 @@ func spawnBlock():
 		#block.number = -1#blocksSpawned-10 #-1
 		
 		lastBlockSpawned.number = -101 - blocksSpawned
-		block.number = -102 - blocksSpawned
+		blocksSpawned += 1
+		block.number = -101 - blocksSpawned
+		blocksSpawned += 1
 		
 		#print("SPIKE OR COIN SPAWN")
 		#spawn the item
 		var item = itemScene.instantiate()
-		item.number =-1# blocksSpawned-10 
+		#print("SPAWNING ITEM")
+		item.number =-999999999999# blocksSpawned-10 
 		movingObjects.call_deferred("add_child",item)
-		blocksSpawned += 1
+		
 		#set the item type
 		var type
 		if coinSpawn: 
@@ -597,9 +675,9 @@ func spawnBlock():
 			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
-			block2.number = blocksSpawned#-1
+			block2.number = blocksSpawned -5
 			blocksSpawned += 1
-			block2.connect("invalidBlock",spawnBlock)
+			block2.connect("invalidBlock",spawnBlock.bind(true))
 			block2.connect("blockMissed",gameOver)
 			var block2Position = Vector2(0,0)
 			var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
@@ -619,7 +697,7 @@ func spawnBlock():
 				block2Position -= spikeDirection *distanceFromSpike
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
 			block2Position.x = clamp(block2Position.x,40,screen_size.x-40)
-			block2Position.y = clamp(block2Position.y,-1000,-200)
+			block2Position.y = clamp(block2Position.y,-1000,-270)
 			block2.set_deferred("global_position", block2Position)
 			setBlockColor(block2,true)
 	else:
@@ -639,13 +717,15 @@ func setBlockColor(block,itemAttached):
 	if itemAttached:
 		maxRange = 2000
 	maxRange *= (max(currentDifficulty/2.0,0.75))
+	if difficulty == "COLORFUL":
+		maxRange = 1000
 	
 	#random chance of making it a random color
 	if randi_range(1, maxRange) <= randomColorRate: # + randomColorStreak
 		var colors  = ["RED","GREEN","BLUE","PURPLE"]
 		block.setColor(colors[randi_range(0,3)])
 		if (block.blockColor != lastBlocksColor) and (block.blockColor != "RAINBOW") and (lastBlocksColor != "RAINBOW") and (difficulty != "RAINBOW"):
-			currentDifficulty+=10
+			currentDifficulty+=5
 		lastBlocksColor = block.blockColor 
 		return
 		#randomColorStreak += 20
@@ -671,8 +751,11 @@ func setBlockColor(block,itemAttached):
 				block.setColor("PURPLE")
 			else:
 				block.setColor("BLUE")
-	if (block.blockColor != lastBlocksColor) and (block.blockColor != "RAINBOW") and (lastBlocksColor != "RAINBOW") and (difficulty != "RAINBOW"):
-		currentDifficulty+=5
+	if (block.blockColor != lastBlocksColor) and (block.blockColor != "RAINBOW") and (lastBlocksColor != "RAINBOW") and (difficulty != "RAINBOW") :
+		if difficulty == "COLORFUl":
+			currentDifficulty+=0.5
+		else:
+			currentDifficulty+=5
 	lastBlocksColor = block.blockColor 
 	
 func gameOver():
