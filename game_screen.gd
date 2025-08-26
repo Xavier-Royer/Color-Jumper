@@ -68,11 +68,12 @@ var colorToNumber ={
 }
 
 var colorToRGB ={
-	"RED": Color(255,0,0),
-	"GREEN":Color(0,255,0),
-	"BLUE":Color(0,0,255),
-	"PURPLE":Color(255,0,255)
+	"RED": Color(1.0,.07,0),
+	"GREEN": Color(0,1.0,.05),
+	"BLUE": Color(0,.8,1.0),
+	"PURPLE":Color(1.0,.1,1.0)
 }
+
 
 #rainbowFlashAnimationVariables
 var flashCount =0  
@@ -136,6 +137,7 @@ func _ready() -> void:
 
 
 func loadGame(fromTutorial, tweenDistance = 0):
+	get_parent().find_child("Background").get_child(0).resetBackgroundPositions()
 	print(difficulty)
 	#resets everything 
 	gameRunTime = 0
@@ -541,8 +543,11 @@ func _unhandled_input(event: InputEvent) -> void:
 			print($UI/ColorButtons.position.y)
 
 func _process(delta: float) -> void:
-	$UI/Difficulty.text = str((round(currentDifficulty*10000))/10000)
+	#$UI/Difficulty.text = str((round(currentDifficulty*10000))/10000)
 	#$UI/Difficulty.text =str(currentDifficulty)
+	
+	
+	
 	if rainbowOver == false:
 		$UI/RainbowParticles.speed_scale = particleSpeed
 	
@@ -578,7 +583,9 @@ func _process(delta: float) -> void:
 			if not tutorialStep > len(tutorialBlockPositions)-1:
 				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
 				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
-		
+	if gameState == "TUTORIAL":
+		gameSpeed = 0 
+	get_parent().find_child("Background").get_child(0).backgroundMoveSpeed = gameSpeed/20
 		
 #nice function
 func comma_format(num_str: String) -> String:
@@ -761,6 +768,7 @@ func setBlockColor(block,itemAttached):
 func gameOver():
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
+		gameSpeed = 0
 		if difficulty != "RAINBOW":
 			$UI/RainbowScreenOverLay.hide()
 			$UI/RainbowScreenOverLay.gameOver = true
@@ -998,7 +1006,7 @@ func fadeOutButtons():
 	tween.tween_property($UI/Leaderboard, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/Shop, "modulate:a", 0.0, 0.5)
 	tween.tween_property($UI/StartTutorial, "modulate:a", 0.0, 0.5)
-	$UI/StartTutorial.hide()
+	#$UI/StartTutorial.hide()
 	
 
 func tutorialOver():
@@ -1012,7 +1020,11 @@ func _on_skip_tutorial_pressed() -> void:
 	loadGame(false)
 	$UI/Pointer.hide()
 	$UI/ButtonPointer.hide()
-	$UI/SkipTutorial.hide()
+	#$UI/SkipTutorial.hide()
+	var tween = create_tween().set_parallel(true)
+	$UI/SkipTutorial.disabled = true
+	$UI/SkipTutorial.mouse_filter = 1
+	tween.tween_property($UI/SkipTutorial, "modulate:a", 0.0, 0.5)
 	$UI/Parent.hide()
 	FileManager.saveTutorial()
 	showButtons()

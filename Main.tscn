@@ -1,19 +1,23 @@
-[gd_scene load_steps=64 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=68 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://settings_screen.gd" id="2_c2ibq"]
+[ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://control.gd" id="2_gngx1"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://game_screen.gd" id="2_uu6xs"]
 [ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://textures/redbutton.png" id="3_3dxm6"]
 [ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://textures/colorjumper_logo.png" id="3_fos0i"]
+[ext_resource type="Texture2D" uid="uid://ckiastodqvvgb" path="res://spaceBackground2 (2).png" id="3_gngx1"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://player.gd" id="4_cm0pq"]
 [ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://textures/redbuttonpressed.png" id="4_lgr22"]
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="4_sc1dx"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://textures/greenbutton.png" id="5_03owx"]
 [ext_resource type="Texture2D" uid="uid://btu0flseb36rl" path="res://textures/settingsbg.png" id="5_hhcpw"]
+[ext_resource type="Texture2D" uid="uid://j7muhitor81a" path="res://BackGround3.png" id="5_v8qla"]
 [ext_resource type="Texture2D" uid="uid://dhc0uf23mr7vo" path="res://textures/home_button.png" id="6_hri7i"]
 [ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://textures/resetall_button.png" id="6_mxvw5"]
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://textures/greenbuttonpressed.png" id="6_wkp8b"]
+[ext_resource type="Texture2D" uid="uid://csgxnco0wn22l" path="res://backGround4.png" id="6_y1tbi"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://textures/bluebutton.png" id="7_c6i3y"]
 [ext_resource type="Texture2D" uid="uid://qdbygg7qbwac" path="res://textures/home_button_pressed.png" id="7_w3rk5"]
 [ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://textures/resetall_button_pressed.png" id="7_xrxkg"]
@@ -461,8 +465,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+script = ExtResource("2_gngx1")
 
-[node name="TextureBG" type="TextureRect" parent="ScreenManager/Background/Control"]
+[node name="TextureBG1" type="TextureRect" parent="ScreenManager/Background/Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -470,6 +475,33 @@ anchor_bottom = 1.0
 offset_right = 18.0
 offset_bottom = 18.0
 texture = ExtResource("2_3b0ty")
+
+[node name="TextureBG2" type="TextureRect" parent="ScreenManager/Background/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_gngx1")
+
+[node name="TextureBG3" type="TextureRect" parent="ScreenManager/Background/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_v8qla")
+
+[node name="TextureBG4" type="TextureRect" parent="ScreenManager/Background/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_y1tbi")
 
 [node name="SolidBG" type="ColorRect" parent="ScreenManager/Background/Control"]
 visible = false

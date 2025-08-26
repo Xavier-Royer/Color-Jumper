@@ -30,16 +30,16 @@ func setColor(color):
 	
 	
 	if color == "RED":
-		self.modulate = Color(255,0,0)
+		self.modulate = Color(1.0,.07,0)
 		self.set_collision_layer_value(1,true)
 	elif color == "GREEN":
-		self.modulate = Color(0,255,0)
+		self.modulate = Color(0,1.0,.05)
 		self.set_collision_layer_value(2,true)
 	elif color == "BLUE":
-		self.modulate = Color(0,0,255)
+		self.modulate = Color(0,.8,1.0)
 		self.set_collision_layer_value(3,true)
 	elif color == "PURPLE":
-		self.modulate = Color(255,0,255)
+		self.modulate = Color(1.0,.1,1.0)
 		self.set_collision_layer_value(4,true)
 	else: # for rainbow set all color collision layers to true
 		self.modulate = Color(255,255,255)
