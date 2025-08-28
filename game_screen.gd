@@ -694,7 +694,7 @@ func _process(delta: float) -> void:
 				#var tween2 = create_tween().set_loops()
 				#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
 				#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
-				gameSpeed =2500
+				gameSpeed =2000
 				movingObjects.position.y += delta*gameSpeed #*1.75
 				if not tutorialStep > len(tutorialBlockPositions)-0:
 					$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
@@ -1164,27 +1164,72 @@ func loadTutorial():
 	block.setColor("PURPLE")
 	tutorialBlockSteps.append("CHECKPOINT")
 	block.tutorial = true
-	tuturialTexts.append("")
+	tuturialTexts.append("Avoid Spikes!")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-24/10.0))
+	block.position = Vector2(screen_size.x * (5.0/6.0),screen_size.y * (-24/10.0))
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("RED")
 	tutorialBlockSteps.append("LEARNING")
 	block.tutorial = true
-	tuturialTexts.append("")
+	tuturialTexts.append("Dont hit the blade")
+	
+	var block2 = blockScene.instantiate()
+	movingObjects.add_child(block2)
+	block2.position = Vector2(screen_size.x * (1.0/6.0),screen_size.y * (-25/10.0))
+	tutorialBlockPositions.append(block2)
+	block2.number = -99
+	block2.setColor("RED")
+	tutorialBlockSteps.append("LEARNING")
+	block2.tutorial = true
+	tuturialTexts.append("Collect Coins!")
+	
+	var item = itemScene.instantiate()
+	item.number =-999999999999# blocksSpawned-10 
+	movingObjects.add_child(item)
+	item.createHitBox(block.global_position,block2.global_position,movingObjects,block,block2,"SPIKE")
+	#.call_deferred("createHitBox",firstPosition,secondPosition, movingObjects,  lastBlockSpawned, block,type)
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-26/10.0))
+	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-27/10.0))
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("RED")
 	tutorialBlockSteps.append("LEARNING")
 	block.tutorial = true
+	tuturialTexts.append("Make sure to hit the coin")
+	
+	block2 = blockScene.instantiate()
+	movingObjects.add_child(block2)
+	block2.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-30/10.0))
+	tutorialBlockPositions.append(block2)
+	block2.number = -99
+	block2.setColor("RED")
+	tutorialBlockSteps.append("LEARNING")
+	block2.tutorial = true
 	tuturialTexts.append("")
+	
+	
+	item = itemScene.instantiate()
+	item.number =-999999999999# blocksSpawned-10 
+	movingObjects.add_child(item)
+	item.createHitBox(block.global_position,block2.global_position,movingObjects,block,block2,"COIN")
+	
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-32/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("CHECKPOINT")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	
 	
 	$UI/Parent/TextContainer/Text.text = tuturialTexts[0]
 	$UI/Parent.show()
