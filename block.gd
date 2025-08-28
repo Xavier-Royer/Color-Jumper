@@ -15,12 +15,17 @@ var blockColor
 var mouseOnBlock = false
 var onBlock = false
 var ghost = false
+var itemAttached = null
+var originalColor 
+var tutorialBlockCaught = false
+var playingBackwards = false
 
 
 #var spawnComplete = false
 
 func setColor(color):
-
+	if blockColor == null:
+		originalColor = color
 	$ColorRect.material.set_shader_parameter("rainbow",false)
 	$ColorRect.material.set_shader_parameter("speed",2.0)
 	
@@ -88,8 +93,9 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 
 
 func blockCaught(playerDirection, gameSpeed, collisionPosition):
+	tutorialBlockCaught = true
 	onBlock = true
-	if number !=0:
+	if number !=0 and playingBackwards == false:
 		#$GPUParticles2D.process_material.
 		$GPUParticles2D.process_material.direction = Vector3(-1*playerDirection.x,-1*playerDirection.y ,0)
 		$GPUParticles2D.process_material.gravity = Vector3(0,gameSpeed*2,0)
@@ -106,6 +112,10 @@ func blockCaught(playerDirection, gameSpeed, collisionPosition):
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
+		if playingBackwards:
+			$VisibleOnScreenNotifier2D.show()
+			playingBackwards = false
+			return
 		deleted = true
 		if not tutorial:
 			queue_free()
@@ -117,16 +127,28 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	if tutorial:
+	if playingBackwards:
 		return
 	if deleted == false:
 		emit_signal("blockMissed")
-	var tween = create_tween()
-	tween.set_ease(Tween.EASE_IN)
-	#tween.set_trans(Tween.TRANS_EXPO)
-	tween.tween_property($Dead,"speed_scale",0.25,0.5)
-	tween.connect("finished",speedUp)
-	$Dead.emitting =true
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN)
+		#tween.set_trans(Tween.TRANS_EXPO)
+		
+		if not tutorial:
+			tween.tween_property($Dead,"speed_scale",0.25,0.5)
+			tween.connect("finished",speedUp)
+			$Dead.lifetime = 5.0
+			$Dead.emitting =true
+		else:
+			tween.tween_property($Dead,"speed_scale",1.0,0.25)
+			$Dead.lifetime = 1.0
+			$Dead.emitting =true
+			#$GPUParticles2D.emitting = true
+			#await tween.finished
+			#self.hide()
+			
+		
 	
 	#queue_free()
 func speedUp():
@@ -168,15 +190,33 @@ func setGhost():
 	#mouseOnBlock = false
 
 func spawnBackIn():
+	if self.visible and tutorialBlockCaught ==false:
+		return
+	if playerOn:
+		return
+	$Dead.emitting = false
+	tutorialBlockCaught = false
 	deleted =false
+	setColor(originalColor)
 	$AnimationPlayer.stop()
 	setColor(blockColor)
-	print("SPAWNINGG")
+	
+	
+	
+	playingBackwards = true
+	$AnimationPlayer.play_backwards("blockLeft")
+	
 	onBlock = false
 	playerOn  = false
-	self.scale = Vector2(6,6)
+	self.scale = Vector2(0,0)
 	self.rotation = 0 
 	$ColorRect.modulate.a  = 1
-	$VisibleOnScreenNotifier2D.show()
+	#$VisibleOnScreenNotifier2D.show()
 	deleted =false
 	show()
+	#$Dead.emitting =false
+	
+	
+
+func deleteAttatchedItem():
+	emit_signal("deleteItem")

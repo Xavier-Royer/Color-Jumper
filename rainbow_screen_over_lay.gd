@@ -3,13 +3,14 @@ var previousTween = null
 var gameOver = false
 var rainbowGoing = false
 
-func rainbowStart():
+func rainbowStart(tutorial = false):
 	gameOver = false
 	rainbowGoing = true
 	get_parent().get_node("FlashScreen").hide()
 	self.modulate = Color(1.0,1.0,1.0,.5)
 	self.show()
-	$RainbowFade.start(5)
+	if not tutorial:
+		$RainbowFade.start(5)
 	#$FlashTimer.start(4.8)
 
 
