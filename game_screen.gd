@@ -85,12 +85,19 @@ var oldRainbowTweenParticles
 #tutorialVariables
 var tutorialBlockPositions = []
 #would be nice if we had another name for blocks
-var tuturialTexts = ["Click where you\nwant to go", "Dont miss any blocks","                ","Change colors to\nmatch the block","                    ","Tip: Use one hand for colors\nand one for blocks"]
+var tutorialBlockSteps = []
+var tuturialTexts = []
 var tutorialChangeColor = false
 var tutorialStep = 0 
 var buttonAnimationPlayed = false
 var textTween 
 var textTweenAlpha
+var lastCheckPoint
+var lastCheckPointBlock
+var tutorialState
+var updateTextPosition = null
+var learnedColors = false
+var aboutToBeFree = false
 
 
 
@@ -175,6 +182,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		movingObjects.add_child(block)
 		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 		block.setColor("RED")
+		block.setGhost()
 		block.number = blocksSpawned
 		blocksSpawned+=1
 	
@@ -340,6 +348,10 @@ func changeColor(newColor):
 	
 	
 	if gameState == "TUTORIAL":
+		if learnedColors == true and (tutorialState == "FREE" or aboutToBeFree):
+			tutorialChangeColor = false
+			aboutToBeFree = false
+			return
 		for i in $UI/ColorButtons.get_children():
 			i.disabled = true
 		$UI/ButtonPointer.hide()
@@ -446,6 +458,8 @@ func _on_block_caught():
 		tween.tween_property(movingObjects,"position",movingObjects.position + Vector2(0,tweenDistance),0.5)
 		tween.connect("finished", tutorialOver)
 	if player.blockOn.number == -99:
+		if textTween:
+			textTween.kill()
 		textTween = create_tween().set_loops()
 		textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,350),1.0).set_ease(Tween.EASE_OUT)
 		textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300),1.0).set_ease(Tween.EASE_IN)
@@ -454,7 +468,47 @@ func _on_block_caught():
 		textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,0.5),1.0).set_ease(Tween.EASE_OUT)
 		textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,1),1.0).set_ease(Tween.EASE_IN)
 		
-		#Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+		if tutorialState == "FREE":
+			tutorialStep += 1
+			tutorialState = tutorialBlockSteps[tutorialStep]
+			if tutorialState == "CHECKPOINT":
+				lastCheckPoint = tutorialStep
+				lastCheckPointBlock = tutorialBlockPositions[tutorialStep]
+				var tween = create_tween()
+				$UI/Parent/TextContainer/Text.text = tuturialTexts[tutorialStep]
+				textTween.kill()
+				textTween = null
+				$UI/Parent/TextContainer.modulate.a =0.0
+				$UI/Parent.show()
+				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+				var endPosition =  (-1*lastCheckPointBlock.position.y) + (screen_size.y * (1.0/3.0))
+				var startPosition = movingObjects.position.y
+				var distance = abs(startPosition-endPosition)
+				tween.tween_property(movingObjects,"position:y",endPosition,distance/2000)
+				await tween.finished
+			
+				tutorialState = "LEARNING"
+				
+				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position -Vector2(64,64)
+				$UI/Pointer.show()
+			
+				updateTextPosition = true
+				if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor:
+					tutorialChangeColor  =true
+					# if we havent played the button animaton yet
+					if not buttonAnimationPlayed:
+						buttonAnimationPlayed = true
+						$UI/ButtonPointer.show()
+						var tween2 = create_tween()
+						$UI/ButtonPointer.position = Vector2(0,screen_size.y - $UI/ButtonPointer.size.y)
+						tween2.set_ease(Tween.EASE_IN_OUT)
+						tween2.set_trans(Tween.TRANS_SINE)
+						tween2.tween_property($UI/ButtonPointer,"position",Vector2(screen_size.x,$UI/ButtonPointer.position.y),1.2)
+						tween2.connect("finished",hoverButton.bind(tutorialBlockPositions[tutorialStep].blockColor))
+						#otherwise highlight color to siwtch to 
+					else:
+						hoverButton(tutorialBlockPositions[tutorialStep].blockColor)
+			
 	
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -465,37 +519,74 @@ func _unhandled_input(event: InputEvent) -> void:
 		#mouse position over buttons check shouldnt be needed anymore as now were using mouse emulation and passthrough fitlers
 		#hi dominic that is a pretty cool comment
 		if gameState == "TUTORIAL":
-			if textTween != null:
-				textTween.stop()
-				textTweenAlpha.stop()
+			
 			var blockPosition = tutorialBlockPositions[tutorialStep].global_position
 			if not tutorialChangeColor:
-				if (mousePosition.x < blockPosition.x + 80 and  mousePosition.x > blockPosition.x - 80) and (mousePosition.y < blockPosition.y + 80 and  mousePosition.y > blockPosition.y + -80):
-					tutorialStep+=1
-					if not tutorialStep > len(tutorialBlockPositions)-1:
-						$UI/Parent/TextContainer/Text.text = tuturialTexts[tutorialStep]
+				if tutorialState == "LEARNING":
+					if (mousePosition.x < blockPosition.x + 80 and  mousePosition.x > blockPosition.x - 80) and (mousePosition.y < blockPosition.y + 80 and  mousePosition.y > blockPosition.y + -80):
+						tutorialStep+=1
+						if textTween != null:
+							textTween.stop()
+							textTweenAlpha.stop()
+					
+						if not tutorialStep > len(tutorialBlockPositions)-1:
+							$UI/Parent/TextContainer/Text.text = tuturialTexts[tutorialStep]
+							
+							
+							
+							if tutorialBlockSteps[tutorialStep] =="FREE":
+								tutorialState = "FREE"
+							if tutorialBlockSteps[tutorialStep] == "CHECKPOINT":
+								tutorialState = "CHECKPOINT" #+ tutorialBlockSteps[tutorialStep+1]
+								$UI/CheckPointTexts.show()
+								lastCheckPoint = tutorialStep
+								lastCheckPointBlock = tutorialBlockPositions[tutorialStep]
 						
-						
-						if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor:
-							tutorialChangeColor  =true
-							if not buttonAnimationPlayed:
-								buttonAnimationPlayed = true
-								$UI/ButtonPointer.show()
-								var tween = create_tween()
-								$UI/ButtonPointer.position = Vector2(0,screen_size.y - $UI/ButtonPointer.size.y)
-								tween.set_ease(Tween.EASE_IN_OUT)
-								tween.set_trans(Tween.TRANS_SINE)
-								tween.tween_property($UI/ButtonPointer,"position",Vector2(screen_size.x,$UI/ButtonPointer.position.y),1.2)
-								tween.connect("finished",hoverButton.bind(tutorialBlockPositions[tutorialStep].blockColor))
-							else:
-								hoverButton(tutorialBlockPositions[tutorialStep].blockColor)
-							$UI/Pointer.global_position = tutorialBlockPositions[tutorialStep].global_position -Vector2(64,64)
-					else:
-						$UI/Pointer.hide()
-						
+							
+							if len(tutorialBlockSteps) > tutorialStep +0:
+								if tutorialBlockSteps[tutorialStep+1] == "FREE" and buttonAnimationPlayed:
+									aboutToBeFree = true
+									learnedColors = true
+									for i in $UI/ColorButtons.get_children():
+										i.disabled  = false 
+								# if next blocks are different colors 
+							if  tutorialBlockPositions[tutorialStep-1].blockColor != tutorialBlockPositions[tutorialStep].blockColor and learnedColors == false:
+							
+									# if we havent played the button animaton yet
+								if not buttonAnimationPlayed:
+									buttonAnimationPlayed = true
+									$UI/ButtonPointer.show()
+									var tween = create_tween()
+									$UI/ButtonPointer.position = Vector2(0,screen_size.y - $UI/ButtonPointer.size.y)
+									tween.set_ease(Tween.EASE_IN_OUT)
+									tween.set_trans(Tween.TRANS_SINE)
+									tween.tween_property($UI/ButtonPointer,"position",Vector2(screen_size.x,$UI/ButtonPointer.position.y),1.2)
+									tween.connect("finished",hoverButton.bind(tutorialBlockPositions[tutorialStep].blockColor))
+									#otherwise highlight color to siwtch to 
+								else:
+									hoverButton(tutorialBlockPositions[tutorialStep].blockColor)
+									$UI/Pointer.global_position = tutorialBlockPositions[tutorialStep].global_position -Vector2(64,64)
+						else:
+							$UI/Pointer.hide()
+				
 						#Transition to the real game 
 					
-					#jump
+						#jump
+						var playerPosition  = player.get_global_position()
+						direction = mousePosition-playerPosition
+						direction = direction.normalized()
+						player.blockOn.collision_layer = 0
+						player.blockOn.delete()
+						player.blockOn = null
+						currentBlock = null
+						#Change direction of the player to look at mouse
+						player.look_at(mousePosition)
+						player.rotation += deg_to_rad(90)
+				elif tutorialState == "CHECKPOINTFREE" or "FREE":
+					
+					tutorialState = "FREE"
+					$UI/CheckPointTexts.hide()
+					$UI/Pointer.hide()
 					var playerPosition  = player.get_global_position()
 					direction = mousePosition-playerPosition
 					direction = direction.normalized()
@@ -506,8 +597,9 @@ func _unhandled_input(event: InputEvent) -> void:
 					#Change direction of the player to look at mouse
 					player.look_at(mousePosition)
 					player.rotation += deg_to_rad(90)
-			else:
-				pass
+					
+							
+					
 		
 		elif mousePosition.y < ($UI/ColorButtons.position.y+movingObjects.position.y) and gameState != "OVER":
 			#if player.velocity == Vector2(0,0):
@@ -546,8 +638,10 @@ func _process(delta: float) -> void:
 	#$UI/Difficulty.text = str((round(currentDifficulty*10000))/10000)
 	#$UI/Difficulty.text =str(currentDifficulty)
 	
-	
-	
+	#if len(tutorialBlockPositions) >tutorialStep:
+		#$UI/Parent/TextContainer/Text.text ="THIS IS A TEST"
+		#$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep+0].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+	#
 	if rainbowOver == false:
 		$UI/RainbowParticles.speed_scale = particleSpeed
 	
@@ -569,20 +663,42 @@ func _process(delta: float) -> void:
 		$UI/Score.text = str(comma_format(str(score)))
 	
 	if gameState == "TUTORIAL":
-		if tutorialStep == 0:
-			$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
-		gameSpeed =2500
+		if updateTextPosition:
+			$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+			textTween = create_tween().set_loops()
+			textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,350),1.0).set_ease(Tween.EASE_OUT)
+			textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300),1.0).set_ease(Tween.EASE_IN)
+			updateTextPosition = false
+			$UI/Parent/TextContainer.modulate.a =1.0
+			$UI/Parent.show()
+		#if tutorialStep == 0:
+	#		$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+		
 		player.velocity = speed*direction
 		player.gameSpeed = gameSpeed
-		if player.velocity != Vector2.ZERO:
-			#$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
-			#var tween2 = create_tween().set_loops()
-			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
-			#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
-			movingObjects.position.y += delta*gameSpeed*1.75
-			if not tutorialStep > len(tutorialBlockPositions)-1:
-				$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
-				$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
+		
+		if tutorialState == "CHECKPOINT" and tutorialBlockSteps[tutorialStep+1] == "FREE":
+			
+			$UI/Parent.hide()
+			$UI/Pointer.hide()
+			#print("HINDG BUTTON")
+		
+		if tutorialState == "FREE":
+			$UI/Parent.hide()
+			$UI/Pointer.hide()
+			gameSpeed =120
+			movingObjects.position.y += delta*gameSpeed
+		else:
+			if player.velocity != Vector2.ZERO:
+				#$UI/Parent/TextContainer.position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)
+				#var tween2 = create_tween().set_loops()
+				#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,500),0.4).set_ease(Tween.EASE_OUT)
+				#tween2.tween_property($UI/Parent/TextContainer,"position", tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,450),0.4).set_ease(Tween.EASE_IN)
+				gameSpeed =2500
+				movingObjects.position.y += delta*gameSpeed #*1.75
+				if not tutorialStep > len(tutorialBlockPositions)-0:
+					$UI/Pointer.position = tutorialBlockPositions[tutorialStep].global_position - Vector2(64,64)
+					$UI/Parent/TextContainer.global_position = tutorialBlockPositions[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300)# - $UI/SkipTutorial.size/2.0 - Vector2(0,400)
 	if gameState == "TUTORIAL":
 		gameSpeed = 0 
 	get_parent().find_child("Background").get_child(0).backgroundMoveSpeed = gameSpeed/20
@@ -788,7 +904,8 @@ func gameOver():
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():
 			c.disabled = true
-
+	if gameState == "TUTORIAL":
+		resetToLastCheckPoint()
 
 
 func _on_spawn_timer_timeout() -> void:
@@ -858,6 +975,7 @@ func hideRainbowParticles():
 func loadTutorial():
 	#reset player
 	gameState = "TUTORIAL"
+	$UI/CheckPointTexts.hide()
 	$UI/Parent.show()
 	$UI/Pointer.show()
 	$UI/SkipTutorial.show()
@@ -876,9 +994,9 @@ func loadTutorial():
 	$UI/RainbowParticles.hide()
 	$UI/RainbowScreenOverLay.hide()
 	rainbowOver = true
+	aboutToBeFree = false
 	
-	$UI/Parent/TextContainer/Text.text = tuturialTexts[0]
-	$UI/Parent.show()
+	
 	
 	#reset velocity and delete game screen objects 
 	player.velocity = Vector2(0,0)
@@ -893,17 +1011,29 @@ func loadTutorial():
 	currentBlock = null
 	changeColor("RED")
 	player.rotation =0
+	learnedColors = false
 	
 	
 	#Spawn all of the setup blocks
 	tutorialBlockPositions = []
+	tutorialBlockSteps = []
 	tutorialStep=0
+	lastCheckPoint = 0 
+	
+	tutorialState = "LEARNING"
+	
+	
 	movingObjects.position.y = 0
 	var block = blockScene.instantiate()
+	lastCheckPointBlock = block
 	movingObjects.add_child(block)
 	block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
 	block.number = -99
 	block.setColor("RED")
+	block.setGhost()
+	block.tutorial = true
+	tutorialBlockSteps.append("LEARNING")
+	tuturialTexts.append("Click where you want your ship to go!")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
@@ -911,6 +1041,9 @@ func loadTutorial():
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("RED")
+	tutorialBlockSteps.append("LEARNING")
+	block.tutorial = true
+	tuturialTexts.append("Don't miss!")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
@@ -918,35 +1051,172 @@ func loadTutorial():
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("RED")
+	tutorialBlockSteps.append("CHECKPOINT")
+	block.tutorial = true
+	tuturialTexts.append("")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (5.0/6.0),screen_size.y * (1.0/10.0))
+	block.position = Vector2(screen_size.x * (5.0/6.0),0)
 	tutorialBlockPositions.append(block)
 	block.number = -99
 	block.setColor("RED")
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
 	
 	block = blockScene.instantiate()
 	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.11))
+	block.position = Vector2(screen_size.x * (3.0/8.0),screen_size.y * (-2.0/10))
 	tutorialBlockPositions.append(block)
 	block.number = -99
-	block.setColor("GREEN")
-	
-	block = blockScene.instantiate()
-	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.35))
-	tutorialBlockPositions.append(block)
-	block.number = -99
-	block.setColor("GREEN")
-	
-	block = blockScene.instantiate()
-	movingObjects.add_child(block)
-	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.6))
-	tutorialBlockPositions.append(block)
-	block.number = -100
 	block.setColor("RED")
-
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-4/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-7/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("CHECKPOINT")
+	block.tutorial = true
+	tuturialTexts.append("Click to change colors")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/4.0),screen_size.y * (-10/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("GREEN")
+	tutorialBlockSteps.append("LEARNING")
+	block.tutorial = true
+	tuturialTexts.append("Lets Try Blue!")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (7.0/8.0),screen_size.y * (-12/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("BLUE")
+	tutorialBlockSteps.append("LEARNING")
+	block.tutorial = true
+	tuturialTexts.append("Pro Tip: Use your dominant hand to tap blocks, and your other hand to change colors")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-13/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("PURPLE")
+	tutorialBlockSteps.append("CHECKPOINT")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (1.0/6.0),screen_size.y * (-16/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (2.0/5.0),screen_size.y * (-18/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("GREEN")
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (4.0/5.0),screen_size.y * (-19/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("BLUE")
+	tutorialBlockSteps.append("FREE")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-22/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("PURPLE")
+	tutorialBlockSteps.append("CHECKPOINT")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-24/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("LEARNING")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	block = blockScene.instantiate()
+	movingObjects.add_child(block)
+	block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-26/10.0))
+	tutorialBlockPositions.append(block)
+	block.number = -99
+	block.setColor("RED")
+	tutorialBlockSteps.append("LEARNING")
+	block.tutorial = true
+	tuturialTexts.append("")
+	
+	$UI/Parent/TextContainer/Text.text = tuturialTexts[0]
+	$UI/Parent.show()
+	
+	#block = blockScene.instantiate()
+	#movingObjects.add_child(block)
+	#block.position = Vector2(screen_size.x * (5.0/6.0),screen_size.y * (1.0/10.0))
+	#tutorialBlockPositions.append(block)
+	#block.number = -99
+	#block.setColor("RED")
+	#
+	#block = blockScene.instantiate()
+	#movingObjects.add_child(block)
+	#block.position = Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-.11))
+	#tutorialBlockPositions.append(block)
+	#block.number = -99
+	#block.setColor("GREEN")
+	#
+	#block = blockScene.instantiate()
+	#movingObjects.add_child(block)
+	#block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.35))
+	#tutorialBlockPositions.append(block)
+	#block.number = -99
+	#block.setColor("GREEN")
+	#
+	#block = blockScene.instantiate()
+	#movingObjects.add_child(block)
+	#block.position = Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-.6))
+	#tutorialBlockPositions.append(block)
+	#block.number = -100
+	#block.setColor("RED")
+	updateTextPosition = true
 	for i in $UI/ColorButtons.get_children():
 		i.disabled = true
 
@@ -1053,3 +1323,39 @@ func showButtons():
 
 func _on_start_tutorial_pressed() -> void:
 	loadTutorial()
+
+func resetToLastCheckPoint():
+	player.hide()
+	tutorialStep = lastCheckPoint
+	for i in range(len(tutorialBlockPositions)-lastCheckPoint):
+		var blockState = tutorialBlockSteps[i+lastCheckPoint]
+		tutorialBlockPositions[i+lastCheckPoint].spawnBackIn()
+		if blockState == "CHECKPOINT" and i != 0:
+			break
+	#movingObjects.position.y = lastCheckPointBlock.position.y + (screen_size.y * (2.0/3.0))
+	
+	
+	player.velocity  = Vector2.ZERO
+	currentBlock = lastCheckPointBlock
+	player.blockOn = currentBlock
+	player.position = lastCheckPointBlock.position + Vector2(0,30)
+	_on_block_caught()
+	player.rotation =0
+	player.show()
+	print("BLCOK ON:")
+	print(player.blockOn)
+	for i in range(len(tutorialBlockPositions)-lastCheckPoint):
+		tutorialBlockPositions[i].deleted = false
+	
+	$UI/CheckPointTexts.hide()
+	var endPosition =  (-1*lastCheckPointBlock.position.y) + (screen_size.y * (1.0/3.0))
+	var startPosition = movingObjects.position.y
+	var distance = abs(startPosition-endPosition)
+	var tween = create_tween()
+	tween.tween_property(movingObjects,"position:y",endPosition,distance/1500)
+	await tween.finished
+	
+	tutorialState = "CHECKPOINT"
+	$UI/CheckPointTexts.show()
+	$UI/CheckPointTexts.text = "Lets try that again!"
+	

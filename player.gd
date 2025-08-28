@@ -41,12 +41,15 @@ func _process(_delta: float) -> void:
 	if collided: 
 		#checks if player landed on a block
 		if  get_last_slide_collision().get_collider().get_collision_layer_value(8):
+		#	print("MAYBE CAUGHT")
+		#	print(blockOn != get_last_slide_collision().get_collider())
+		
 			if blockOn != get_last_slide_collision().get_collider() and get_last_slide_collision().get_collider().deleted == false:
 				
 				blockOn = get_last_slide_collision().get_collider()
 				blockPosition = get_last_slide_collision().get_position()
 				velocity = Vector2(0,0)
-				
+				print("CAUGHT")
 				emit_signal("caughtBlock")
 		#checks if player hits a spike
 		elif get_last_slide_collision().get_collider().get_collision_layer_value(5):

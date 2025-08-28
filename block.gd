@@ -1,6 +1,7 @@
 extends StaticBody2D
 signal blockMissed
 var playerOn  = false
+var tutorial = false
 signal invalidBlock
 signal caughtBlock
 signal leftBlock
@@ -13,6 +14,7 @@ var deleted = false
 var blockColor
 var mouseOnBlock = false
 var onBlock = false
+var ghost = false
 
 
 #var spawnComplete = false
@@ -25,6 +27,7 @@ func setColor(color):
 	blockColor = color
 	for i in range(4):
 		self.set_collision_layer_value(i+1,false)
+	self.set_collision_layer_value(8,true)
 	
 	#setup blocks color and collision layers
 	
@@ -51,19 +54,23 @@ func setColor(color):
 		var unique = $ColorRect.material.duplicate(true)
 		$ColorRect.material = unique 
 		$ColorRect.material.set_shader_parameter("rainbow",true)
-
+	if ghost:
+		self.modulate.a=0
 
 		
 	#print($ColorRect.material.get_shader_parameter("Rainbow"))
 	
 
 func delete():
+	
 	deleted = true
 	emit_signal("leftBlock")
 	$AnimationPlayer.play("blockLeft")
 
 
 func _on_spawn_radius_area_entered(_area: Area2D) -> void:
+	if tutorial:
+		return
 	if not deleted:
 		var areas = $SpawnRadius.get_overlapping_areas()
 		for a in areas:
@@ -100,13 +107,19 @@ func blockCaught(playerDirection, gameSpeed, collisionPosition):
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
 		deleted = true
-		queue_free()
+		if not tutorial:
+			queue_free()
+		else:
+			$VisibleOnScreenNotifier2D.hide()
+			hide()
+			
 		
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	if tutorial:
+		return
 	if deleted == false:
-		
 		emit_signal("blockMissed")
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN)
@@ -145,8 +158,25 @@ func speedUp():
 func updateColor():
 	var colors = ["RED", "GREEN", "BLUE", "PURPLE"]
 	var index = colors.find(blockColor)
-	setColor(colors[(index+1)%4])
+	if ghost ==false:
+		setColor(colors[(index+1)%4])
 
-
+func setGhost():
+	self.modulate.a = 0
+	ghost = true
 #func _on_clicked_mouse_exited() -> void:
 	#mouseOnBlock = false
+
+func spawnBackIn():
+	deleted =false
+	$AnimationPlayer.stop()
+	setColor(blockColor)
+	print("SPAWNINGG")
+	onBlock = false
+	playerOn  = false
+	self.scale = Vector2(6,6)
+	self.rotation = 0 
+	$ColorRect.modulate.a  = 1
+	$VisibleOnScreenNotifier2D.show()
+	deleted =false
+	show()
