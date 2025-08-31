@@ -109,12 +109,16 @@ func reset():
 	$Trail.emitting = true
 	died = false
 	oldVelocity = Vector2.ZERO
+	velocity = Vector2.ZERO
+	self.rotation =0
+	self.modulate.a = 1
 
 
 func rainbowOff():
 	$Trail.process_material.color_initial_ramp =null
 
 func rainbowOn():
+	self.modulate = Color(1,1,1)
 	$Trail.process_material.color_initial_ramp = rainbowGradient
 	for i in range(4):
 		self.set_collision_mask_value(i+1,true)
