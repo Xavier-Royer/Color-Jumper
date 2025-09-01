@@ -207,7 +207,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		randomColorRate = 140
 		spikeSpawnRate = 260
 		coinSpawnRate = 70
-		baseGameSpeed  = 820
+		#baseGameSpeed  = 820
+		baseGameSpeed  = 400
 		blockSpawnTime = 0.35
 		spikeDivisorCoolDown = 2.5
 		spikeCoolDownTime = 1.6
@@ -539,7 +540,10 @@ func _process(delta: float) -> void:
 		gameRunTime += delta
 		spikeSpawnRate += delta/3.0
 		
-		gameSpeed = baseGameSpeed + 140*(log(gameRunTime)) 
+		gameSpeed = baseGameSpeed + ( gameRunTime)
+		#most recent
+		#gameSpeed = baseGameSpeed + 140*(log(gameRunTime)) 
+		
 		#gameSpeed = baseGameSpeed + 150*(log(gameRunTime)) 
 		#gameSpeed = baseGameSpeed + (130*   pow((log((10+gameRunTime)*0.1)),2))
 		
