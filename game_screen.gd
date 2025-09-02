@@ -898,6 +898,7 @@ func showButtons():
 	$UI/Score.show()
 	$UI/TouchAnywhereText.show()
 	$UI/StartTutorial.show()
+	fadeInButton($UI/Logo, false)
 	fadeInButton($UI/StartTutorial)
 	fadeInButton($UI/Settings)
 	fadeInButton($UI/Leaderboard)
@@ -1022,9 +1023,10 @@ func resetMovingObjects():
 			i.queue_free()
 	movingObjects.position.y = 0 
 	
-func fadeInButton(button):
+func fadeInButton(button, isButton = true):
 	button.modulate.a = 1.0
-	button.disabled = false
+	if isButton:
+		button.disabled = false
 	button.mouse_filter = 0 #Stop
 
 
