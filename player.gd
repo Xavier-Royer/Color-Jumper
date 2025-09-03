@@ -8,6 +8,8 @@ var gameSpeed = 0
 signal screenExited
 signal caughtBlock
 signal collectCoin
+signal spikeHit
+signal screenExitedWithBlock
 
 #player properties
 var collided = false
@@ -21,7 +23,10 @@ var direction  = Vector2.ZERO
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if died == false:
-		emit_signal("screenExited")
+		if blockOn == null:
+			emit_signal("screenExited")
+		else:
+			emit_signal("screenExitedWithBlock")
 
 func _ready() -> void:
 	rainbowOff()
@@ -49,7 +54,7 @@ func _process(_delta: float) -> void:
 				blockOn = get_last_slide_collision().get_collider()
 				blockPosition = get_last_slide_collision().get_position()
 				velocity = Vector2(0,0)
-				print("CAUGHT")
+				#print("CAUGHT")
 				emit_signal("caughtBlock")
 		#checks if player hits a spike
 		elif get_last_slide_collision().get_collider().get_collision_layer_value(5):
@@ -60,11 +65,11 @@ func _process(_delta: float) -> void:
 					
 					#do the math its cool
 					#$GPUParticles2D.process_material.direction = Vector3(sin(rotation),cos(rotation),0)
-
+					$GPUParticles2D.modulate = getColor()
 					$GPUParticles2D.emitting = true
 					disappear()
 					died = true
-					emit_signal("screenExited")
+					emit_signal("spikeHit")
 					var tween = create_tween()
 					
 					#tween.set_ease(Tween.EASE_IN)
@@ -118,7 +123,14 @@ func rainbowOff():
 	$Trail.process_material.color_initial_ramp =null
 
 func rainbowOn():
-	self.modulate = Color(1,1,1)
+	setColor(Color(1,1,1,1))
 	$Trail.process_material.color_initial_ramp = rainbowGradient
 	for i in range(4):
 		self.set_collision_mask_value(i+1,true)
+
+func setColor(color):
+	$ColorRect.self_modulate = color
+	$Trail.self_modulate = color
+
+func getColor():
+	return($ColorRect.self_modulate)

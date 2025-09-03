@@ -34,6 +34,9 @@ var firstBlock
 var secondBlock
 var line
 
+var playerHitSpike = false
+var fromTutorial = false
+
 #func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 	#if not deleted:
 		#var areas = $spawnRadius.get_overlapping_areas()
@@ -52,6 +55,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	#queue_free()
 
 func spikeHit():
+	playerHitSpike = true
+	if fromTutorial:
+		$Item/GPUParticles2D.amount = 200
+		$Item/GPUParticles2D.speed_scale = 3
+		$Item/GPUParticles2D.lifetime = 1
 	$Item/GPUParticles2D.emitting =true
 
 
@@ -61,8 +69,8 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	
 	firstBlock = block1
 	secondBlock = block2
-	block1.connect("deleteItem",queue_free)
-	block2.connect("deleteItem",queue_free)
+	block1.connect("deleteItem",deleteNode)
+	block2.connect("deleteItem",deleteNode)
 	
 	#button.connect("pressed",changeColor.bind(button.name))
 	
@@ -72,6 +80,7 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	
 	line = Line2D.new()
 	self.add_child(line)
+	line.name = "LINE"
 	line.add_point(firstPosition)
 	line.add_point(secondPosition)
 	
@@ -233,4 +242,26 @@ func updateState(block):
 
 
 func deleteNode():
+	if fromTutorial and playerHitSpike:
+		$Item/TextureRect.modulate.a = 0
+		for c in self.get_children():
+			if c.name == "LINE":
+				c.modulate.a = 0 
+		$Timer.start(0.5)
+	else:
+		queue_free()
+
+func fadeIn():
+	self.modulate = Color(1,1,1,0)
+	#self.scale = Vector2(0,0)
+	var tween = create_tween()
+	#tween.parallel()
+	tween.set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_EXPO)
+	tween.tween_property(self,"modulate",Color(1,1,1,1),0.5)
+	#tween.tween_property(self,"scale",Vector2(1,1),0.5)
+
+
+
+func _on_timer_timeout() -> void:
 	queue_free()

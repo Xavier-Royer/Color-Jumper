@@ -19,6 +19,7 @@ var itemAttached = null
 var originalColor 
 var tutorialBlockCaught = false
 var playingBackwards = false
+var hiddenFromTutorial
 
 
 #var spawnComplete = false
@@ -67,7 +68,8 @@ func setColor(color):
 	
 
 func delete():
-	
+	$VisibleOnScreenNotifier2D.hide()
+	hiddenFromTutorial = true
 	deleted = true
 	emit_signal("leftBlock")
 	$AnimationPlayer.play("blockLeft")
@@ -105,16 +107,17 @@ func blockCaught(playerDirection, gameSpeed, collisionPosition):
 		#$GPUParticles2D.global_position = collisionPosition + (playerDirection * 30)
 		$AnimationPlayer.play("CaughtBlock")
 		emit_signal("caughtBlock")
+		
 		#var tween = create_tween()
 		#tween.tween_property(self, "scale", self.scale * 1.4, 0.15).set_ease(Tween.EASE_IN)
 		#tween.tween_property(self, "scale", self.scale, 0.15).set_ease(Tween.EASE_OUT)
 	
 
 
-
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if _anim_name == "blockLeft":
 		if playingBackwards:
+			deleted =false
 			$VisibleOnScreenNotifier2D.show()
 			playingBackwards = false
 			return
@@ -130,6 +133,8 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if playingBackwards:
+		return
+	if tutorial and global_position.y  < 100:
 		return
 	if deleted == false:
 		emit_signal("blockMissed")
@@ -192,29 +197,27 @@ func setGhost():
 	#mouseOnBlock = false
 
 func spawnBackIn():
-	if self.visible and tutorialBlockCaught ==false:
+	#if self.visisble == false and tutorail blok == false
+	if not hiddenFromTutorial:
 		return
-	if playerOn:
-		return
+	deleted =true
+	#if playerOn:
+	#	return
+	hiddenFromTutorial = false
 	$Dead.emitting = false
 	tutorialBlockCaught = false
-	deleted =false
 	setColor(originalColor)
 	$AnimationPlayer.stop()
 	setColor(blockColor)
-	
-	
-	
 	playingBackwards = true
 	$AnimationPlayer.play_backwards("blockLeft")
-	
 	onBlock = false
 	playerOn  = false
 	self.scale = Vector2(0,0)
 	self.rotation = 0 
 	$ColorRect.modulate.a  = 1
 	#$VisibleOnScreenNotifier2D.show()
-	deleted =false
+	
 	show()
 	#$Dead.emitting =false
 	
@@ -222,3 +225,10 @@ func spawnBackIn():
 
 func deleteAttatchedItem():
 	emit_signal("deleteItem")
+
+func hideForTutorial():
+	hiddenFromTutorial = true
+	hide()
+	tutorialBlockCaught = false
+	for i in range(10):
+		self.set_collision_layer_value(1+i,false)
