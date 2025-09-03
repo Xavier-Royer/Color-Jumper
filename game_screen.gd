@@ -154,7 +154,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))
 		block.setColor("RED")
 		block.setGhost()
-		block.number = -99999999999999999
+		block.number = -99999999999999
 		blocksSpawned+=1
 	
 	
@@ -207,7 +207,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
 		randomColorRate = 100
-		baseGameSpeed  = 410#200
+		baseGameSpeed  = 410
 		blockSpawnTime = 0.6
 		$SpawnTimer.wait_time = 0.6
 
@@ -304,6 +304,7 @@ func _on_block_caught():
 	direction = Vector2(0,0)
 	#make rainbow happen
 	if currentBlock.get_collision_layer_value(10) :
+		rainbowOver = false
 		$UI/RainbowScreenOverLay.rainbowStart(gameState == "TUTORIAL")
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		changeColor("RAINBOW")
@@ -517,8 +518,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					$UI/Parent.hide()
 
 		elif mousePosition.y < ($UI/ColorButtons.position.y+movingObjects.position.y) and gameState != "OVER":
-			if currentBlock == null:
-				print("CURRENT BLOCK IS NULL")
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":

@@ -2,20 +2,26 @@ extends ColorRect
 var previousTween = null 
 var gameOver = false
 var rainbowGoing = false
+var rainbowRestared = false
 
 func rainbowStart(tutorial = false):
+	if previousTween != null:
+		previousTween.stop()
+		previousTween = null
 	gameOver = false
+	rainbowRestared = true
 	rainbowGoing = true
 	get_parent().get_node("FlashScreen").hide()
 	self.modulate = Color(1.0,1.0,1.0,.5)
 	self.show()
 	if not tutorial:
-		$RainbowFade.start(5)
-	#$FlashTimer.start(4.8)
+		$RainbowFade.start(4.6)
 
 
 
-func _on_rainbow_fade_timeout() -> void:	
+
+func _on_rainbow_fade_timeout() -> void:
+	rainbowRestared = false
 	if previousTween != null:
 		previousTween.stop()
 	var currentTween = create_tween()
@@ -34,10 +40,8 @@ func _on_flash_timer_timeout() -> void:
 		#if get_parent().get_parent().currentBlock != null:
 			#get_parent().get_node("FlashScreen").modulate = get_parent().get_parent().currentBlock.modulate
 		#get_parent().get_node("FlashScreen").modulate.a = 70
+
 func hideFlash():
-	print("HIDE")
-	#get_parent().get_node("FlashScreen").hide()
-	
 	self.hide()
 
 func flashColor(blockColor):
