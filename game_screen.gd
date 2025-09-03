@@ -145,7 +145,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		#generate first block which the layer is on
 		block = blockScene.instantiate()
 		movingObjects.add_child(block)
-		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.0/3.0))
+		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))
 		block.setColor("RED")
 		block.setGhost()
 		block.number = blocksSpawned
@@ -183,7 +183,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 			blocksSpawned+=1
 	
 	if fromTutorial == false:
-		player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
+		player.position = Vector2(screen_size.x / 2 - 30,screen_size.y * (21.0/30.0))
 		player.velocity = Vector2(0, -7000)
 	
 	lastBlockSpawned = null
@@ -869,10 +869,10 @@ func hoverButton(nextBlockColor):
 func fadeOutButtons():
 	$UI/TouchAnywhereText.hide()
 	fadeOutButton($UI/Logo,false)
-	fadeOutButton($UI/Settings)
-	fadeOutButton($UI/Leaderboard)
-	fadeOutButton($UI/Shop)
-	fadeOutButton($UI/StartTutorial)
+	fadeOutButton($UI/ButtonContainer/Settings)
+	fadeOutButton($UI/ButtonContainer/Leaderboard)
+	fadeOutButton($UI/ButtonContainer/Shop)
+	fadeOutButton($UI/ButtonContainer/StartTutorial)
 
 func tutorialOver():
 	FileManager.saveTutorial()
@@ -897,12 +897,12 @@ func showButtons():
 	$UI/Streak.show()
 	$UI/Score.show()
 	$UI/TouchAnywhereText.show()
-	$UI/StartTutorial.show()
+	#$UI/StartTutorial.show()
 	fadeInButton($UI/Logo, false)
-	fadeInButton($UI/StartTutorial)
-	fadeInButton($UI/Settings)
-	fadeInButton($UI/Leaderboard)
-	fadeInButton($UI/Shop)
+	fadeInButton($UI/ButtonContainer/StartTutorial)
+	fadeInButton($UI/ButtonContainer/Settings)
+	fadeInButton($UI/ButtonContainer/Leaderboard)
+	fadeInButton($UI/ButtonContainer/Shop)
 	#enable color switching buttons
 	for c in $UI/ColorButtons.get_children():
 		c.disabled = false

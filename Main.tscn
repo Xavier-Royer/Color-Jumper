@@ -885,61 +885,47 @@ theme = ExtResource("11_5mvff")
 text = "Tap a square to play!"
 label_settings = SubResource("LabelSettings_5tuhn")
 
-[node name="Shop" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
-z_index = 50
+[node name="ButtonContainer" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
 layout_mode = 1
 anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = 175.0
-offset_right = 186.0
-offset_bottom = 338.0
-grow_horizontal = 0
-grow_vertical = 2
+anchor_left = 0.501
+anchor_top = 1.0
+anchor_right = 0.501
+anchor_bottom = 1.0
+offset_left = -294.08
+offset_top = -454.0
+offset_right = 293.92
+offset_bottom = -327.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Shop" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
+z_index = 50
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
 texture_normal = ExtResource("22_40n85")
 texture_pressed = ExtResource("23_gb15f")
 stretch_mode = 4
 
-[node name="Settings" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
+[node name="Settings" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
 z_index = 50
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 40.0
-offset_top = -181.0
-offset_right = 186.0
-offset_bottom = -18.0
-grow_horizontal = 0
-grow_vertical = 2
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
 texture_normal = ExtResource("15_5tuhn")
 texture_pressed = ExtResource("16_devvj")
 stretch_mode = 4
 
-[node name="Leaderboard" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 39.0
-offset_top = -5.0
-offset_right = 191.0
-offset_bottom = 162.0
+[node name="Leaderboard" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
 texture_normal = ExtResource("16_2gh4u")
 texture_pressed = ExtResource("18_3b0ty")
 stretch_mode = 4
 
-[node name="StartTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI"]
+[node name="StartTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
 z_index = 50
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 39.0
-offset_top = 360.0
-offset_right = 191.0
-offset_bottom = 527.0
+custom_minimum_size = Vector2(137, 150)
+layout_mode = 2
 action_mode = 0
 texture_normal = ExtResource("28_5mkgo")
 stretch_mode = 4
@@ -1263,10 +1249,10 @@ text = "Play Again"
 [connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmed"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/Shop" to="ScreenManager" method="_on_shop_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/Settings" to="ScreenManager" method="_on_settings_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
-[connection signal="pressed" from="ScreenManager/GameScreen/UI/StartTutorial" to="ScreenManager/GameScreen" method="_on_start_tutorial_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Shop" to="ScreenManager" method="_on_shop_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Settings" to="ScreenManager" method="_on_settings_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
+[connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/StartTutorial" to="ScreenManager/GameScreen" method="_on_start_tutorial_pressed"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/FlashTimer" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_flash_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/RainbowScreenOverLay/RainbowFade" to="ScreenManager/GameScreen/UI/RainbowScreenOverLay" method="_on_rainbow_fade_timeout"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/SkipTutorial" to="ScreenManager/GameScreen" method="_on_skip_tutorial_pressed"]
