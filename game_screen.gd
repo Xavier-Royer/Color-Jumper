@@ -154,19 +154,19 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))
 		block.setColor("RED")
 		block.setGhost()
-		block.number = blocksSpawned
+		block.number = -99999999999999999
 		blocksSpawned+=1
 	
 	
 	#generates the rest of the starting blocks
-	var blockPositions = []
+	var blockPositions = [ Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))]
 	var numberOfBlocks = randi_range(15,18) 
 	for i in range(numberOfBlocks):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
 		
-		var yStartPos = screen_size.y * (21.0/30.0) - 150
-		var yRange = (screen_size.y * (21.0/30.0) - 150) + 700.0
+		var yStartPos = (screen_size.y * (2.65/5.0)) - 150
+		var yRange = (screen_size.y * (2.65/5.0) - 150) + 700.0
 		var yIncriments = yRange/numberOfBlocks
 		
 		var invalid = false
@@ -517,6 +517,8 @@ func _unhandled_input(event: InputEvent) -> void:
 					$UI/Parent.hide()
 
 		elif mousePosition.y < ($UI/ColorButtons.position.y+movingObjects.position.y) and gameState != "OVER":
+			if currentBlock == null:
+				print("CURRENT BLOCK IS NULL")
 			if currentBlock != null:
 				#Begin game if in ready position
 				if gameState == "READY":
