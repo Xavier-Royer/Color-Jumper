@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=71 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://screen_manager.gd" id="1_glv2v"]
 [ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="2_3b0ty"]
@@ -329,8 +329,6 @@ _data = {
 &"Hover": SubResource("Animation_5mkgo"),
 &"RESET": SubResource("Animation_3ccbu")
 }
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ny7u2"]
 
 [sub_resource type="Animation" id="Animation_y1tbi"]
 resource_name = "FlashText"
@@ -1167,23 +1165,30 @@ alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Text" type="Label" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
+[node name="Text" type="RichTextLabel" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
+custom_minimum_size = Vector2(0, 178)
 layout_mode = 2
-theme_override_fonts/font = ExtResource("4_sc1dx")
-theme_override_font_sizes/font_size = 48
-theme_override_styles/normal = SubResource("StyleBoxEmpty_ny7u2")
-text = "Click where you
-want to go"
+theme_override_fonts/normal_font = ExtResource("4_sc1dx")
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "Avoid Spikes!  
+  [img]res://Textures/ScaledDownSpike.png[/img] "
+fit_content = true
+autowrap_mode = 0
 horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="ScreenManager/GameScreen/UI/Parent/TextContainer/Text"]
 visible = false
 self_modulate = Color(1, 1, 1, 0.337255)
 show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
+layout_mode = 2
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -9.58667
+offset_right = -0.5
+offset_bottom = 55.1467
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("34_x3yn0")
@@ -1191,10 +1196,10 @@ expand_mode = 5
 stretch_mode = 5
 
 [node name="Finger" type="TextureRect" parent="ScreenManager/GameScreen/UI/Parent/TextContainer"]
+custom_minimum_size = Vector2(600, 342)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("35_x3yn0")
-expand_mode = 1
 stretch_mode = 5
 
 [node name="CheckPointTexts" type="Label" parent="ScreenManager/GameScreen/UI"]
@@ -1215,18 +1220,6 @@ theme_override_fonts/font = ExtResource("4_sc1dx")
 theme_override_font_sizes/font_size = 64
 text = "Now its your turn!"
 horizontal_alignment = 1
-
-[node name="RichTextLabel" type="RichTextLabel" parent="ScreenManager/GameScreen/UI"]
-layout_mode = 2
-offset_left = 125.0
-offset_top = 762.0
-offset_right = 705.0
-offset_bottom = 937.0
-theme_override_fonts/normal_font = ExtResource("4_sc1dx")
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "test [img]res://Textures/ScaledDownSpike.png"
-fit_content = true
 
 [node name="TutorialRespawnTimer" type="Timer" parent="ScreenManager/GameScreen/UI"]
 wait_time = 0.5

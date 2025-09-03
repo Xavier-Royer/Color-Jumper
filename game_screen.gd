@@ -191,6 +191,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	if fromTutorial == false:
 		player.position = Vector2(screen_size.x / 2 - 30,screen_size.y * (21.0/30.0))
 		player.velocity = Vector2(0, -7000)
+	else:
+		player.position = Vector2(screen_size.x / 2 - 30,player.position.y)
 	
 	lastBlockSpawned = null
 	streak = 0 
@@ -384,7 +386,7 @@ func _on_block_caught():
 			#tween.set_ease(Tween.EASE_IN)
 			#tween.set_trans(Tween.TRANS_SINE)
 			awaitingTutorialTween = true
-			tween.tween_property(movingObjects,"position", Vector2(screen_size.x/2.0,movingObjects.position.y+ tweenDistance),0.5)
+			tween.tween_property(movingObjects,"position", Vector2(0,movingObjects.position.y+ tweenDistance),0.5)
 			tween.connect("finished", tutorialOver)
 			awaitingTutorialTween = false
 		else: 
@@ -569,6 +571,7 @@ func _process(delta: float) -> void:
 		$UI/Score.text = str(comma_format(str(score)))
 	
 	if gameState == "TUTORIAL":
+		$UI/Parent/TextContainer/Finger.size = Vector2($UI/Parent/TextContainer/Text.size.x,342)
 		gameSpeed = 0
 		player.velocity = speed*direction
 		player.gameSpeed = gameSpeed
@@ -846,22 +849,22 @@ func loadTutorial():
 	createTutorialBlock(Vector2(screen_size.x * (1.0/6.0),screen_size.y * (-13/10.0)),"RED","","FREE")
 	createTutorialBlock(Vector2(screen_size.x * (2.0/5.0),screen_size.y * (-15/10.0)),"GREEN","","FREE")
 	createTutorialBlock(Vector2(screen_size.x * (4.0/5.0),screen_size.y * (-16/10.0)),"BLUE","","FREE")
-	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-19/10.0)),"PURPLE","Avoid Spikes!","CHECKPOINT")
+	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-19/10.0)),"PURPLE"," Avoid Spikes! \n [img]res://Textures/ScaledDownSpike.png[/img] ","CHECKPOINT")
 	createTutorialBlock(Vector2(screen_size.x * (5.0/6.0),screen_size.y * (-21/10.0)),"RED","Dont hit the blade","LEARNING", "SPIKE")
-	createTutorialBlock(Vector2(screen_size.x * (1.0/6.0),screen_size.y * (-22/10.0)),"RED","Collect Coins!","LEARNING")
-	createTutorialBlock(Vector2(screen_size.x * (2.0/6.0),screen_size.y * (-24/10.0)),"RED","Make sure to hit the coin","LEARNING","COIN")
-	createTutorialBlock(Vector2(screen_size.x * (2.0/6.0),screen_size.y * (-25.5/10.0)),"RED","","LEARNING")
-	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-28/10.0)),"RED","","CHECKPOINT")
+	createTutorialBlock(Vector2(screen_size.x * (1.0/6.0),screen_size.y * (-22/10.0)),"RED","  Collect Coins! \n [img]res://Textures/ScaledDownCoin.png[/img] ","LEARNING")
+	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-24/10.0)),"RED","Make sure to hit the coin","LEARNING","COIN")
+	createTutorialBlock(Vector2(screen_size.x * (4.5/6.0),screen_size.y * (-26.5/10.0)),"RED","","LEARNING")
+	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-28.5/10.0)),"RED","","CHECKPOINT")
 	createTutorialBlock(Vector2(screen_size.x * (2.0/3.0),screen_size.y * (-30.5/10.0)),"RED","","FREE","SPIKE")
 	createTutorialBlock(Vector2(screen_size.x * (7.5/10.0),screen_size.y * (-33.5/10.0)),"RED","","FREE")
-	createTutorialBlock( Vector2(screen_size.x * (1.0/3.0),screen_size.y * (-31.5/10.0)),"RED","","FREE")
-	createTutorialBlock(Vector2(screen_size.x * (1.0/4.0),screen_size.y * (-34.5/10.0)),"RED","","FREE","COIN")
-	createTutorialBlock(Vector2(screen_size.x * (1.0/3.0),screen_size.y * (-37.5/10.0)),"RED","","FREE")
-	createTutorialBlock(Vector2(screen_size.x * (1.0/2.0),screen_size.y * (-40.0/10.0)),"RED","Rainbow blocks allow the player \n to hit all the colors!","CHECKPOINT")
-	createTutorialBlock(Vector2(screen_size.x * (2.0/3.0),screen_size.y * (-42/10.0)),"RAINBOW","Rainbow runs out after 5 seconds","LEARNING")
-	createTutorialBlock(Vector2(screen_size.x * (2.0/5.0),screen_size.y * (-44/10.0)),"PURPLE","Pro tip: To end rainbow early \n switch to any color", "LEARNING", "COIN")
-	createTutorialBlock(Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-46.0/10.0)),"GREEN","Congrats! Lets start off in easy mode!!!", "LEARNING")
-	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-47.5/10.0)),"RED","", "CHECKPOINT",null,false,true)
+	createTutorialBlock( Vector2(screen_size.x * (1.0/3.0),screen_size.y * (-32/10.0)),"RED","","FREE")
+	createTutorialBlock(Vector2(screen_size.x * (1.0/4.0),screen_size.y * (-35.5/10.0)),"RED","","FREE","COIN")
+	createTutorialBlock(Vector2(screen_size.x * (4.0/9.0),screen_size.y * (-38.5/10.0)),"RED","","FREE")
+	createTutorialBlock(Vector2(screen_size.x * (1.0/2.0),screen_size.y * (-41.0/10.0)),"RED","Rainbow blocks allow the player \n to hit all the colors!","CHECKPOINT")
+	createTutorialBlock(Vector2(screen_size.x * (2.0/3.0),screen_size.y * (-43/10.0)),"RAINBOW","Rainbow runs out after 5 seconds","LEARNING")
+	createTutorialBlock(Vector2(screen_size.x * (2.0/5.0),screen_size.y * (-45/10.0)),"PURPLE","Pro tip: To end rainbow early \n switch to any color", "LEARNING", "COIN")
+	createTutorialBlock(Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-47.0/10.0)),"GREEN","Congrats! Lets start off in easy mode!!!", "LEARNING")
+	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-48.5/10.0)),"RED","", "CHECKPOINT",null,false,true)
 
 	$UI/PointerAnimation.play("Hover")
 	#set player position
@@ -1100,8 +1103,8 @@ func playPointerLoopTweens():
 	textTween.tween_property($UI/Parent/TextContainer,"global_position", tutorialBlocks[tutorialStep].global_position   - ($UI/Parent/TextContainer.size/2.0) - Vector2(0,300),1.0).set_ease(Tween.EASE_IN)
 				
 	textTweenAlpha = create_tween().set_loops()
-	textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,0.5),1.0).set_ease(Tween.EASE_OUT)
-	textTweenAlpha.tween_property($UI/Parent,"modulate", Color(1,1,1,1),1.0).set_ease(Tween.EASE_IN)
+	textTweenAlpha.tween_property($UI/Parent/TextContainer/Finger,"modulate", Color(1,1,1,0.5),1.0).set_ease(Tween.EASE_OUT)
+	textTweenAlpha.tween_property($UI/Parent/TextContainer/Finger,"modulate", Color(1,1,1,1),1.0).set_ease(Tween.EASE_IN)
 	
 	$UI/Parent.show()
 	$UI/Pointer.show()
@@ -1115,6 +1118,7 @@ func playPointerSpawnInAnimation():
 
 func _on_pointer_animation_animation_finished(anim_name: StringName) -> void:
 	playPointerLoopTweens()
+	$UI/PointerAnimation.play("Hover")
 
 func waitForTutorialRespawn():
 	awaitingTutorialTween = true
