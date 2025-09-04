@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=72 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -35,7 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://textures/rainbow_bar_new.png" id="33_tt1x2"]
 [ext_resource type="Script" uid="uid://dr5w573nvvrov" path="res://Scripts/rainbow_screen_over_lay.gd" id="34_2wrh7"]
 [ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://Shaders/allWhiteTempshader.gdshader" id="35_atu2d"]
-[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="36_x5wht"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/Coin.png" id="36_x5wht"]
 [ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://textures/SkipIcon.png" id="37_tbeql"]
 [ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://textures/TextBox.png" id="38_c5nnb"]
 [ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://textures/snkinnyArrow.png" id="39_fsd2l"]
@@ -44,6 +44,7 @@
 [ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="42_mx20r"]
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="43_rpc3w"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://ParticleCurves/RainbowColorGradient.tres" id="44_3k6d1"]
+[ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -1365,6 +1366,11 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Play Again"
 
+[node name="Music" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("45_5psol")
+volume_db = 5.0
+autoplay = true
+
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]
@@ -1385,3 +1391,4 @@ text = "Play Again"
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
+[connection signal="finished" from="ScreenManager/Music" to="ScreenManager" method="_on_audio_stream_player_finished"]

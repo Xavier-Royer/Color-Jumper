@@ -29,6 +29,8 @@ func next_screen(nextScreen):
 		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0, 0.5)
 		await screenTransition.finished
 		$GameScreen/UI/ScreenBG.visible = false
+		undimMusic()
+
 	
 	#currentScreen.visible = false
 	#nextScreen.visible = true
@@ -45,6 +47,7 @@ func next_screen(nextScreen):
 		$SettingsScreen/NoInteractLayer.visible = false
 		$LeaderboardScreen/NoInteractLayer.visible = false
 		$ShopScreen/NoInteractLayer.visible = false
+		dimMusic()
 	screenOpen = not screenOpen
 	
 
@@ -57,6 +60,7 @@ func _on_play_pressed() -> void:
 	#on play press reset everything
 	$GameScreen.loadGame(false)
 	$GameScreen.showButtons()
+	undimMusic()
 	#$GameScreen/UI/TouchAnywhereText.show()
 	#$GameScreen/UI/Logo.modulate.a = 1.0
 	#$GameScreen/UI/Settings.modulate.a = 1.0
@@ -102,3 +106,15 @@ func gameOver():
 	screenTransition.tween_property($GameOverScreen, "offset", onScreenPosition,.5)
 	#await screenTransition.finished
 	#$GameOverScreen/UI/VBoxContainer/Button.disabled  = false
+
+func dimMusic():
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property($Music,"volume_db",-5,0.5)
+func undimMusic():
+	var tween = create_tween()
+	tween.tween_property($Music,"volume_db",5,0.5)
+
+
+func _on_audio_stream_player_finished() -> void:
+	$Music.play()
