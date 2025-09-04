@@ -207,26 +207,26 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
 		randomColorRate = 100
-		baseGameSpeed  = 410
-		blockSpawnTime = 0.6
-		$SpawnTimer.wait_time = 0.6
+		baseGameSpeed  = 400
+		blockSpawnTime = 1
+		$SpawnTimer.wait_time = blockSpawnTime
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 140
+		randomColorRate = 5
 		spikeSpawnRate = 260
 		coinSpawnRate = 70
 		#baseGameSpeed  = 820
-		baseGameSpeed  = 400
-		blockSpawnTime = 0.35
+		baseGameSpeed  = 650
+		blockSpawnTime = 0.55
 		spikeDivisorCoolDown = 2.5
 		spikeCoolDownTime = 1.6
-		$SpawnTimer.wait_time = 0.35
+		$SpawnTimer.wait_time = blockSpawnTime
 	
 	elif difficulty == "COLORFUL": #EXTREME
 		randomColorRate = 820
 		baseGameSpeed  = 670
 		blockSpawnTime = 0.5
-		$SpawnTimer.wait_time = 0.5
+		$SpawnTimer.wait_time = blockSpawnTime
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
 		baseGameSpeed  = 1130
@@ -234,7 +234,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
 		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
-		$SpawnTimer.wait_time = 0.27
+		$SpawnTimer.wait_time = blockSpawnTime
 		colorTransitionSpeed = 1.5
 		spikeCoolDownTime = 1.6
 		speed = 8000
@@ -559,7 +559,7 @@ func _process(delta: float) -> void:
 		gameRunTime += delta
 		spikeSpawnRate += delta/3.0
 		
-		gameSpeed = baseGameSpeed + ( gameRunTime)
+		#gameSpeed = baseGameSpeed + ( gameRunTime)
 		#most recent
 		#gameSpeed = baseGameSpeed + 140*(log(gameRunTime)) 
 		
@@ -601,13 +601,15 @@ func comma_format(num_str: String) -> String:
 
 
 
-func spawnBlock(respawning = false):
+func spawnBlock(respawning = false, depth=0):
+	if depth >= 5:
+		return
 	var block2
 	var block = blockScene.instantiate()
 	movingObjects.call_deferred("add_child",block)
 	block.number = blocksSpawned
 	blocksSpawned += 1
-	block.connect("invalidBlock",spawnBlock.bind(true))
+	block.connect("invalidBlock",spawnBlock.bind(true, depth+1))
 	block.connect("blockMissed",gameOver)
 	
 	#set block position
@@ -669,12 +671,12 @@ func spawnBlock(respawning = false):
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
 			currentDifficulty+=10
-			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
+			$SpawnTimer.wait_time = blockSpawnTime#(blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
 			block2.number = blocksSpawned -5
 			blocksSpawned += 1
-			block2.connect("invalidBlock",spawnBlock.bind(true))
+			block2.connect("invalidBlock",spawnBlock.bind(true, depth+1))
 			block2.connect("blockMissed",gameOver)
 			var block2Position = Vector2(0,0)
 			var spikeSlope = (secondPosition.y-firstPosition.y) / (secondPosition.x -firstPosition.x)
@@ -728,9 +730,9 @@ func setBlockColor(block,itemAttached):
 		block.setColor("RAINBOW")
 	else:
 		#random variance
-		var random = randf_range(max(-2,-1*gameRunTime),2)
+		#var random = randf_range(max(-2,-1*gameRunTime),2)
 		#xvalue of the sin function based on run time; a greater constant of muliplication equals higher frequency
-		var xvalue = ((gameRunTime*colorTransitionSpeed) + random)*.08
+		var xvalue = ((gameRunTime*colorTransitionSpeed))*.08 # + random after colotransitinospeed
 		#inner function is x to some power the greater the power the quicker the frequency
 		xvalue = pow(xvalue,1.4)
 		if sin(xvalue) > 0:
@@ -780,6 +782,7 @@ func gameOver(deathType = ""):
 func _on_spawn_timer_timeout() -> void:
 	#should update so that wait time varys + gets faster as game goes on 
 	spawnBlock()
+	#gameSpeed += 10
 
 
 
@@ -1066,7 +1069,6 @@ func createTutorialBlock(relativePosition, color, text, blockStage, item = null,
 
 func turnOffRainbow():
 	$RainbowTimer.stop()
-	$FlashTimer.stop()
 	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
 	$UI/RainBowBar.hide()
 	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
@@ -1117,7 +1119,7 @@ func playPointerSpawnInAnimation():
 	$UI/Pointer.show()
 
 
-func _on_pointer_animation_animation_finished(anim_name: StringName) -> void:
+func _on_pointer_animation_animation_finished(_anim_name: StringName) -> void:
 	playPointerLoopTweens()
 	$UI/PointerAnimation.play("Hover")
 

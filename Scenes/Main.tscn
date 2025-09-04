@@ -964,13 +964,14 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -294.76
-offset_top = -559.0
+offset_top = -687.0
 offset_right = 292.0
-offset_bottom = -490.0
+offset_bottom = -603.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(292.07, 40.05)
 theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 821
 text = "Tap to play!"
 label_settings = SubResource("LabelSettings_5tuhn")
 horizontal_alignment = 1
@@ -982,16 +983,16 @@ anchor_left = 0.501
 anchor_top = 1.0
 anchor_right = 0.501
 anchor_bottom = 1.0
-offset_left = -294.08
-offset_top = -454.0
-offset_right = 293.92
-offset_bottom = -327.0
+offset_left = -315.08
+offset_top = -503.0
+offset_right = 313.92
+offset_bottom = -353.0
 grow_horizontal = 2
 alignment = 1
 
 [node name="Shop" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
 z_index = 50
-custom_minimum_size = Vector2(160, 150)
+custom_minimum_size = Vector2(200, 190)
 layout_mode = 2
 texture_normal = ExtResource("26_ex7s8")
 texture_pressed = ExtResource("27_4clwk")
@@ -999,14 +1000,14 @@ stretch_mode = 4
 
 [node name="Settings" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
 z_index = 50
-custom_minimum_size = Vector2(160, 150)
+custom_minimum_size = Vector2(200, 190)
 layout_mode = 2
 texture_normal = ExtResource("28_h2tpa")
 texture_pressed = ExtResource("29_nkjwg")
 stretch_mode = 4
 
 [node name="Leaderboard" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
-custom_minimum_size = Vector2(160, 150)
+custom_minimum_size = Vector2(200, 190)
 layout_mode = 2
 texture_normal = ExtResource("30_8n4h5")
 texture_pressed = ExtResource("31_as1io")
@@ -1014,7 +1015,7 @@ stretch_mode = 4
 
 [node name="StartTutorial" type="TextureButton" parent="ScreenManager/GameScreen/UI/ButtonContainer"]
 z_index = 50
-custom_minimum_size = Vector2(137, 150)
+custom_minimum_size = Vector2(175, 190)
 layout_mode = 2
 action_mode = 0
 texture_normal = ExtResource("32_xd5mi")
@@ -1309,10 +1310,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_lgr22")
 }
 
-[node name="FlashTimer" type="Timer" parent="ScreenManager/GameScreen"]
-wait_time = 0.1
-one_shot = true
-
 [node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
 visible = false
 
@@ -1387,5 +1384,4 @@ text = "Play Again"
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
-[connection signal="timeout" from="ScreenManager/GameScreen/FlashTimer" to="ScreenManager/GameScreen" method="_on_flash_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
