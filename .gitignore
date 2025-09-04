@@ -1,7 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-/color-jumper-ios/
-/color-jumper-ios.xcframework/
-/color-jumper-ios.xcodeproj/
-/MoltenVK.xcframework/
+/Color-Jumper-iOS-Export/
