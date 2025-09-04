@@ -54,6 +54,9 @@ var gameRunTime = 0
 var blockSpawnTime = 0 
 var screen_size
 
+var finalGameSpeed = 1
+var finalSpawnWaitTime = 1
+var difficultyTween: Tween
 
 var colorToNumber ={
 	"RED": 1,
@@ -135,6 +138,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	player.reset()
 	turnOffRainbow()
 	
+	
 	#reset velocity and delete game screen objects 
 	if fromTutorial == false:
 		resetMovingObjects()
@@ -189,8 +193,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 			blocksSpawned+=1
 	
 	if fromTutorial == false:
-		player.position = Vector2(screen_size.x / 2 - 30,screen_size.y * (21.0/30.0))
-		player.velocity = Vector2(0, -7000)
+		player.position = Vector2(screen_size.x / 2 - 30,screen_size.y * (27.0/30.0))
+		player.velocity = Vector2(0, -1000)
 	else:
 		player.position = Vector2(screen_size.x / 2 - 30,player.position.y)
 	
@@ -201,36 +205,48 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	$UI/Score.text = str(0) 
 	$UI/Streak.text = ""
 	
+	
+	
 	difficulty = FileManager.difficulty
 	speed = 7000
 	spikeCoolDownTime = 1.3
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
-		randomColorRate = 100
+		randomColorRate = 10
 		baseGameSpeed  = 400
 		blockSpawnTime = 1
 		$SpawnTimer.wait_time = blockSpawnTime
+		
+		finalGameSpeed = 600
+		finalSpawnWaitTime = 0.7
+
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 5
-		spikeSpawnRate = 260
+		randomColorRate = 25
+		spikeSpawnRate = 150
 		coinSpawnRate = 70
 		#baseGameSpeed  = 820
 		baseGameSpeed  = 650
-		blockSpawnTime = 0.55
+		blockSpawnTime = 0.7
 		spikeDivisorCoolDown = 2.5
 		spikeCoolDownTime = 1.6
 		$SpawnTimer.wait_time = blockSpawnTime
+		
+		finalGameSpeed = 1450
+		finalSpawnWaitTime = 0.29
 	
 	elif difficulty == "COLORFUL": #EXTREME
 		randomColorRate = 820
 		baseGameSpeed  = 670
 		blockSpawnTime = 0.5
 		$SpawnTimer.wait_time = blockSpawnTime
+		
+		finalGameSpeed = 1300
+		finalSpawnWaitTime = 0.2
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
-		baseGameSpeed  = 1130
-		blockSpawnTime = 0.27
+		baseGameSpeed  = 750
+		blockSpawnTime = 0.4
 		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
 		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
@@ -243,6 +259,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		#player.modulate = Color(1,1,1)
 		$UI/RainbowScreenOverLay.show()
 		rainbowOver = false
+		
+		finalGameSpeed = 1500
+		finalSpawnWaitTime = 0.17
 	if fromTutorial:
 		showButtons()
 	lastBlocksColor = "RED"
@@ -527,6 +546,12 @@ func _unhandled_input(event: InputEvent) -> void:
 					$SpawnTimer.start()
 					lastJumpStamp = get_process_delta_time()
 					gameSpeed = baseGameSpeed
+					#start the difficulty ramping tween
+					difficultyTween = create_tween()
+					difficultyTween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+					difficultyTween.tween_property(self, "gameSpeed", finalGameSpeed, 145) #2 min 25s
+					difficultyTween.set_trans(Tween.TRANS_LINEAR)
+					difficultyTween.tween_property($SpawnTimer, "wait_time", finalSpawnWaitTime, 145) #2 min 25s
 					#hide all the start screen buttons
 					fadeOutButtons()
 				#if awaiting tween === false
@@ -557,14 +582,7 @@ func _process(delta: float) -> void:
 		player.gameSpeed = gameSpeed
 		#updates game time and moves background down
 		gameRunTime += delta
-		spikeSpawnRate += delta/3.0
-		
-		#gameSpeed = baseGameSpeed + ( gameRunTime)
-		#most recent
-		#gameSpeed = baseGameSpeed + 140*(log(gameRunTime)) 
-		
-		#gameSpeed = baseGameSpeed + 150*(log(gameRunTime)) 
-		#gameSpeed = baseGameSpeed + (130*   pow((log((10+gameRunTime)*0.1)),2))
+		#spikeSpawnRate += delta/3.0
 		
 		#gameSpeed += delta
 		movingObjects.position.y += delta*gameSpeed
@@ -671,7 +689,7 @@ func spawnBlock(respawning = false, depth=0):
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
 			currentDifficulty+=10
-			$SpawnTimer.wait_time = blockSpawnTime#(blockSpawnTime *spikeCoolDownTime)
+			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
 			block2.number = blocksSpawned -5
@@ -755,6 +773,7 @@ func setBlockColor(block,itemAttached):
 func gameOver(deathType = ""):
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
+		difficultyTween.kill()
 		gameSpeed = 0
 		if difficulty != "RAINBOW":
 			$UI/RainbowScreenOverLay.hide()
@@ -782,8 +801,6 @@ func gameOver(deathType = ""):
 func _on_spawn_timer_timeout() -> void:
 	#should update so that wait time varys + gets faster as game goes on 
 	spawnBlock()
-	#gameSpeed += 10
-
 
 
 func _on_rainbow_timer_timeout() -> void:
