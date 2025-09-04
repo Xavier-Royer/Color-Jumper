@@ -33,15 +33,15 @@ void fragment() {
 		float squareRadius = max(xPos,yPos);
 		float alpha = 1.0-(squareRadius/1.1); //1.0-(squareRadius/1.5);
 		alpha += sin(TIME*10.0)/40.0;
-	
+
 		if (rainbow) {
 			//old rainbow code
 			COLOR = vec4(  max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)   , max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6),  COLOR.a);
 			alpha -=0.1;
-			
+
 			//float xValue = 1.0 - max(xPos,yPos);
 			//xValue = UV.x+UV.y;
-			//float offset;  
+			//float offset;
 			//
 			//offset = mod(TIME/0.5,4);
 			//xValue = xValue + offset;
@@ -53,11 +53,11 @@ void fragment() {
 		} else {
 			//COLOR = vec4(input_color.r,input_color.g,input_color.b,alpha);
 		}
-	
-	
 
-		
-	
+
+
+
+
 }
 
 
