@@ -118,3 +118,10 @@ func undimMusic():
 
 func _on_audio_stream_player_finished() -> void:
 	$Music.play()
+
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		$Music.play()
+	else:
+		$Music.stop()

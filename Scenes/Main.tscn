@@ -636,10 +636,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -255.0
-offset_top = -382.0
-offset_right = 241.0
-offset_bottom = -285.0
+offset_left = -268.0
+offset_top = -566.0
+offset_right = 228.0
+offset_bottom = -469.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("9_semxg")
 theme_override_font_sizes/normal_font_size = 90
 text = "Difficulty:"
@@ -651,10 +653,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -259.0
-offset_top = -269.0
-offset_right = 173.0
-offset_bottom = -100.0
+offset_left = -272.0
+offset_top = -453.0
+offset_right = 160.0
+offset_bottom = -284.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -672,17 +674,35 @@ popup/item_2/id = 2
 popup/item_3/text = "Rainbow"
 popup/item_3/id = 3
 
+[node name="InfoLabel" type="Label" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -272.0
+offset_top = -262.0
+offset_right = 278.0
+offset_bottom = 211.0
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 69
+text = "fast-paced with
+less color change
+to challenge your
+reaction time."
+
 [node name="Home" type="TextureButton" parent="ScreenManager/SettingsScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 65.0
+offset_left = -103.0
 offset_top = 542.0
-offset_right = 265.0
+offset_right = 97.0
 offset_bottom = 642.0
-grow_vertical = 0
+grow_horizontal = 2
+grow_vertical = 2
 texture_normal = ExtResource("10_ep8v8")
 texture_pressed = ExtResource("11_3133c")
 stretch_mode = 0
@@ -693,10 +713,10 @@ anchor_left = 0.501
 anchor_top = 0.5
 anchor_right = 0.501
 anchor_bottom = 0.5
-offset_left = -252.08
-offset_top = 66.0001
-offset_right = 97.9199
-offset_bottom = 224.0
+offset_left = -269.08
+offset_top = 189.0
+offset_right = 80.92
+offset_bottom = 347.0
 scale = Vector2(0.719998, 0.719998)
 texture_normal = ExtResource("12_js5gh")
 texture_pressed = ExtResource("13_vvjo1")
@@ -720,7 +740,22 @@ theme = ExtResource("9_semxg")
 dialog_text = "Are you sure you want to reset this score?"
 dialog_autowrap = true
 
+[node name="CheckButton" type="CheckButton" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -267.0
+offset_top = 287.0
+offset_right = 49.0
+offset_bottom = 471.0
+theme = ExtResource("9_semxg")
+button_pressed = true
+text = "Audio"
+
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 
@@ -778,6 +813,7 @@ coming soon"
 horizontal_alignment = 1
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")
@@ -1375,6 +1411,7 @@ autoplay = true
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]
 [connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmed"]
+[connection signal="toggled" from="ScreenManager/SettingsScreen/CheckButton" to="ScreenManager" method="_on_check_button_toggled"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Shop" to="ScreenManager" method="_on_shop_pressed"]
