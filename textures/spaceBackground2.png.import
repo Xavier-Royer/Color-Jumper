@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://biqikek320drj"
-path="res://.godot/imported/smallArrow.png-7a2b0076b1d194ed24e1a7506297180a.ctex"
+uid="uid://e8djg8ceb62a"
+path="res://.godot/imported/spaceBackground2.png-4ccfa271609ffd8da2f68dc2e54c609a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://smallArrow.png"
-dest_files=["res://.godot/imported/smallArrow.png-7a2b0076b1d194ed24e1a7506297180a.ctex"]
+source_file="res://textures/spaceBackground2.png"
+dest_files=["res://.godot/imported/spaceBackground2.png-4ccfa271609ffd8da2f68dc2e54c609a.ctex"]
 
 [params]
 

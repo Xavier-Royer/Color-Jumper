@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlhjnodo47wa0"
-path="res://.godot/imported/SkipIcon.png-358e6691dc1055f4964ef7be9e2aef6e.ctex"
+uid="uid://ckiastodqvvgb"
+path="res://.godot/imported/spaceBackground2 (2).png-50709cac96335c51cc128552e2b0636f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://SkipIcon.png"
-dest_files=["res://.godot/imported/SkipIcon.png-358e6691dc1055f4964ef7be9e2aef6e.ctex"]
+source_file="res://textures/spaceBackground2 (2).png"
+dest_files=["res://.godot/imported/spaceBackground2 (2).png-50709cac96335c51cc128552e2b0636f.ctex"]
 
 [params]
 

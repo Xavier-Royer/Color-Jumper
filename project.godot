@@ -17,8 +17,8 @@ config/icon="uid://b068gp2ur4nnr"
 
 [autoload]
 
-Globals="*res://globals.gd"
-FileManager="*res://FileManager.gd"
+Globals="*res://Scripts/globals.gd"
+FileManager="*res://Scripts/FileManager.gd"
 
 [display]
 

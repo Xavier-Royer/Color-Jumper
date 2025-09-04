@@ -1,5 +1,5 @@
 extends CharacterBody2D
-@onready var rainbowGradient = preload("res://RainbowColorGradient.tres")
+@onready var rainbowGradient = preload("res://ParticleCurves/RainbowColorGradient.tres")
 
 var oldVelocity = Vector2.ZERO
 

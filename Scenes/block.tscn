@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=3 uid="uid://qt0hublfhka5"]
 
-[ext_resource type="Script" uid="uid://6q3vbqb2ecbh" path="res://block.gd" id="1_im0tn"]
-[ext_resource type="Material" uid="uid://k8pg0755hjfy" path="res://NormalBlockCaught.tres" id="2_5d32t"]
-[ext_resource type="Material" uid="uid://bu48js7s1b6pi" path="res://normalDead.tres" id="3_5d32t"]
+[ext_resource type="Script" uid="uid://6q3vbqb2ecbh" path="res://Scripts/block.gd" id="1_c2iur"]
+[ext_resource type="Material" uid="uid://k8pg0755hjfy" path="res://ParticleCurves/NormalBlockCaught.tres" id="2_i67tl"]
+[ext_resource type="Material" uid="uid://bu48js7s1b6pi" path="res://ParticleCurves/normalDead.tres" id="3_s3j4o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xfwl5"]
 size = Vector2(130, 130)
@@ -298,7 +298,7 @@ z_index = 8
 scale = Vector2(6, 6)
 collision_layer = 129
 input_pickable = true
-script = ExtResource("1_im0tn")
+script = ExtResource("1_c2iur")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.2, -0.0999998)
@@ -332,7 +332,7 @@ lifetime = 0.3
 one_shot = true
 explosiveness = 1.0
 randomness = 0.1
-process_material = ExtResource("2_5d32t")
+process_material = ExtResource("2_i67tl")
 
 [node name="Dead" type="GPUParticles2D" parent="."]
 emitting = false
@@ -342,7 +342,7 @@ one_shot = true
 speed_scale = 2.0
 explosiveness = 0.9
 randomness = 0.1
-process_material = ExtResource("3_5d32t")
+process_material = ExtResource("3_s3j4o")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

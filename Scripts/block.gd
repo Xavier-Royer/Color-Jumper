@@ -7,8 +7,8 @@ signal caughtBlock
 signal leftBlock
 signal deleteItem
 @onready var blockArea = $SpawnRadius
-@onready var rainbowDead = preload("res://RainbowDead.tres")
-@onready var rainbowCaught = preload("res://RainbowBlockCaught.tres")
+@onready var rainbowDead = preload("res://ParticleCurves/RainbowDead.tres")
+@onready var rainbowCaught = preload("res://ParticleCurves/RainbowBlockCaught.tres")
 var number =999 
 var deleted = false
 var blockColor
@@ -53,8 +53,8 @@ func setColor(color):
 	else: # for rainbow set all color collision layers to true
 		self.modulate = Color(255,255,255)
 		self.set_collision_layer_value(10,true)
-		rainbowCaught = preload("res://RainbowBlockCaught.tres")
-		rainbowDead = preload("res://RainbowDead.tres")
+		rainbowCaught = preload("res://ParticleCurves/RainbowBlockCaught.tres")
+		rainbowDead = preload("res://ParticleCurves/RainbowDead.tres")
 		$Dead.process_material = rainbowDead
 		$GPUParticles2D.process_material = rainbowCaught
 		var unique = $ColorRect.material.duplicate(true)

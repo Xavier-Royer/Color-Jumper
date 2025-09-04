@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://d188ef8dxjvfn"]
 
-[ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://spike.gd" id="1_bp1wp"]
-[ext_resource type="Texture2D" uid="uid://bkh781wiu3lfs" path="res://textures/ScaledDownSpike.png" id="2_6m5p0"]
-[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="3_6m5p0"]
+[ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://Scripts/spike.gd" id="1_08o4a"]
+[ext_resource type="Texture2D" uid="uid://bkh781wiu3lfs" path="res://textures/ScaledDownSpike.png" id="2_6oc8a"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/ScaledDownCoin.png" id="3_o34di"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
 radius = 52.0
@@ -128,7 +128,7 @@ scale_min = 0.15
 scale_max = 0.2
 
 [node name="Item" type="Node2D"]
-script = ExtResource("1_bp1wp")
+script = ExtResource("1_08o4a")
 
 [node name="Item" type="StaticBody2D" parent="."]
 collision_layer = 16
@@ -164,7 +164,7 @@ offset_top = -64.0
 offset_right = 63.0
 offset_bottom = 63.0
 pivot_offset = Vector2(64, 64)
-texture = ExtResource("2_6m5p0")
+texture = ExtResource("2_6oc8a")
 
 [node name="spawnRadius" type="Area2D" parent="."]
 collision_layer = 256
@@ -202,7 +202,7 @@ layout_mode = 2
 offset_right = 128.0
 offset_bottom = 128.0
 size_flags_horizontal = 4
-texture = ExtResource("3_6m5p0")
+texture = ExtResource("3_o34di")
 stretch_mode = 2
 
 [node name="Label" type="Label" parent="CoinAnimation/Position"]
@@ -224,7 +224,7 @@ speed_scale = 2.0
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
 amount = 75
-texture = ExtResource("3_6m5p0")
+texture = ExtResource("3_o34di")
 lifetime = 1.5
 one_shot = true
 speed_scale = 3.0

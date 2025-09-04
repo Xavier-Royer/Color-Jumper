@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://dmfjkbk8spylv"]
 
-[ext_resource type="Script" uid="uid://0i8gsnknqbok" path="res://testItemAnimation.gd" id="1_r1iif"]
-[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="2_n50tb"]
+[ext_resource type="Script" uid="uid://0i8gsnknqbok" path="res://Scripts/testItemAnimation.gd" id="1_1i4in"]
+[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="2_6ql6t"]
 
 [node name="Node2D" type="Node2D"]
-script = ExtResource("1_r1iif")
+script = ExtResource("1_1i4in")
 
 [node name="Line2D" type="Line2D" parent="."]
 
@@ -48,4 +48,4 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(20, 20)
-texture = ExtResource("2_n50tb")
+texture = ExtResource("2_6ql6t")

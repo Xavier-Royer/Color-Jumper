@@ -1,6 +1,6 @@
 [gd_resource type="ParticleProcessMaterial" load_steps=5 format=3 uid="uid://5wjflbfnr0ma"]
 
-[ext_resource type="Curve" uid="uid://chu7i4j8fa3sw" path="res://RainbowCurve.tres" id="1_0eh2b"]
+[ext_resource type="Curve" uid="uid://chu7i4j8fa3sw" path="res://ParticleCurves/RainbowCurve.tres" id="1_0eh2b"]
 
 [sub_resource type="CurveTexture" id="CurveTexture_5d32t"]
 curve = ExtResource("1_0eh2b")

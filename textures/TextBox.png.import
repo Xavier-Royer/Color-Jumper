@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://csgxnco0wn22l"
-path="res://.godot/imported/backGround4.png-4a90d60d5ea71ab4966e6b5c2fe510e7.ctex"
+uid="uid://dvh4v68mtc4la"
+path="res://.godot/imported/TextBox.png-d39c06fabc4a781e07ec5e434ee4aa11.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://backGround4.png"
-dest_files=["res://.godot/imported/backGround4.png-4a90d60d5ea71ab4966e6b5c2fe510e7.ctex"]
+source_file="res://textures/TextBox.png"
+dest_files=["res://.godot/imported/TextBox.png-d39c06fabc4a781e07ec5e434ee4aa11.ctex"]
 
 [params]
 

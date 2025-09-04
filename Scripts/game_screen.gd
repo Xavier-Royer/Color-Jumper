@@ -2,8 +2,8 @@ extends CanvasLayer
 
 signal gameOverScreen
 
-@onready var blockScene = preload("res://block.tscn")
-@onready var itemScene = preload("res://Item.tscn")
+@onready var blockScene = preload("res://Scenes/block.tscn")
+@onready var itemScene = preload("res://Scenes/Item.tscn")
 @onready var area2D = $Objects/Player
 @onready var player = $Objects/Player
 @onready var movingObjects = $Objects

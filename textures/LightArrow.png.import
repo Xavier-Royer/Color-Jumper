@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dvh4v68mtc4la"
-path="res://.godot/imported/TextBox.png-7e4982bb1e9d47901e064a98f7c1ef1e.ctex"
+uid="uid://clek8npkw4fq"
+path="res://.godot/imported/LightArrow.png-09fc3dc9003d6bda24acaa6ea1e14fc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TextBox.png"
-dest_files=["res://.godot/imported/TextBox.png-7e4982bb1e9d47901e064a98f7c1ef1e.ctex"]
+source_file="res://textures/LightArrow.png"
+dest_files=["res://.godot/imported/LightArrow.png-09fc3dc9003d6bda24acaa6ea1e14fc3.ctex"]
 
 [params]
 
