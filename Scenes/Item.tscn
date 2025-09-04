@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://d188ef8dxjvfn"]
+[gd_scene load_steps=14 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://Scripts/spike.gd" id="1_08o4a"]
-[ext_resource type="Texture2D" uid="uid://bkh781wiu3lfs" path="res://textures/Spike.png" id="2_6oc8a"]
+[ext_resource type="Texture2D" uid="uid://bm21ooct4xdow" path="res://textures/Spike.png" id="2_6oc8a"]
 [ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/Coin.png" id="3_o34di"]
+[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="4_6oc8a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
 radius = 52.0
@@ -42,10 +43,10 @@ tracks/0/path = NodePath("CoinAnimation/Position:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.966667),
-"transitions": PackedFloat32Array(1.41421, 1),
+"times": PackedFloat32Array(0, 0.4, 0.966667),
+"transitions": PackedFloat32Array(1, 1.41421, 1),
 "update": 0,
-"values": [Vector2(3, 3), Vector2(0.1, 0.1)]
+"values": [Vector2(2.61931, 2.61931), Vector2(3, 3), Vector2(0.1, 0.1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -54,10 +55,10 @@ tracks/1/path = NodePath("CoinAnimation/Position:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.01, 0.966667),
-"transitions": PackedFloat32Array(1.41421, 1),
+"times": PackedFloat32Array(0.01),
+"transitions": PackedFloat32Array(1.41421),
 "update": 0,
-"values": [Vector2(-64, -64), Vector2(50, -200)]
+"values": [Vector2(-64, -64)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -161,8 +162,9 @@ process_material = SubResource("ParticleProcessMaterial_7k7bx")
 z_index = 49
 offset_left = -64.0
 offset_top = -64.0
-offset_right = 63.0
-offset_bottom = 63.0
+offset_right = 64.0
+offset_bottom = 64.0
+scale = Vector2(0.88, 0.88)
 pivot_offset = Vector2(64, 64)
 texture = ExtResource("2_6oc8a")
 
@@ -174,7 +176,8 @@ collision_mask = 256
 shape = SubResource("SegmentShape2D_8ryga")
 
 [node name="CoinAnimation" type="Node2D" parent="."]
-visible = false
+z_index = 1000
+z_as_relative = false
 position = Vector2(114, 0)
 
 [node name="Position" type="Control" parent="CoinAnimation"]
@@ -212,7 +215,9 @@ offset_top = 2.0
 offset_right = 137.0
 offset_bottom = 36.0
 mouse_filter = 1
-theme_override_font_sizes/font_size = 24
+theme = ExtResource("4_6oc8a")
+theme_type_variation = &"HeaderLarge"
+theme_override_font_sizes/font_size = 69
 text = "+1"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
