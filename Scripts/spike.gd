@@ -1,8 +1,8 @@
 extends Node2D
 var number = -999999999999
 @onready var blockArea = $spawnRadius
-@onready var spikeTexture = load("res://textures/Spike.png") 
-@onready var coinTexture =  load("res://textures/Coin.png")
+@onready var spikeTexture = load("res://Textures/Spike.png") 
+@onready var coinTexture =  load("res://Textures/Coin.png")
 var item = "SPIKE"
 var spikeRotateSpeed = 4
 var deleted = false
