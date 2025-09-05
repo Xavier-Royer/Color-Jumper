@@ -97,6 +97,7 @@ func _process(_delta: float) -> void:
 func disappear():
 	$ColorRect.self_modulate = Color(1,1,1,0)
 	$Trail.emitting = false
+	$Trail2.emitting = false
 
 func _on_gpu_particles_2d_finished() -> void:
 	pass
