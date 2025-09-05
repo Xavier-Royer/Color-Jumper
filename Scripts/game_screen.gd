@@ -713,7 +713,7 @@ func spawnBlock(respawning = false, depth=0):
 			var inverseSlope  = 1
 			if spikeSlope != 0:
 				inverseSlope = -1/spikeSlope
-			var distanceFromSpike = randf_range(250,400)
+			var distanceFromSpike = randf_range(300,400)
 			var spikePosition = (firstPosition + secondPosition) /2.0
 		
 		
@@ -725,12 +725,13 @@ func spawnBlock(respawning = false, depth=0):
 			#make it so it always points to the upper
 			if spikeDirection.y > 0:
 				spikeDirection.y *=-1
+				spikeDirection.x *= -1
 			block2Position += spikeDirection *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
 			
 			#slope greater than 10 means verticle (update as needed)
 			if abs(spikeSlope) >10:
 				if block2Position.y > -50 or (block2Position.x < 90) or (block2Position.x > screen_size.x -90):
-					block2Position -= spikeDirection *distanceFromSpike
+					block2Position -= spikeDirection *distanceFromSpike * 2
 			
 			
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
