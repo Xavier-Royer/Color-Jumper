@@ -99,6 +99,7 @@ var tutorialRainbow = false
 var awaitingTutorialTween 
 var encouragemnetMessages = ["You got this!", "Lets try that again!", "Don't give up!"]
 var playerLoadInAnimation = false
+var starterBlock = null
 
 
 func _ready() -> void:
@@ -162,6 +163,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		block.setGhost()
 		block.number = -99999999999999
 		blocksSpawned+=1
+		starterBlock = block
 	
 	
 	#generates the rest of the starting blocks
@@ -278,7 +280,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 func changeColor(newColor):
 	#if loading into game and done with rise up animation turn on color buttons
 	if playerLoadInAnimation:
-		return
+		starterBlock.setColor(newColor)
 	if difficulty == "RAINBOW" and gameState != "TUTORIAL":
 		return
 	#update collision masks and color to netural for trail
