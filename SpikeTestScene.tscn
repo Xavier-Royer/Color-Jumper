@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpsep34r1btm3"]
+
+[ext_resource type="Script" uid="uid://c82a1p06t6phi" path="res://SpikeSpawningTestScene.gd" id="1_5ohev"]
+[ext_resource type="PackedScene" uid="uid://qt0hublfhka5" path="res://Scenes/block.tscn" id="2_1mlqy"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_5ohev")
+
+[node name="Block" parent="." instance=ExtResource("2_1mlqy")]
+position = Vector2(0, 600)
