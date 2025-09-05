@@ -51,11 +51,12 @@ var lastBlockSpawned = null
 
 var gameState = "TUTORIAL" #OVER, READY, PLAYING, TUTORIAL
 var gameRunTime = 0 
-var blockSpawnTime = 0 
+var blockSpawnTime: float = 0.0
 var screen_size
 
 var finalGameSpeed = 1
 var finalSpawnWaitTime = 1
+var finalRandomColorRate = 1
 var difficultyTween: Tween
 
 var colorToNumber ={
@@ -164,7 +165,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	
 	#generates the rest of the starting blocks
 	var blockPositions = [ Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))]
-	var numberOfBlocks = randi_range(15,18) 
+	var numberOfBlocks = randi_range(5,10) 
 	for i in range(numberOfBlocks):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
@@ -212,17 +213,17 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	spikeCoolDownTime = 1.3
 	colorTransitionSpeed = 1.0
 	if difficulty == "EASY":
-		randomColorRate = 10
+		randomColorRate = 15
 		baseGameSpeed  = 400
 		blockSpawnTime = 1
 		$SpawnTimer.wait_time = blockSpawnTime
 		
-		finalGameSpeed = 600
-		finalSpawnWaitTime = 0.7
+		finalGameSpeed = 900
+		finalSpawnWaitTime = 0.5
 
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 25
+		randomColorRate = 75
 		spikeSpawnRate = 150
 		coinSpawnRate = 70
 		#baseGameSpeed  = 820
@@ -232,17 +233,18 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		spikeCoolDownTime = 1.6
 		$SpawnTimer.wait_time = blockSpawnTime
 		
-		finalGameSpeed = 1450
-		finalSpawnWaitTime = 0.29
+		finalGameSpeed = 1812
+		finalSpawnWaitTime = 0.24
 	
 	elif difficulty == "COLORFUL": #EXTREME
-		randomColorRate = 820
+		randomColorRate = 200
 		baseGameSpeed  = 670
 		blockSpawnTime = 0.5
 		$SpawnTimer.wait_time = blockSpawnTime
 		
-		finalGameSpeed = 1300
-		finalSpawnWaitTime = 0.2
+		finalRandomColorRate = 1000
+		finalGameSpeed = 800
+		finalSpawnWaitTime = 0.3
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
 		baseGameSpeed  = 750
@@ -548,10 +550,16 @@ func _unhandled_input(event: InputEvent) -> void:
 					gameSpeed = baseGameSpeed
 					#start the difficulty ramping tween
 					difficultyTween = create_tween()
-					difficultyTween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-					difficultyTween.tween_property(self, "gameSpeed", finalGameSpeed, 145) #2 min 25s
-					difficultyTween.set_trans(Tween.TRANS_LINEAR)
-					difficultyTween.tween_property($SpawnTimer, "wait_time", finalSpawnWaitTime, 145) #2 min 25s
+					
+					difficultyTween.tween_property(self, "gameSpeed", finalGameSpeed, 100) #2 min 25s
+					#difficultyTween.set_trans(Tween.TRANS_LINEAR)
+					#difficultyTween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					difficultyTween.set_parallel()
+					difficultyTween.tween_property(self, "blockSpawnTime", finalSpawnWaitTime, 100) #2 min 25s
+					difficultyTween.set_parallel()
+					if difficulty == "COLORFUL":
+						difficultyTween.tween_property(self, "randomColorRate", finalRandomColorRate, 100) #2 min 25s
+					
 					#hide all the start screen buttons
 					fadeOutButtons()
 				#if awaiting tween === false
@@ -620,7 +628,7 @@ func comma_format(num_str: String) -> String:
 
 
 func spawnBlock(respawning = false, depth=0):
-	if depth >= 5:
+	if depth >= 15:
 		return
 	var block2
 	var block = blockScene.instantiate()
@@ -689,7 +697,7 @@ func spawnBlock(respawning = false, depth=0):
 		if coinSpawn == false:
 			spikeSpawnStreak *=10
 			currentDifficulty+=10
-			$SpawnTimer.wait_time = (blockSpawnTime *spikeCoolDownTime)
+			$SpawnTimer.wait_time = blockSpawnTime#(blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
 			block2.number = blocksSpawned -5
@@ -801,6 +809,9 @@ func gameOver(deathType = ""):
 func _on_spawn_timer_timeout() -> void:
 	#should update so that wait time varys + gets faster as game goes on 
 	spawnBlock()
+	print("gamespeed: " + str(gameSpeed))
+	print("waittime: " + str($SpawnTimer.wait_time))
+	print("waittime2: " + str(blockSpawnTime))
 
 
 func _on_rainbow_timer_timeout() -> void:

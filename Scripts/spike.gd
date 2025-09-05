@@ -115,8 +115,8 @@ func coinCaught(g):
 	gameSpeed = g
 	animatingCoin = true
 	$CoinAnimation.show()
-	$CoinAnimation.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
-	$GPUParticles2D.global_position = $Item/TextureRect.global_position + Vector2(150,-150)
+	$CoinAnimation.global_position = $Item/TextureRect.global_position + Vector2(0,150)
+	$GPUParticles2D.global_position = $Item/TextureRect.global_position + Vector2(0,150)
 	$GPUParticles2D.emitting = true
 	$AnimationPlayer.play("CoinCapture")
 	#$Item.set_collision_layer_value(6,false)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=73 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -45,6 +45,7 @@
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="43_rpc3w"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://ParticleCurves/RainbowColorGradient.tres" id="44_3k6d1"]
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
+[ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -675,7 +676,7 @@ popup/item_3/text = "Rainbow"
 popup/item_3/id = 3
 
 [node name="InfoLabel" type="Label" parent="ScreenManager/SettingsScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -741,7 +742,7 @@ dialog_text = "Are you sure you want to reset this score?"
 dialog_autowrap = true
 
 [node name="CheckButton" type="CheckButton" parent="ScreenManager/SettingsScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -755,7 +756,6 @@ button_pressed = true
 text = "Audio"
 
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 
@@ -813,7 +813,6 @@ coming soon"
 horizontal_alignment = 1
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")
@@ -1329,10 +1328,6 @@ speed_scale = 2.84
 fixed_fps = 200
 process_material = SubResource("ParticleProcessMaterial_fpfj3")
 
-[node name="SpawnTimer" type="Timer" parent="ScreenManager/GameScreen"]
-process_callback = 0
-wait_time = 0.5
-
 [node name="RainbowTimer" type="Timer" parent="ScreenManager/GameScreen"]
 wait_time = 5.0
 one_shot = true
@@ -1346,6 +1341,9 @@ libraries = {
 libraries = {
 &"": SubResource("AnimationLibrary_lgr22")
 }
+
+[node name="SpawnTimer" type="Node" parent="ScreenManager/GameScreen"]
+script = ExtResource("45_m4llh")
 
 [node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
 visible = false
@@ -1425,7 +1423,7 @@ autoplay = true
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/TutorialRespawnTimer" to="ScreenManager/GameScreen" method="_on_tutorial_respawn_timer_timeout"]
 [connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
-[connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
+[connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="finished" from="ScreenManager/Music" to="ScreenManager" method="_on_audio_stream_player_finished"]
