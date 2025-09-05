@@ -167,9 +167,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	
 	
 	#generates the rest of the starting blocks
-	var blockPositions = [block.position]
+	var blockPositions = [Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))]
 	var numberOfBlocks = randi_range(12,18) 
-	print(numberOfBlocks)
+	#print(numberOfBlocks)
 	for i in range(numberOfBlocks):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
