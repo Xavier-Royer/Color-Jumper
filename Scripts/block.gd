@@ -86,7 +86,6 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 				blockArea.set_collision_layer_value(9,false)
 				#if number < 0:
 				emit_signal("deleteItem")
-				
 				queue_free()
 				deleted = true
 				#if number > 0:

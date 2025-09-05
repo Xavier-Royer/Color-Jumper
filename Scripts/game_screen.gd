@@ -700,7 +700,7 @@ func spawnBlock(respawning = false, depth=0):
 			$SpawnTimer.wait_time = blockSpawnTime#(blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
-			block2.number = blocksSpawned -5
+			block2.number = min(-101 - blocksSpawned + 10,-101)
 			blocksSpawned += 1
 			block2.connect("invalidBlock",spawnBlock.bind(true, depth+1))
 			block2.connect("blockMissed",gameOver)
