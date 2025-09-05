@@ -1,6 +1,6 @@
 extends Node2D
 var number = -999999999999
-@onready var blockArea = $spawnRadius
+@onready var blockArea = $spawnRadiusLine
 @onready var spikeTexture = load("res://Textures/Spike.png") 
 @onready var coinTexture =  load("res://Textures/Coin.png")
 var item = "SPIKE"
@@ -85,11 +85,12 @@ func createHitBox(firstPosition_,secondPosition_,movingObjects, block1,block2,ty
 	line.add_point(secondPosition)
 	
 	#update collision shape for the line
-	$spawnRadius/CollisionShape2D.shape.a = firstPosition
-	$spawnRadius/CollisionShape2D.shape.b = secondPosition	
+	$spawnRadiusLine/CollisionShape2D.shape.a = firstPosition
+	$spawnRadiusLine/CollisionShape2D.shape.b = secondPosition	
 	
 	radius = firstPosition.distance_to(secondPosition)
 	$Item.position = (firstPosition +secondPosition)/2.0 #- $Item/TextureRect.pivot_offset
+	$spawnRadiusItem.position = $Item.position
 	
 	
 
@@ -142,6 +143,7 @@ func _process(delta: float) -> void:
 		setAngle(angle)
 		line.points[movingPointIndex] = endPosition
 		$Item.position = (pivotPosition +endPosition)/2.0
+		$spawnRadiusItem.position = (pivotPosition +endPosition)/2.0
 		#$TextureRect.position = (pivotPosition +endPosition)/2.0 - $TextureRect.pivot_offset
 		
 	elif state == "DELETING":
@@ -160,6 +162,7 @@ func _process(delta: float) -> void:
 		
 		linearVelocity.y += gravityForce
 		linearVelocity.x *= airResistance
+	
 
 
 func getAngle():
@@ -208,6 +211,7 @@ func updateState(block):
 		linearDirection = Vector2(cos(deg_to_rad(angle-90)) , -1* sin(deg_to_rad(angle-90))) 
 		linearVelocity = linearDirection*linearSpeed
 		state = "DELETING"
+		$spawnRadiusItem.queue_free()
 		$Item/CollisionShape2D.disabled = true
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN)

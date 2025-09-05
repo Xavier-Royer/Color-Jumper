@@ -81,7 +81,7 @@ func _on_spawn_radius_area_entered(_area: Area2D) -> void:
 	if not deleted:
 		var areas = $SpawnRadius.get_overlapping_areas()
 		for a in areas:
-			if (number > -1  and a.get_parent().number < number) or (number < 0 and a.get_parent().number > number and a.get_parent().number < 0 and a.get_parent().number != -999999999999):
+			if (number > -1  and a.get_parent().number <= number) or (number < 0 and a.get_parent().number >= number and a.get_parent().number < 0 and a.get_parent().number != -999999999999):
 				blockArea.set_collision_mask_value(9,false)
 				blockArea.set_collision_layer_value(9,false)
 				#if number < 0:

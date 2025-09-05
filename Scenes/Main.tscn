@@ -424,7 +424,6 @@ initial_velocity_max = 29.23
 gravity = Vector3(0, 0, 0)
 scale_min = 1.5
 scale_max = 1.5
-color_initial_ramp = ExtResource("44_3k6d1")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m4llh"]
 particle_flag_disable_z = true

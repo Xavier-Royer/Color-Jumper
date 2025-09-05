@@ -98,6 +98,7 @@ var aboutToBeFree = false
 var tutorialRainbow = false
 var awaitingTutorialTween 
 var encouragemnetMessages = ["You got this!", "Lets try that again!", "Don't give up!"]
+var playerLoadInAnimation = false
 
 
 func _ready() -> void:
@@ -165,20 +166,20 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	
 	#generates the rest of the starting blocks
 	var blockPositions = [ Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))]
-	var numberOfBlocks = randi_range(5,10) 
+	var numberOfBlocks = randi_range(12,18) 
 	for i in range(numberOfBlocks):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
 		
 		var yStartPos = (screen_size.y * (2.65/5.0)) - 150
-		var yRange = (screen_size.y * (2.65/5.0) - 150) + 700.0
+		var yRange = (screen_size.y * (2.65/5.0) - 150) + 900.0
 		var yIncriments = yRange/numberOfBlocks
 		
 		var invalid = false
-		var blockPosition = Vector2(randi_range(35,screen_size.x - 35),min(yStartPos-(yIncriments*i) + randi_range(-50,50),  yStartPos))
+		var blockPosition = Vector2(randi_range(90,screen_size.x - 90),min(yStartPos-(yIncriments*i) + randi_range(-50,50),  yStartPos))
 		#checks to see if the block's spawn position is valid
 		for x in blockPositions:
-			if blockPosition.distance_to(x) < 350:
+			if blockPosition.distance_to(x) < 300:
 				block.queue_free()
 				invalid = true
 		if not invalid:
@@ -191,9 +192,10 @@ func loadGame(fromTutorial, tweenDistance = 0):
 			block.setColor("RED")
 			block.connect("blockMissed",gameOver)
 			lastBlockSpawned = block
-			blocksSpawned+=1
+		blocksSpawned+=1
 	
 	if fromTutorial == false:
+		playerLoadInAnimation = true
 		player.position = Vector2(screen_size.x / 2 - 30,screen_size.y * (27.0/30.0))
 		player.velocity = Vector2(0, -1000)
 	else:
@@ -247,8 +249,10 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		finalSpawnWaitTime = 0.3
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
-		baseGameSpeed  = 750
-		blockSpawnTime = 0.4
+		baseGameSpeed  = 850
+		finalGameSpeed = 2012
+		blockSpawnTime = 0.37
+		finalSpawnWaitTime = 0.2
 		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
 		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
@@ -262,7 +266,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$UI/RainbowScreenOverLay.show()
 		rainbowOver = false
 		
-		finalGameSpeed = 1500
+		finalGameSpeed = 2000
 		finalSpawnWaitTime = 0.17
 	if fromTutorial:
 		showButtons()
@@ -319,6 +323,7 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_block_caught():
+	playerLoadInAnimation = false
 	#play block animation
 	currentBlock = player.blockOn
 	currentBlock.blockCaught(direction,gameSpeed,player.blockPosition)
@@ -601,15 +606,15 @@ func _process(delta: float) -> void:
 		$UI/Parent/TextContainer/Finger.size = Vector2($UI/Parent/TextContainer/Text.size.x,342)
 		gameSpeed = 0
 		player.velocity = speed*direction
-		player.gameSpeed = gameSpeed
 		
-		if tutorialState == "FREE":
+		if tutorialState == "FREEs":
 			gameSpeed =200
 			movingObjects.position.y += delta*gameSpeed
 		else: #if player is in learning
 			if player.velocity != Vector2.ZERO:
 				gameSpeed =2000
 				movingObjects.position.y += delta*gameSpeed *1.75
+		player.gameSpeed = gameSpeed
 	
 	get_parent().find_child("Background").get_child(0).backgroundMoveSpeed = gameSpeed/20
 
@@ -639,7 +644,7 @@ func spawnBlock(respawning = false, depth=0):
 	block.connect("blockMissed",gameOver)
 	
 	#set block position
-	var blockPosition = Vector2(randi_range(40,screen_size.x-40),randi_range(-750,-700))
+	var blockPosition = Vector2(randi_range(90,screen_size.x-90),randi_range(-900,-850))
 	block.set_deferred("global_position", blockPosition)
 	#spawn a spike connected to the block
 	
@@ -700,7 +705,7 @@ func spawnBlock(respawning = false, depth=0):
 			$SpawnTimer.wait_time = blockSpawnTime#(blockSpawnTime *spikeCoolDownTime)
 			block2 = blockScene.instantiate()
 			movingObjects.call_deferred("add_child",block2)
-			block2.number = min(-101 - blocksSpawned + 100,-101)
+			block2.number = min(-101 - blocksSpawned -30,-101)
 			blocksSpawned += 1
 			block2.connect("invalidBlock",spawnBlock.bind(true, depth+1))
 			block2.connect("blockMissed",gameOver)
@@ -718,10 +723,10 @@ func spawnBlock(respawning = false, depth=0):
 			block2Position += spikeDirection *distanceFromSpike  #Vector2(distanceFromSpike, distanceFromSpike*inverseSlope)
 			
 			
-			if block2Position.y > -50 or (block2Position.x < 45) or (block2Position.x > screen_size.x -45):
+			if block2Position.y > -50 or (block2Position.x < 90) or (block2Position.x > screen_size.x -90):
 				block2Position -= spikeDirection *distanceFromSpike
 			block2Position += Vector2(randf_range(-70,70),randf_range(-70,70))
-			block2Position.x = clamp(block2Position.x,40,screen_size.x-40)
+			block2Position.x = clamp(block2Position.x,90,screen_size.x-90)
 			block2Position.y = clamp(block2Position.y,-1000,-270)
 			block2.set_deferred("global_position", block2Position)
 			setBlockColor(block2,true)
@@ -802,8 +807,9 @@ func gameOver(deathType = ""):
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():
 			c.disabled = true
-	if gameState == "TUTORIAL":
-		resetToLastCheckPoint(deathType)
+	if gameState == "TUTORIAL" :
+		if not playerLoadInAnimation:
+			resetToLastCheckPoint(deathType)
 
 
 func _on_spawn_timer_timeout() -> void:
@@ -828,6 +834,11 @@ func hideRainbowParticles():
 
 func loadTutorial():
 	#reset player
+	player.reset()
+	#set player position
+	direction = Vector2(0,0)
+	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
+	player.velocity = Vector2(0, -7000)
 	gameState = "TUTORIAL"
 	turnOffRainbow()
 	$UI/CheckPointTexts.hide()
@@ -838,7 +849,7 @@ func loadTutorial():
 	$UI/SkipTutorial.disabled = false
 	$UI/SkipTutorial.mouse_filter = 0
 	tween.tween_property($UI/SkipTutorial, "modulate:a", 1.0, 0.5)
-	player.reset()
+	
 	changeColor("RED")
 	
 	#hideButtons
@@ -899,9 +910,7 @@ func loadTutorial():
 	createTutorialBlock(Vector2(screen_size.x * (3.0/6.0),screen_size.y * (-48.5/10.0)),"RED","", "CHECKPOINT",null,false,true)
 
 	$UI/PointerAnimation.play("Hover")
-	#set player position
-	player.position = Vector2(screen_size.x / 2,screen_size.y * (21.0/30.0))
-	player.velocity = Vector2(0, -7000)
+	
 	#disable color buttons
 	for i in $UI/ColorButtons.get_children():
 		i.disabled = true
@@ -965,6 +974,7 @@ func _on_start_tutorial_pressed() -> void:
 	loadTutorial()
 
 func resetToLastCheckPoint(deathType):
+	#print(deathType)
 	awaitingTutorialTween = true
 	player.disappear()
 	tutorialStep = lastCheckPoint
@@ -1098,6 +1108,7 @@ func createTutorialBlock(relativePosition, color, text, blockStage, item = null,
 func turnOffRainbow():
 	$RainbowTimer.stop()
 	$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",false)
+	player.rainbowOff()
 	$UI/RainBowBar.hide()
 	$UI/RainbowParticles.position = $UI/RainBowBar.position + Vector2(60,885)#$UI/RainBowBar.size.y*2)
 	$UI/RainbowParticles.hide()
