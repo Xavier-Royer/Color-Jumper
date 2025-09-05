@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://csl7xo284huy4"
-path="res://.godot/imported/snkinnyArrow.png-38b426af42345f20b06c4456a2614acb.ctex"
+path="res://.godot/imported/snkinnyArrow.png-4c819fa2e01d527c8737b7b1c0275804.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/snkinnyArrow.png"
-dest_files=["res://.godot/imported/snkinnyArrow.png-38b426af42345f20b06c4456a2614acb.ctex"]
+source_file="res://Textures/snkinnyArrow.png"
+dest_files=["res://.godot/imported/snkinnyArrow.png-4c819fa2e01d527c8737b7b1c0275804.ctex"]
 
 [params]
 

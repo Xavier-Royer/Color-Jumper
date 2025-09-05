@@ -2,47 +2,47 @@
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
-[ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://textures/BackGround.png" id="3_m4llh"]
-[ext_resource type="Texture2D" uid="uid://ckiastodqvvgb" path="res://textures/spaceBackground2 (2).png" id="4_lac6x"]
-[ext_resource type="Texture2D" uid="uid://j7muhitor81a" path="res://textures/BackGround3.png" id="5_hpjjw"]
-[ext_resource type="Texture2D" uid="uid://csgxnco0wn22l" path="res://textures/backGround4.png" id="6_off7b"]
+[ext_resource type="Texture2D" uid="uid://dr7uase8mhndl" path="res://Textures/BackGround.png" id="3_m4llh"]
+[ext_resource type="Texture2D" uid="uid://ckiastodqvvgb" path="res://Textures/spaceBackground2 (2).png" id="4_lac6x"]
+[ext_resource type="Texture2D" uid="uid://j7muhitor81a" path="res://Textures/BackGround3.png" id="5_hpjjw"]
+[ext_resource type="Texture2D" uid="uid://csgxnco0wn22l" path="res://Textures/backGround4.png" id="6_off7b"]
 [ext_resource type="Script" uid="uid://dgf5fqpr2obog" path="res://Scripts/settings_screen.gd" id="7_lfh1j"]
-[ext_resource type="Texture2D" uid="uid://btu0flseb36rl" path="res://textures/settingsbg.png" id="8_7sj7i"]
+[ext_resource type="Texture2D" uid="uid://btu0flseb36rl" path="res://Textures/settingsbg.png" id="8_7sj7i"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="9_semxg"]
-[ext_resource type="Texture2D" uid="uid://dhc0uf23mr7vo" path="res://textures/home_button.png" id="10_ep8v8"]
-[ext_resource type="Texture2D" uid="uid://qdbygg7qbwac" path="res://textures/home_button_pressed.png" id="11_3133c"]
-[ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://textures/resetall_button.png" id="12_js5gh"]
-[ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://textures/resetall_button_pressed.png" id="13_vvjo1"]
+[ext_resource type="Texture2D" uid="uid://dhc0uf23mr7vo" path="res://Textures/home_button.png" id="10_ep8v8"]
+[ext_resource type="Texture2D" uid="uid://qdbygg7qbwac" path="res://Textures/home_button_pressed.png" id="11_3133c"]
+[ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://Textures/resetall_button.png" id="12_js5gh"]
+[ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://Textures/resetall_button_pressed.png" id="13_vvjo1"]
 [ext_resource type="Script" uid="uid://cbpq4o5tbo37b" path="res://Scripts/leaderboard_screen.gd" id="14_yisvs"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://Scripts/game_screen.gd" id="15_rgw24"]
-[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="16_5gwyn"]
-[ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://textures/redbutton.png" id="17_r6gtk"]
-[ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://textures/redbuttonpressed.png" id="18_81ldr"]
-[ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://textures/greenbutton.png" id="19_eywpa"]
-[ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://textures/greenbuttonpressed.png" id="20_j7e3e"]
-[ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://textures/bluebutton.png" id="21_y2ulj"]
-[ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://textures/bluebuttonpressed.png" id="22_t3x2a"]
-[ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://textures/purplebutton.png" id="23_1bbis"]
-[ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://textures/purplebuttonpressed.png" id="24_yn2g2"]
-[ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://textures/colorjumper_logo.png" id="25_yic5e"]
-[ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://textures/shop.png" id="26_ex7s8"]
-[ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://textures/shop_pressed.png" id="27_4clwk"]
-[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://textures/settings.png" id="28_h2tpa"]
-[ext_resource type="Texture2D" uid="uid://dvb3e8das85t4" path="res://textures/settings_pressed.png" id="29_nkjwg"]
-[ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://textures/leaderboard.png" id="30_8n4h5"]
-[ext_resource type="Texture2D" uid="uid://dmgukeat5acuo" path="res://textures/leaderboard_pressed.png" id="31_as1io"]
-[ext_resource type="Texture2D" uid="uid://cjhmkumdx0hiv" path="res://textures/TutorialIcon.png" id="32_xd5mi"]
-[ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://textures/rainbow_bar_new.png" id="33_tt1x2"]
+[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://Textures/Evil Empire.otf" id="16_5gwyn"]
+[ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://Textures/redbutton.png" id="17_r6gtk"]
+[ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://Textures/redbuttonpressed.png" id="18_81ldr"]
+[ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://Textures/greenbutton.png" id="19_eywpa"]
+[ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://Textures/greenbuttonpressed.png" id="20_j7e3e"]
+[ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://Textures/bluebutton.png" id="21_y2ulj"]
+[ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://Textures/bluebuttonpressed.png" id="22_t3x2a"]
+[ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://Textures/purplebutton.png" id="23_1bbis"]
+[ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://Textures/purplebuttonpressed.png" id="24_yn2g2"]
+[ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://Textures/colorjumper_logo.png" id="25_yic5e"]
+[ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://Textures/shop.png" id="26_ex7s8"]
+[ext_resource type="Texture2D" uid="uid://dcglq86o48wui" path="res://Textures/shop_pressed.png" id="27_4clwk"]
+[ext_resource type="Texture2D" uid="uid://jlvu2iegplrg" path="res://Textures/settings.png" id="28_h2tpa"]
+[ext_resource type="Texture2D" uid="uid://dvb3e8das85t4" path="res://Textures/settings_pressed.png" id="29_nkjwg"]
+[ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://Textures/leaderboard.png" id="30_8n4h5"]
+[ext_resource type="Texture2D" uid="uid://dmgukeat5acuo" path="res://Textures/leaderboard_pressed.png" id="31_as1io"]
+[ext_resource type="Texture2D" uid="uid://cjhmkumdx0hiv" path="res://Textures/TutorialIcon.png" id="32_xd5mi"]
+[ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://Textures/rainbow_bar_new.png" id="33_tt1x2"]
 [ext_resource type="Script" uid="uid://dr5w573nvvrov" path="res://Scripts/rainbow_screen_over_lay.gd" id="34_2wrh7"]
 [ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://Shaders/allWhiteTempshader.gdshader" id="35_atu2d"]
-[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/Coin.png" id="36_x5wht"]
-[ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://textures/SkipIcon.png" id="37_tbeql"]
-[ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://textures/TextBox.png" id="38_c5nnb"]
-[ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://textures/snkinnyArrow.png" id="39_fsd2l"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://Textures/Coin.png" id="36_x5wht"]
+[ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://Textures/SkipIcon.png" id="37_tbeql"]
+[ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://Textures/TextBox.png" id="38_c5nnb"]
+[ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://Textures/snkinnyArrow.png" id="39_fsd2l"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://Scripts/player.gd" id="40_8kgcr"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Shaders/Player.gdshader" id="41_52a0j"]
-[ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://textures/playerskins/spaceship.png" id="42_mx20r"]
-[ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://textures/Iphone.png" id="43_rpc3w"]
+[ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://Textures/playerskins/spaceship.png" id="42_mx20r"]
+[ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://Textures/Iphone.png" id="43_rpc3w"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://ParticleCurves/RainbowColorGradient.tres" id="44_3k6d1"]
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 [ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
@@ -110,15 +110,15 @@ void fragment() {
 		float squareRadius = max(xPos,yPos);
 		float alpha = 1.0-(squareRadius/1.1); //1.0-(squareRadius/1.5);
 		alpha += sin(TIME*10.0)/40.0;
-	
+
 		if (rainbow) {
 			//old rainbow code
 			COLOR = vec4( ((-1.0 + COLOR.r)/2.0)  + max(UV.y * ((sin(TIME*2.0)+2.5)/2.5),0.3)  , ((-1.0+COLOR.g)/2.0)+ max(((UV.x)/2.0) * ((sin(TIME*2.0 +(PI/2.0))+2.5)/2.5),0.35)  ,  ((-1.0+ COLOR.b)/2.0) + max((UV.x+UV.y)/2.0 * ((sin(TIME*2.0 +(PI/4.0))+2.5)/2.5),0.6) ,  COLOR.a);
 			alpha -=0.1;
-			
+
 			//float xValue = 1.0 - max(xPos,yPos);
 			//xValue = UV.x+UV.y;
-			//float offset;  
+			//float offset;
 			//
 			//offset = mod(TIME/0.5,4);
 			//xValue = xValue + offset;
@@ -130,11 +130,11 @@ void fragment() {
 		} else {
 			//COLOR = vec4(input_color.r,input_color.g,input_color.b,alpha);
 		}
-	
-	
 
-		
-	
+
+
+
+
 }
 
 
@@ -1209,8 +1209,6 @@ layout_mode = 2
 theme_override_fonts/normal_font = ExtResource("16_5gwyn")
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "Avoid Spikes!  
-  [img]res://Textures/ScaledDownSpike.png[/img] "
 fit_content = true
 autowrap_mode = 0
 horizontal_alignment = 1

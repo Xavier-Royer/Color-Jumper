@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://Scripts/spike.gd" id="1_08o4a"]
-[ext_resource type="Texture2D" uid="uid://bm21ooct4xdow" path="res://textures/Spike.png" id="2_6oc8a"]
-[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://textures/Coin.png" id="3_o34di"]
+[ext_resource type="Texture2D" uid="uid://bm21ooct4xdow" path="res://Textures/Spike.png" id="2_6oc8a"]
+[ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://Textures/Coin.png" id="3_o34di"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="4_6oc8a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlhjnodo47wa0"
-path="res://.godot/imported/SkipIcon.png-72f5537847b17c480daa272099c4bf33.ctex"
+path="res://.godot/imported/SkipIcon.png-32049d06e9ebc2566e90097e6bdde95c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/SkipIcon.png"
-dest_files=["res://.godot/imported/SkipIcon.png-72f5537847b17c480daa272099c4bf33.ctex"]
+source_file="res://Textures/SkipIcon.png"
+dest_files=["res://.godot/imported/SkipIcon.png-32049d06e9ebc2566e90097e6bdde95c.ctex"]
 
 [params]
 

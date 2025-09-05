@@ -53,3 +53,7 @@ func flashColor(blockColor):
 	rainbowGoing = false
 	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.3)
 	$FlashTimer.start(.12)
+
+func _ready() -> void:
+	self.modulate.a = 0 
+	show()

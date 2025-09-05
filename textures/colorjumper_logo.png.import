@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://25r3hwu2j0m"
-path="res://.godot/imported/colorjumper_logo.png-540458845f02f1e308d9dbdcbd32b34e.ctex"
+path="res://.godot/imported/colorjumper_logo.png-c0154e1738adaf4d825dbacb33398338.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/colorjumper_logo.png"
-dest_files=["res://.godot/imported/colorjumper_logo.png-540458845f02f1e308d9dbdcbd32b34e.ctex"]
+source_file="res://Textures/colorjumper_logo.png"
+dest_files=["res://.godot/imported/colorjumper_logo.png-c0154e1738adaf4d825dbacb33398338.ctex"]
 
 [params]
 
