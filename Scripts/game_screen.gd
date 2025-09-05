@@ -165,8 +165,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	
 	
 	#generates the rest of the starting blocks
-	var blockPositions = [ Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))]
+	var blockPositions = [block.position]
 	var numberOfBlocks = randi_range(12,18) 
+	print(numberOfBlocks)
 	for i in range(numberOfBlocks):
 		block = blockScene.instantiate()
 		block.number = blocksSpawned
@@ -179,8 +180,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		var blockPosition = Vector2(randi_range(90,screen_size.x - 90),min(yStartPos-(yIncriments*i) + randi_range(-50,50),  yStartPos))
 		#checks to see if the block's spawn position is valid
 		for x in blockPositions:
-			if blockPosition.distance_to(x) < 300:
+			if blockPosition.distance_to(x) < 390:
 				block.queue_free()
+				print("INVALID BLOCK")
 				invalid = true
 		if not invalid:
 			blockPositions.append(blockPosition)
