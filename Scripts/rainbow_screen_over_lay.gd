@@ -4,6 +4,8 @@ var gameOver = false
 var rainbowGoing = false
 var rainbowRestared = false
 
+var deltaTime = 0 
+
 func rainbowStart(tutorial = false):
 	if previousTween != null:
 		previousTween.stop()
@@ -54,6 +56,10 @@ func flashColor(blockColor):
 	self.modulate = Color(blockColor.r,blockColor.g,blockColor.b,0.3)
 	$FlashTimer.start(.12)
 
-func _ready() -> void:
-	self.modulate.a = 0 
-	show()
+
+
+func _process(delta: float) -> void:
+	if deltaTime < 1.0:
+		self.modulate.a = 0 
+		show()
+		deltaTime+=delta
