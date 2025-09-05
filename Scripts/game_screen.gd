@@ -412,6 +412,7 @@ func _on_block_caught():
 			var tweenDistance = -player.blockOn.global_position.y + (screen_size.y * (16.0/30.0)) 
 			loadGame(true,tweenDistance)
 			player.blockOn.setGhost()
+			playerLoadInAnimation =true 
 			$UI/Parent.hide()
 			$UI/Pointer.hide()
 			$UI/SkipTutorial.hide()
