@@ -1,8 +1,8 @@
 [gd_resource type="Theme" load_steps=12 format=3 uid="uid://inpjr0g2xmmk"]
 
-[ext_resource type="Texture2D" uid="uid://ftsbidui8ceb" path="res://textures/toggle_on.png" id="1_7j863"]
-[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://textures/Evil Empire.otf" id="1_e7bfs"]
-[ext_resource type="Texture2D" uid="uid://dpjn8wu4rsce3" path="res://textures/toggle_off.png" id="2_50bnw"]
+[ext_resource type="Texture2D" uid="uid://ftsbidui8ceb" path="res://Textures/toggle_on.png" id="1_7j863"]
+[ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://Textures/Evil Empire.otf" id="1_e7bfs"]
+[ext_resource type="Texture2D" uid="uid://dpjn8wu4rsce3" path="res://Textures/toggle_off.png" id="2_50bnw"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7j863"]
 

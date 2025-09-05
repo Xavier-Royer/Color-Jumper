@@ -227,8 +227,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 
 
 	elif difficulty == "CLASSIC":
-		randomColorRate = 75
-		spikeSpawnRate = 150
+		randomColorRate = 65
+		spikeSpawnRate = 125
 		coinSpawnRate = 70
 		#baseGameSpeed  = 820
 		baseGameSpeed  = 650
@@ -237,7 +237,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		spikeCoolDownTime = 1.6
 		$SpawnTimer.wait_time = blockSpawnTime
 		
-		finalGameSpeed = 1812
+		finalGameSpeed = 1600
 		finalSpawnWaitTime = 0.24
 	
 	elif difficulty == "COLORFUL": #EXTREME
@@ -252,9 +252,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
 		baseGameSpeed  = 850
-		finalGameSpeed = 2012
+		finalGameSpeed = 2000
 		blockSpawnTime = 0.37
-		finalSpawnWaitTime = 0.2
+		finalSpawnWaitTime = 0.17
 		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
 		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
@@ -267,9 +267,6 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		#player.modulate = Color(1,1,1)
 		$UI/RainbowScreenOverLay.show()
 		rainbowOver = false
-		
-		finalGameSpeed = 2000
-		finalSpawnWaitTime = 0.17
 	if fromTutorial:
 		showButtons()
 	lastBlocksColor = "RED"
@@ -557,7 +554,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					gameSpeed = baseGameSpeed
 					#start the difficulty ramping tween
 					difficultyTween = create_tween()
-					
+					difficultyTween.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_SINE)
 					difficultyTween.tween_property(self, "gameSpeed", finalGameSpeed, 100) #2 min 25s
 					#difficultyTween.set_trans(Tween.TRANS_LINEAR)
 					#difficultyTween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
