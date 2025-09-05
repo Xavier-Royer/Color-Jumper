@@ -30,7 +30,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _ready() -> void:
 	rainbowOff()
-		
 
 func _process(_delta: float) -> void:
 	if died:
@@ -120,11 +119,15 @@ func reset():
 
 
 func rainbowOff():
-	$Trail.process_material.color_initial_ramp =null
+	#$Trail.process_material.color_initial_ramp =null
+	$Trail.emitting = true
+	$Trail2.emitting = false
 
 func rainbowOn():
 	setColor(Color(1,1,1,1))
-	$Trail.process_material.color_initial_ramp = rainbowGradient
+	#$Trail.process_material.color_initial_ramp = rainbowGradient
+	$Trail2.emitting = true
+	$Trail.emitting = false
 	for i in range(4):
 		self.set_collision_mask_value(i+1,true)
 

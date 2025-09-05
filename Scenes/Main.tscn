@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=74 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -414,6 +414,19 @@ scale_min = 10.0
 scale_max = 20.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpfj3"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(4, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+spread = 19.114
+initial_velocity_min = 15.38
+initial_velocity_max = 29.23
+gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 1.5
+color_initial_ramp = ExtResource("44_3k6d1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m4llh"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(4, 1, 1)
 emission_shape = 3
@@ -1325,6 +1338,16 @@ texture = ExtResource("43_rpc3w")
 speed_scale = 2.84
 fixed_fps = 200
 process_material = SubResource("ParticleProcessMaterial_fpfj3")
+
+[node name="Trail2" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
+process_priority = 500
+position = Vector2(5.20833, 30.1681)
+emitting = false
+amount = 130
+texture = ExtResource("43_rpc3w")
+speed_scale = 2.84
+fixed_fps = 200
+process_material = SubResource("ParticleProcessMaterial_m4llh")
 
 [node name="RainbowTimer" type="Timer" parent="ScreenManager/GameScreen"]
 wait_time = 5.0
