@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=76 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -31,13 +31,15 @@
 [ext_resource type="Texture2D" uid="uid://dvb3e8das85t4" path="res://Textures/settings_pressed.png" id="29_nkjwg"]
 [ext_resource type="Texture2D" uid="uid://c72lqgi7paoo1" path="res://Textures/leaderboard.png" id="30_8n4h5"]
 [ext_resource type="Texture2D" uid="uid://dmgukeat5acuo" path="res://Textures/leaderboard_pressed.png" id="31_as1io"]
-[ext_resource type="Texture2D" uid="uid://cjhmkumdx0hiv" path="res://Textures/TutorialIcon.png" id="32_xd5mi"]
+[ext_resource type="Texture2D" uid="uid://cjhmkumdx0hiv" path="res://Textures/tutorial.png" id="32_hpjjw"]
+[ext_resource type="Texture2D" uid="uid://cniqr5iek2cbi" path="res://Textures/tutorial_pressed.png" id="33_off7b"]
 [ext_resource type="Texture2D" uid="uid://b7nl74mrg5pdw" path="res://Textures/rainbow_bar_new.png" id="33_tt1x2"]
 [ext_resource type="Script" uid="uid://dr5w573nvvrov" path="res://Scripts/rainbow_screen_over_lay.gd" id="34_2wrh7"]
 [ext_resource type="Shader" uid="uid://chajdioaygigy" path="res://Shaders/allWhiteTempshader.gdshader" id="35_atu2d"]
 [ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://Textures/Coin.png" id="36_x5wht"]
-[ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://Textures/SkipIcon.png" id="37_tbeql"]
 [ext_resource type="Texture2D" uid="uid://dvh4v68mtc4la" path="res://Textures/TextBox.png" id="38_c5nnb"]
+[ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://Textures/skip.png" id="38_lfh1j"]
+[ext_resource type="Texture2D" uid="uid://cmpt2mqkmt6we" path="res://Textures/skip_pressed.png" id="39_7sj7i"]
 [ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://Textures/snkinnyArrow.png" id="39_fsd2l"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://Scripts/player.gd" id="40_8kgcr"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Shaders/Player.gdshader" id="41_52a0j"]
@@ -1065,8 +1067,8 @@ stretch_mode = 4
 z_index = 50
 custom_minimum_size = Vector2(175, 190)
 layout_mode = 2
-action_mode = 0
-texture_normal = ExtResource("32_xd5mi")
+texture_normal = ExtResource("32_hpjjw")
+texture_pressed = ExtResource("33_off7b")
 stretch_mode = 4
 
 [node name="RainBowBar" type="TextureProgressBar" parent="ScreenManager/GameScreen/UI"]
@@ -1188,12 +1190,14 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -106.0
-offset_top = 9.0
-offset_right = 194.0
-offset_bottom = 159.0
+offset_left = -159.0
+offset_top = 22.0
+offset_right = -60.0
+offset_bottom = 133.0
 grow_horizontal = 0
-texture_normal = ExtResource("37_tbeql")
+scale = Vector2(1.28, 1.28)
+texture_normal = ExtResource("38_lfh1j")
+texture_pressed = ExtResource("39_7sj7i")
 
 [node name="Parent" type="HBoxContainer" parent="ScreenManager/GameScreen/UI"]
 visible = false

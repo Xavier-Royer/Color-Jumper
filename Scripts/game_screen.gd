@@ -133,14 +133,14 @@ func _ready() -> void:
 
 
 func loadGame(fromTutorial, tweenDistance = 0):
+	disableColorButtons()
+	difficulty = FileManager.difficulty
 	$UI/DeathText.hide()
 	get_parent().find_child("Background").get_child(0).resetBackgroundPositions()
 	#resets everything 
 	gameRunTime = 0
 	player.reset()
 	turnOffRainbow()
-	
-	
 	#reset velocity and delete game screen objects 
 	if fromTutorial == false:
 		resetMovingObjects()
@@ -150,7 +150,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	currentBlock = null
 	changeColor("RED")
 	
-	enableColorButtons()
+	
 	
 	var block
 	if fromTutorial == false:
@@ -212,7 +212,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	
 	
 	
-	difficulty = FileManager.difficulty
+	
 	speed = 7000
 	spikeCoolDownTime = 1.3
 	colorTransitionSpeed = 1.0
@@ -221,7 +221,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		baseGameSpeed  = 400
 		blockSpawnTime = 1
 		$SpawnTimer.wait_time = blockSpawnTime
-		
+		rainbowSpawnRate = 5
 		finalGameSpeed = 900
 		finalSpawnWaitTime = 0.5
 
@@ -236,25 +236,25 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		spikeDivisorCoolDown = 2.5
 		spikeCoolDownTime = 1.6
 		$SpawnTimer.wait_time = blockSpawnTime
-		
+		rainbowSpawnRate = 5
 		finalGameSpeed = 1600
 		finalSpawnWaitTime = 0.24
 	
 	elif difficulty == "COLORFUL": #EXTREME
 		randomColorRate = 200
 		baseGameSpeed  = 670
-		blockSpawnTime = 0.5
+		blockSpawnTime = 0.6
 		$SpawnTimer.wait_time = blockSpawnTime
-		
+		rainbowSpawnRate = 20
 		finalRandomColorRate = 1000
-		finalGameSpeed = 800
+		finalGameSpeed = 775
 		finalSpawnWaitTime = 0.3
 	else:# difficulty == "RAINBOW":
 		randomColorRate = 1000
 		baseGameSpeed  = 850
-		finalGameSpeed = 2000
-		blockSpawnTime = 0.37
-		finalSpawnWaitTime = 0.17
+		finalGameSpeed = 1650
+		blockSpawnTime = 0.35
+		finalSpawnWaitTime = 0.25
 		spikeSpawnRate = 250 # percentage out of 1000 that one spawns
 		coinSpawnRate = 120
 		spikeDivisorCoolDown = 2.0
@@ -262,6 +262,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		colorTransitionSpeed = 1.5
 		spikeCoolDownTime = 1.6
 		speed = 8000
+		rainbowSpawnRate = 0
 		player.rainbowOn()
 		$Objects/Player/ColorRect.material.set_shader_parameter("rainbow",true)
 		#player.modulate = Color(1,1,1)
@@ -275,6 +276,9 @@ func loadGame(fromTutorial, tweenDistance = 0):
 
 
 func changeColor(newColor):
+	#if loading into game and done with rise up animation turn on color buttons
+	if playerLoadInAnimation:
+		return
 	if difficulty == "RAINBOW" and gameState != "TUTORIAL":
 		return
 	#update collision masks and color to netural for trail
@@ -322,6 +326,7 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_block_caught():
+	
 	playerLoadInAnimation = false
 	#play block animation
 	currentBlock = player.blockOn
@@ -606,7 +611,7 @@ func _process(delta: float) -> void:
 		gameSpeed = 0
 		player.velocity = speed*direction
 		
-		if tutorialState == "FREEs":
+		if tutorialState == "FREE":
 			gameSpeed =200
 			movingObjects.position.y += delta*gameSpeed
 		else: #if player is in learning
@@ -827,6 +832,7 @@ func _on_spawn_timer_timeout() -> void:
 	print("gamespeed: " + str(gameSpeed))
 	print("waittime: " + str($SpawnTimer.wait_time))
 	print("waittime2: " + str(blockSpawnTime))
+	print("color change: " + str(randomColorRate))
 
 
 func _on_rainbow_timer_timeout() -> void:
@@ -945,6 +951,7 @@ func fadeOutButtons():
 	fadeOutButton($UI/ButtonContainer/StartTutorial)
 
 func tutorialOver():
+	enableColorButtons()
 	FileManager.saveTutorial()
 	gameState = "READY"
 	currentBlock = player.blockOn
@@ -1147,6 +1154,10 @@ func fadeOutButton(button,isButton = true):
 func enableColorButtons():
 	for i in $UI/ColorButtons.get_children():
 		i.disabled = false
+		
+func disableColorButtons():
+	for i in $UI/ColorButtons.get_children():
+		i.disabled = true
 
 func playPointerLoopTweens():
 	textTween = create_tween().set_loops()

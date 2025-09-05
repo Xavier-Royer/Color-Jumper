@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlhjnodo47wa0"
-path="res://.godot/imported/SkipIcon.png-32049d06e9ebc2566e90097e6bdde95c.ctex"
+uid="uid://dmafbmd4cxbr0"
+path="res://.godot/imported/bootsplash.png-d06da672e1b9cbcbef6e896f2e105e67.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/SkipIcon.png"
-dest_files=["res://.godot/imported/SkipIcon.png-32049d06e9ebc2566e90097e6bdde95c.ctex"]
+source_file="res://Textures/bootsplash.png"
+dest_files=["res://.godot/imported/bootsplash.png-d06da672e1b9cbcbef6e896f2e105e67.ctex"]
 
 [params]
 
