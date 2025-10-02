@@ -211,15 +211,22 @@ size_flags_vertical = 6
 mouse_filter = 1
 
 [node name="TextureRect" type="TextureRect" parent="CoinAnimation/Position"]
-layout_mode = 2
-offset_right = 128.0
-offset_bottom = 128.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.13000001
+anchor_top = -0.045
+anchor_right = 0.13000001
+anchor_bottom = -0.045
+offset_left = -0.020181656
+offset_top = 0.034719467
+offset_right = 87.43291
+offset_bottom = 87.48781
 size_flags_horizontal = 4
 texture = ExtResource("3_o34di")
-stretch_mode = 2
+expand_mode = 1
 
 [node name="Label" type="Label" parent="CoinAnimation/Position"]
-layout_mode = 2
+layout_mode = 0
 offset_left = 110.0
 offset_top = 2.0
 offset_right = 137.0
