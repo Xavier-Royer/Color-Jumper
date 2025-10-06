@@ -15,6 +15,7 @@ func _ready():
 	player.rotation = deg_to_rad(playerAngle)
 	player.position = playerPosition
 	
+	
 	var gravityPosition =  playerPosition + Vector2(0,gameSpeedVelocity)
 	gravity.position = gravityPosition
 	var direction = 270 + -1*(playerAngle) #bc godot has weird origins

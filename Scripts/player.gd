@@ -35,11 +35,53 @@ func _process(_delta: float) -> void:
 	if died:
 		velocity = Vector2.ZERO
 	#make trail 
+	var ejectSpeed = 20
 	direction = Vector2(cos(deg_to_rad(rotation+90)),sin(deg_to_rad(rotation+90)))
-	$Trail.process_material.direction = Vector3(1*direction.x,1*direction.y ,0)
-	$Trail.process_material.initial_velocity_min = max(gameSpeed*0.2,20) # Minimum initial speed
-	$Trail.process_material.initial_velocity_max = max(gameSpeed*0.25,25)
-	$Trail.process_material.gravity = Vector3(0,200,0)
+	
+	var gravityVector =  Vector2(0,gameSpeed * 1) #0.3
+	var direction = 270 + -1*(rad_to_deg(rotation)) #bc godot has weird origins
+	
+	var ejectVector = ejectSpeed*Vector2(cos(deg_to_rad(direction)),-1*sin(deg_to_rad(direction)))
+	
+	#trail velocity magnitude 
+	var yComponent = gravityVector.y + ejectVector.y#(-1*ejectSpeedVelocity*sin(deg_to_rad(direction))) 
+	var xComponent = ejectVector.x
+	#xComponent = round(xComponent)
+	var trailVelocity = sqrt( pow(yComponent,2)  + pow(xComponent,2) )
+	#trail velcoity angle 
+	var trailAngle = atan(yComponent / xComponent )
+	#if xComponent == 0:
+		#trailAngle = deg_to_rad(90)
+	if yComponent < 0 and xComponent < 0:
+		trailAngle += deg_to_rad(180)
+	if yComponent > 0 and xComponent < 0:
+		trailAngle += deg_to_rad(180)
+	
+	if gameSpeed == 0:
+		trailVelocity = 350
+	
+	$Trail.process_material.direction = Vector3(xComponent,yComponent ,0)
+	$Trail.process_material.initial_velocity_min = max(trailVelocity,150) # Minimum initial speed
+	$Trail.process_material.initial_velocity_max = max(trailVelocity*1.2,200)
+	var maxVeclotiy =  max(trailVelocity*1.2,200)
+	#x = speed * time 
+	#let x be 50 pxiels 
+	#50/speed =t time
+	
+	$Trail.lifetime = 75/maxVeclotiy
+	if gameSpeed == 0:
+		maxVeclotiy = 2000
+		$Trail.lifetime = 0.15
+		
+	
+	$Trail.speed_scale = 0.5
+	
+	
+	#This code works for gravity, not physics, is pretty chill tho
+	#$Trail.process_material.direction = Vector3(1*direction.x,1*direction.y ,0)
+	#$Trail.process_material.initial_velocity_min = max(gameSpeed*0.2,20) # Minimum initial speed
+	#$Trail.process_material.initial_velocity_max = max(gameSpeed*0.25,25)
+	#$Trail.process_material.gravity = Vector3(0,200,0)
 	#$Trail.process_material.gravity = Vector3(0,gameSpeed*2,0)
 	
 	oldVelocity = velocity
