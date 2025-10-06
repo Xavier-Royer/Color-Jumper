@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvdf3jommjq1a"
-path="res://.godot/imported/spaceship.png-9f2e4a5050fb64f7f22aa39dde69064e.ctex"
+uid="uid://dd0uph38p5lk2"
+path="res://.godot/imported/snowman.png-56c4884a6e22aa02e13ec7dcc94abb80.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/playerskins/spaceship.png"
-dest_files=["res://.godot/imported/spaceship.png-9f2e4a5050fb64f7f22aa39dde69064e.ctex"]
+source_file="res://Textures/playerskins/snowman.png"
+dest_files=["res://.godot/imported/snowman.png-56c4884a6e22aa02e13ec7dcc94abb80.ctex"]
 
 [params]
 

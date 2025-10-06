@@ -120,6 +120,8 @@ func _ready() -> void:
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y + 50, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	tween2.tween_property($UI/Logo, "position:y", $UI/Logo.position.y, 1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
 	
+	FileManager.loadSettings()
+	$"../SettingsScreen/CheckButton".button_pressed = FileManager.sound_enabled
 	#if tutorial already done then switch state to over
 	FileManager.loadTutorial()
 	if FileManager.tutorial:
@@ -275,6 +277,11 @@ func loadGame(fromTutorial, tweenDistance = 0):
 	lastBlocksColor = "RED"
 	currentDifficulty = 1
 	gameState = "READY"
+
+	enableColorButtons()
+	$"../StructuresOfColor".stop()
+	if not $"../DiracSea".playing and FileManager.sound_enabled:
+		$"../DiracSea".play()
 
 
 func changeColor(newColor):
@@ -572,6 +579,11 @@ func _unhandled_input(event: InputEvent) -> void:
 					if difficulty == "COLORFUL":
 						difficultyTween.tween_property(self, "randomColorRate", finalRandomColorRate, 100) #2 min 25s
 					
+					#switch from menu audio to game audio
+					
+					$"../DiracSea".stop()
+					if FileManager.sound_enabled:
+						$"../StructuresOfColor".play()
 					#hide all the start screen buttons
 					fadeOutButtons()
 				#if awaiting tween === false
@@ -814,6 +826,7 @@ func gameOver(deathType = ""):
 		#player.hide()
 		player.disappear()
 		gameState = "OVER"
+		$"../StructuresOfColor".stop()
 		$"../GameOverScreen/UI/VBoxContainer/Score".text = "Score: " + (comma_format(str(score)))
 		var index = difficulties.find(difficulty)
 		var currentHighScore = FileManager.highScore[index]
@@ -958,6 +971,7 @@ func tutorialOver():
 	FileManager.saveTutorial()
 	gameState = "READY"
 	currentBlock = player.blockOn
+	starterBlock = currentBlock
 
 func _on_skip_tutorial_pressed() -> void:
 	loadGame(false)

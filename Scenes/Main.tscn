@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=77 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -43,11 +43,12 @@
 [ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://Textures/snkinnyArrow.png" id="39_fsd2l"]
 [ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://Scripts/player.gd" id="40_8kgcr"]
 [ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Shaders/Player.gdshader" id="41_52a0j"]
-[ext_resource type="Texture2D" uid="uid://bu1035dk1g7wk" path="res://Textures/playerskins/spaceship.png" id="42_mx20r"]
+[ext_resource type="Texture2D" uid="uid://bvdf3jommjq1a" path="res://Textures/playerskins/spaceship.png" id="42_mx20r"]
 [ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://Textures/Iphone.png" id="43_rpc3w"]
 [ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://ParticleCurves/RainbowColorGradient.tres" id="44_3k6d1"]
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 [ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
+[ext_resource type="AudioStream" uid="uid://kljt4k6b67fb" path="res://Audio/The Dirac Sea.wav" id="49_off7b"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -1234,7 +1235,7 @@ vertical_alignment = 2
 visible = false
 self_modulate = Color(1, 1, 1, 0.337255)
 show_behind_parent = true
-layout_mode = 2
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -0.5
@@ -1424,10 +1425,13 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Play Again"
 
-[node name="Music" type="AudioStreamPlayer" parent="ScreenManager"]
+[node name="StructuresOfColor" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("45_5psol")
 volume_db = 5.0
-autoplay = true
+
+[node name="DiracSea" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("49_off7b")
+volume_db = -1.0
 
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
@@ -1450,4 +1454,5 @@ autoplay = true
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
-[connection signal="finished" from="ScreenManager/Music" to="ScreenManager" method="_on_audio_stream_player_finished"]
+[connection signal="finished" from="ScreenManager/StructuresOfColor" to="ScreenManager" method="_on_audio_stream_player_finished"]
+[connection signal="finished" from="ScreenManager/DiracSea" to="ScreenManager" method="_on_audio_stream_player_finished"]

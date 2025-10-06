@@ -2,7 +2,7 @@ extends Node
 var difficulty = "CLASSIC"
 var highScore = [0,0,0,0]
 var tutorial = true
-
+var sound_enabled = true
 
 func _ready():
 	loadSettings()
@@ -10,6 +10,10 @@ func _ready():
 
 func setDifficulty(newDifficulty):
 	difficulty = newDifficulty
+	saveSettings()
+	
+func setAudioEnabled(audioEnabled):
+	sound_enabled = audioEnabled
 	saveSettings()
 
 func setHighScore(score,index):
@@ -20,12 +24,14 @@ func setHighScore(score,index):
 func saveSettings():
 	var file = FileAccess.open("user://settings.dat", FileAccess.WRITE)
 	file.store_var(difficulty)
+	file.store_var(sound_enabled)
 	file.close()
 	
 func loadSettings():
 	var file = FileAccess.open("user://settings.dat", FileAccess.READ)
 	if FileAccess.file_exists("user://settings.dat"):
 		difficulty = file.get_var()
+		sound_enabled = file.get_var()
 		file.close()
 
 

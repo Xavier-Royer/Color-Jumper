@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvdf3jommjq1a"
-path="res://.godot/imported/spaceship.png-9f2e4a5050fb64f7f22aa39dde69064e.ctex"
+uid="uid://bfcxk65th6ju1"
+path="res://.godot/imported/firework.png-a964b097ef0b5943d0bc25465c3990f9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/playerskins/spaceship.png"
-dest_files=["res://.godot/imported/spaceship.png-9f2e4a5050fb64f7f22aa39dde69064e.ctex"]
+source_file="res://Textures/playerskins/firework.png"
+dest_files=["res://.godot/imported/firework.png-a964b097ef0b5943d0bc25465c3990f9.ctex"]
 
 [params]
 

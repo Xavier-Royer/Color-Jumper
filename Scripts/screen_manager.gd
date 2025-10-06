@@ -110,10 +110,10 @@ func gameOver():
 func dimMusic():
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property($Music,"volume_db",-5,0.5)
+	tween.tween_property($DiracSea,"volume_db",-5,0.5)
 func undimMusic():
 	var tween = create_tween()
-	tween.tween_property($Music,"volume_db",5,0.5)
+	tween.tween_property($DiracSea,"volume_db",5,0.5)
 
 
 func _on_audio_stream_player_finished() -> void:
@@ -122,6 +122,8 @@ func _on_audio_stream_player_finished() -> void:
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		$Music.play()
+		$DiracSea.play()
+		FileManager.setAudioEnabled(true)
 	else:
-		$Music.stop()
+		$DiracSea.stop()
+		FileManager.setAudioEnabled(false)
