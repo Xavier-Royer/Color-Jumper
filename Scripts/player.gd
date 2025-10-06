@@ -37,7 +37,9 @@ func _process(_delta: float) -> void:
 	#make trail 
 	direction = Vector2(cos(deg_to_rad(rotation+90)),sin(deg_to_rad(rotation+90)))
 	$Trail.process_material.direction = Vector3(1*direction.x,1*direction.y ,0)
-	$Trail.process_material.gravity = Vector3(0,0,0)
+	$Trail.process_material.initial_velocity_min = max(gameSpeed*0.2,20) # Minimum initial speed
+	$Trail.process_material.initial_velocity_max = max(gameSpeed*0.25,25)
+	$Trail.process_material.gravity = Vector3(0,200,0)
 	#$Trail.process_material.gravity = Vector3(0,gameSpeed*2,0)
 	
 	oldVelocity = velocity

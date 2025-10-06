@@ -421,7 +421,8 @@ particle_flag_disable_z = true
 emission_shape_scale = Vector3(4, 1, 1)
 emission_shape = 3
 emission_box_extents = Vector3(1, 1, 1)
-spread = 19.114
+direction = Vector3(0, 1, 0)
+spread = 10.0
 initial_velocity_min = 15.38
 initial_velocity_max = 29.23
 gravity = Vector3(0, 0, 0)
@@ -1336,7 +1337,6 @@ process_material = SubResource("ParticleProcessMaterial_sc1dx")
 [node name="Trail" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
 process_priority = 500
 position = Vector2(5.20833, 30.1681)
-emitting = false
 amount = 130
 texture = ExtResource("43_rpc3w")
 speed_scale = 2.84
