@@ -30,6 +30,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _ready() -> void:
 	rainbowOff()
+	$Trail.speed_scale = 0.5
+	var trailVelocity = 350
+	$Trail.process_material.initial_velocity_min = max(trailVelocity,150) # Minimum initial speed
+	$Trail.process_material.initial_velocity_max = max(trailVelocity*1.2,200)
+	$Trail.lifetime = 0.15
 
 
 func disappear():

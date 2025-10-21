@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=71 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -13,9 +13,13 @@
 [ext_resource type="Texture2D" uid="uid://qdbygg7qbwac" path="res://Textures/home_button_pressed.png" id="11_3133c"]
 [ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://Textures/resetall_button.png" id="12_js5gh"]
 [ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://Textures/resetall_button_pressed.png" id="13_vvjo1"]
+[ext_resource type="PackedScene" uid="uid://dpbslonwfj1jc" path="res://Scenes/player.tscn" id="14_5psol"]
 [ext_resource type="Script" uid="uid://cbpq4o5tbo37b" path="res://Scripts/leaderboard_screen.gd" id="14_yisvs"]
+[ext_resource type="Script" uid="uid://bsqncgkwx00ve" path="res://Scripts/playerShopScreen.gd" id="15_m4llh"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://Scripts/game_screen.gd" id="15_rgw24"]
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://Textures/Evil Empire.otf" id="16_5gwyn"]
+[ext_resource type="Script" uid="uid://b6gmplkltxmgk" path="res://Scripts/scroll_locker.gd" id="16_hpjjw"]
+[ext_resource type="PackedScene" uid="uid://cnoobnjt5omfj" path="res://Scenes/scroll_locker.tscn" id="16_lac6x"]
 [ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://Textures/redbutton.png" id="17_r6gtk"]
 [ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://Textures/redbuttonpressed.png" id="18_81ldr"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://Textures/greenbutton.png" id="19_eywpa"]
@@ -41,11 +45,6 @@
 [ext_resource type="Texture2D" uid="uid://dlhjnodo47wa0" path="res://Textures/skip.png" id="38_lfh1j"]
 [ext_resource type="Texture2D" uid="uid://cmpt2mqkmt6we" path="res://Textures/skip_pressed.png" id="39_7sj7i"]
 [ext_resource type="Texture2D" uid="uid://csl7xo284huy4" path="res://Textures/snkinnyArrow.png" id="39_fsd2l"]
-[ext_resource type="Script" uid="uid://bkgvpdqg7rqwb" path="res://Scripts/player.gd" id="40_8kgcr"]
-[ext_resource type="Shader" uid="uid://c2okqvdrf0yes" path="res://Shaders/Player.gdshader" id="41_52a0j"]
-[ext_resource type="Texture2D" uid="uid://bvdf3jommjq1a" path="res://Textures/playerskins/spaceship.png" id="42_mx20r"]
-[ext_resource type="Texture2D" uid="uid://c2275qlv6csxt" path="res://Textures/Iphone.png" id="43_rpc3w"]
-[ext_resource type="Texture2D" uid="uid://cuejerl8xogne" path="res://ParticleCurves/RainbowColorGradient.tres" id="44_3k6d1"]
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 [ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
 [ext_resource type="AudioStream" uid="uid://kljt4k6b67fb" path="res://Audio/The Dirac Sea.wav" id="49_off7b"]
@@ -396,52 +395,6 @@ _data = {
 &"RESET": SubResource("Animation_c2s76")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0du0"]
-size = Vector2(8.85825, 30)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fpfj3"]
-shader = ExtResource("41_52a0j")
-shader_parameter/rainbow = true
-shader_parameter/speed = 0.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sc1dx"]
-particle_flag_disable_z = true
-angle_min = 438.6
-angle_max = 438.6
-direction = Vector3(0, -1, 0)
-spread = 40.0
-initial_velocity_min = 280.77
-initial_velocity_max = 757.69
-gravity = Vector3(0, 1000, 0)
-scale_min = 10.0
-scale_max = 20.0
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fpfj3"]
-particle_flag_disable_z = true
-emission_shape_scale = Vector3(4, 1, 1)
-emission_shape = 3
-emission_box_extents = Vector3(1, 1, 1)
-direction = Vector3(0, 1, 0)
-spread = 10.0
-initial_velocity_min = 15.38
-initial_velocity_max = 29.23
-gravity = Vector3(0, 0, 0)
-scale_min = 1.5
-scale_max = 1.5
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m4llh"]
-particle_flag_disable_z = true
-emission_shape_scale = Vector3(4, 1, 1)
-emission_shape = 3
-emission_box_extents = Vector3(1, 1, 1)
-spread = 19.114
-initial_velocity_min = 15.38
-initial_velocity_max = 29.23
-gravity = Vector3(0, 0, 0)
-scale_min = 1.5
-scale_max = 1.5
-color_initial_ramp = ExtResource("44_3k6d1")
-
 [sub_resource type="Animation" id="Animation_fos0i"]
 length = 0.001
 tracks/0/type = "value"
@@ -781,12 +734,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -674.0
-offset_right = 350.0
-offset_bottom = 726.0
+offset_left = -423.0
+offset_top = -859.0
+offset_right = 277.0
+offset_bottom = 541.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(1.2399988, 1.2399988)
 mouse_filter = 0
 texture = ExtResource("8_7sj7i")
 
@@ -796,39 +750,260 @@ anchor_left = 0.505
 anchor_top = 0.5
 anchor_right = 0.505
 anchor_bottom = 0.5
-offset_left = 59.6
-offset_top = 542.0
-offset_right = 259.6
-offset_bottom = 642.0
+offset_left = -332.40002
+offset_top = -760.0
+offset_right = -132.40002
+offset_bottom = -660.0
 grow_vertical = 0
 texture_normal = ExtResource("10_ep8v8")
 texture_pressed = ExtResource("11_3133c")
 stretch_mode = 0
 
+[node name="Player" parent="ScreenManager/ShopScreen" instance=ExtResource("14_5psol")]
+position = Vector2(480, 320)
+scale = Vector2(12.8799925, 8.153381)
+script = ExtResource("15_m4llh")
+
 [node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/ShopScreen"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -18.0
+offset_bottom = -18.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 1, 1, 0)
+color = Color(0.47058824, 1, 1, 0)
 
-[node name="Label" type="Label" parent="ScreenManager/ShopScreen"]
-anchors_preset = 8
-anchor_left = 0.5
+[node name="Options" type="VBoxContainer" parent="ScreenManager/ShopScreen"]
+anchors_preset = -1
+anchor_left = 0.51100004
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 0.51100004
 anchor_bottom = 0.5
-offset_left = -289.0
-offset_top = -193.0
-offset_right = 288.0
-offset_bottom = -10.0
-theme = ExtResource("9_semxg")
-text = "Shop
-coming soon"
-horizontal_alignment = 1
+offset_left = -361.88007
+offset_top = -116.0
+offset_right = 361.11993
+offset_bottom = 787.0
+
+[node name="ColorRect" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+script = ExtResource("16_hpjjw")
+content_path = NodePath("HBoxContainer")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Padding" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
+
+[node name="Padding2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
+
+[node name="ColorRect2" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.4745098, 1, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.32378563, 0.5820319, 0.5261193, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.6569478, 0.32246113, 0.27314937, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect3" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect3"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.4745098, 1, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.32378563, 0.5820319, 0.5261193, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.6569478, 0.32246113, 0.27314937, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect4" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect4"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.4745098, 1, 1, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.32378563, 0.5820319, 0.5261193, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.6569478, 0.32246113, 0.27314937, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.894572, 0.5558191, 0.3898536, 1)
+
+[node name="ScrollLocker" parent="ScreenManager/ShopScreen" instance=ExtResource("16_lac6x")]
+visible = false
+position = Vector2(252, 883)
+scale = Vector2(0.5744594, 0.5744594)
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")
@@ -1305,53 +1480,8 @@ horizontal_alignment = 1
 [node name="Objects" type="Node2D" parent="ScreenManager/GameScreen"]
 z_index = -1
 
-[node name="Player" type="CharacterBody2D" parent="ScreenManager/GameScreen/Objects"]
+[node name="Player" parent="ScreenManager/GameScreen/Objects" instance=ExtResource("14_5psol")]
 position = Vector2(1344, -200)
-scale = Vector2(5.07999, 3.21577)
-collision_mask = 561
-script = ExtResource("40_8kgcr")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(5.01962, 15)
-shape = SubResource("RectangleShape2D_r0du0")
-
-[node name="ColorRect" type="TextureRect" parent="ScreenManager/GameScreen/Objects/Player"]
-material = SubResource("ShaderMaterial_fpfj3")
-offset_right = 10.0
-offset_bottom = 30.0
-texture = ExtResource("42_mx20r")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="ScreenManager/GameScreen/Objects/Player"]
-position = Vector2(5.0347, 15)
-scale = Vector2(0.503475, 1.5)
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
-emitting = false
-amount = 250
-lifetime = 2.0
-one_shot = true
-explosiveness = 0.95
-trail_lifetime = 0.5
-process_material = SubResource("ParticleProcessMaterial_sc1dx")
-
-[node name="Trail" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
-process_priority = 500
-position = Vector2(5.20833, 30.1681)
-amount = 60
-texture = ExtResource("43_rpc3w")
-speed_scale = 2.84
-fixed_fps = 200
-process_material = SubResource("ParticleProcessMaterial_fpfj3")
-
-[node name="Trail2" type="GPUParticles2D" parent="ScreenManager/GameScreen/Objects/Player"]
-process_priority = 500
-position = Vector2(5.20833, 30.1681)
-emitting = false
-amount = 130
-texture = ExtResource("43_rpc3w")
-speed_scale = 2.84
-fixed_fps = 200
-process_material = SubResource("ParticleProcessMaterial_m4llh")
 
 [node name="RainbowTimer" type="Timer" parent="ScreenManager/GameScreen"]
 wait_time = 5.0
@@ -1449,8 +1579,6 @@ volume_db = -1.0
 [connection signal="animation_finished" from="ScreenManager/GameScreen/UI/PointerAnimation" to="ScreenManager/GameScreen" method="_on_pointer_animation_animation_finished"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/SkipTutorial" to="ScreenManager/GameScreen" method="_on_skip_tutorial_pressed"]
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/TutorialRespawnTimer" to="ScreenManager/GameScreen" method="_on_tutorial_respawn_timer_timeout"]
-[connection signal="screen_exited" from="ScreenManager/GameScreen/Objects/Player/VisibleOnScreenNotifier2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_visible_on_screen_notifier_2d_screen_exited"]
-[connection signal="finished" from="ScreenManager/GameScreen/Objects/Player/GPUParticles2D" to="ScreenManager/GameScreen/Objects/Player" method="_on_gpu_particles_2d_finished"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
