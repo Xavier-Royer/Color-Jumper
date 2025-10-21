@@ -30,6 +30,9 @@ static var COLLECTIBLES := [
 	Collectible.from_dict({ "type": "skin", "id": "seventeen", "name": "17", "price": 500,
 	"icon": "res://Textures/playerskins/17.png" }),
 	
+	Collectible.from_dict({ "type": "skin", "id": "hearts", "name": "Hearts", "price": 500,
+	"icon": "res://Textures/playerskins/heart.png" }),
+	
 	#TRAILS
 	
 ]
