@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://pd1c2atkf4mm"]
+
+[ext_resource type="Texture2D" uid="uid://br1y0ubh0n1gi" path="res://Textures/playerskins/ghost.png" id="1_3n1ap"]
+[ext_resource type="Script" uid="uid://cyk5yufq7f7o2" path="res://Scripts/shop_slot.gd" id="1_omunl"]
+[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_omunl"]
+
+[node name="Item" type="ColorRect"]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 200.0
+offset_bottom = 200.0
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.9383233, 0.32544777, 0.41792363, 1)
+script = ExtResource("1_omunl")
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = 7.0
+offset_right = -27.0
+offset_bottom = -46.28
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_3n1ap")
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -53.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_omunl")
+theme_override_font_sizes/font_size = 45
+text = "Ghost"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)
+
+[node name="Price" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -69.0
+offset_bottom = 39.0
+grow_horizontal = 0
+theme = ExtResource("2_omunl")
+theme_override_font_sizes/font_size = 30
+text = "$500"
+horizontal_alignment = 2

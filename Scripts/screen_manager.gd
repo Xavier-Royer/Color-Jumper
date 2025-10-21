@@ -18,6 +18,9 @@ func next_screen(nextScreen):
 	#screen transition
 	var screenTransition = create_tween()
 	if screenOpen:
+		$GameScreen.gameState = "READY"
+		print("CHANGESCENE OUT")
+		print("gameSTATE: " + $GameScreen.gameState)
 		$SettingsScreen/NoInteractLayer.visible = true
 		$LeaderboardScreen/NoInteractLayer.visible = true
 		$ShopScreen/NoInteractLayer.visible = true
@@ -35,6 +38,9 @@ func next_screen(nextScreen):
 	#currentScreen.visible = false
 	#nextScreen.visible = true
 	if not screenOpen:
+		$GameScreen.gameState = "MENU"
+		print("CHANGESCENE IN")
+		print("gameSTATE: " + $GameScreen.gameState)
 		$GameScreen/UI/ScreenBG.visible = true
 		screenTransition.set_ease(Tween.EASE_OUT)
 		screenTransition.set_trans(Tween.TRANS_BACK)
@@ -117,7 +123,10 @@ func undimMusic():
 
 
 func _on_audio_stream_player_finished() -> void:
-	$Music.play()
+	if $GameScreen.gameState == "PLAYING":
+		$StructuresOfColor.play()
+	else:
+		$DiracSea.play()
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:

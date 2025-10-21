@@ -1,89 +1,125 @@
-extends Node2D
-var items = []
-var itemSpacing = 75
-var itemsDisplayed 
-var scrollPosition = 0 
-var center = Vector2(600,300)
-var itemSize = 128
-var itemsShowing = 5
-var visibleTotalLength
+extends ScrollContainer
 
-var dragging = false
-var initialDragPosition = Vector2(0,0)
-var endDragPosition = Vector2(0,0)
-var dragTime = 0
+@export var content_path: NodePath
+@export var snap_duration := 0.20            # seconds
+@export var settle_frames := 5               # still frames before snapping
+@export var trans := Tween.TRANS_CUBIC
+@export var ease := Tween.EASE_OUT
+
+const ShopSlotScene: PackedScene = preload("res://Scenes/shopSlot.tscn")
+
+var _content: HBoxContainer
+var _centers: PackedFloat64Array = []
+
+var _pending_snap := false
+var _last_scroll := 0.0
+var _still_count := 0
+var _tween: Tween
 
 func _ready() -> void:
-	for c in self.get_children():
-		items.append(c)
-	displayItems()
+	_content = get_node(content_path) as HBoxContainer
+	var c=0
+	for i in CollectibleDB.COLLECTIBLES:
+		c+=1
+		var node: ShopSlot = ShopSlotScene.instantiate()
+		node.setup(i)
+		if node.data.id not in CollectibleDB.OWNED:
+			node.color.a = 0.5
+		_content.add_child(node)
+		
+	#add padding squares at the end
+	var padding3 = _content.get_child(0).duplicate()
+	padding3.name = "Padding3"
+	_content.add_child(padding3)
+	var padding4 = _content.get_child(0).duplicate()
+	padding4.name = "Padding4"
+	_content.add_child(padding4)
+	
+			
+	# Recompute on layout-affecting changes
+	resized.connect(_schedule_recompute)
+	if _content:
+		_content.child_entered_tree.connect(func(_n): _schedule_recompute())
+		_content.child_exiting_tree.connect(func(_n): _schedule_recompute())
+		
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await _recompute_metrics()
 
-func displayItems():
-	#assumes that there are an odd number of items showing 
-	visibleTotalLength = (itemsShowing * itemSize) + (itemsShowing * (itemSpacing-1) )
-	var xOffset = 0
-	var totalItems = items.size()
-	
-	var trueHalfLength = ( (totalItems/2.0) * itemSize) + ( ((totalItems+1)/2.0)* (itemSpacing) )
-	
-	var scrollOffset =  fmod(scrollPosition , (2.0*(trueHalfLength))-itemSpacing ) 
-	
-	
-	
-	var direction = 1
-	for i in items:
-		i.position.y = center.y
-		
-		var xpos =  ((xOffset * direction) +scrollOffset)
-		
-		
-		if abs(xpos) > trueHalfLength:
-			var overFlow = ( abs(xpos)-  (2*trueHalfLength) +itemSpacing )
-			if xpos > 0:
-				xpos =  overFlow 
-			else:
-				xpos = -overFlow 
-		
-		i.position.x = center.x + xpos
-		
-		
-		var distFromCenter = abs(xpos)
-		
-		var itemScale = ((visibleTotalLength/2.0)- distFromCenter) / (visibleTotalLength/2.0)
-		var transParentScale = pow(itemScale,.5)
-		itemScale = pow(itemScale, .25)
-		
-		i.modulate = Color(1,1,1,transParentScale)
-		i.scale = Vector2(itemScale,itemScale)
-		#print(itemScale)
-		
-		if  distFromCenter > visibleTotalLength/2:
-			i.hide()
+func refresh() -> void:
+	# Call after adding/removing/resizing items at runtime
+	await _recompute_metrics()
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+		_start_pending_snap()
+	elif event is InputEventScreenTouch and not event.pressed:
+		_start_pending_snap()
+
+func _process(_delta: float) -> void:
+	if _pending_snap:
+		var s := float(scroll_horizontal)
+		if abs(s - _last_scroll) < 0.5:
+			_still_count += 1
 		else:
-			i.show()
-		
-		if direction == 1:
-			xOffset += itemSize + itemSpacing
-		direction*=-1
+			_still_count = 0
+		_last_scroll = s
+		if _still_count >= settle_frames:
+			_pending_snap = false
+			_snap_to_nearest()
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventScreenTouch and event.pressed:
-		dragging = true
-		initialDragPosition = get_viewport().get_mouse_position()
-		dragTime = 0.0
-	elif event is InputEventScreenTouch and event.is_released():
-		dragging = false
-		endDragPosition = get_viewport().get_mouse_position()
-		var totalDistance = endDragPosition.x  - initialDragPosition.x
-		var dragVelcoity = totalDistance/dragTime
-		
-		var tween  = create_tween()
-		tween.tween_property(self,"scrollPosition", scrollPosition+(dragVelcoity*.05),0.2)
-		
+func _start_pending_snap() -> void:
+	_pending_snap = true
+	_still_count = 0
+	_last_scroll = -9e9
 
-func _process(delta: float) -> void:
-	#scrollPosition -= 1
-	dragTime+= delta
-	displayItems()
-		
-		
+func _snap_to_nearest() -> void:
+	if _centers.is_empty():
+		return
+
+	if _tween and _tween.is_running():
+		_tween.kill()
+
+	# Find nearest item center to the viewport center
+	var viewport_center := float(scroll_horizontal) + size.x * 0.5
+	var nearest_center := _centers[0]
+	var best = abs(nearest_center - viewport_center)
+	for c in _centers:
+		var d = abs(c - viewport_center)
+		if d < best:
+			best = d
+			nearest_center = c
+
+	var target := int(nearest_center - size.x * 0.5)
+	var max_scroll := int(get_h_scroll_bar().max_value)
+	target = clampi(target, 0, max_scroll)
+
+	_tween = create_tween().set_trans(trans).set_ease(ease)
+	_tween.tween_property(self, "scroll_horizontal", target, snap_duration)
+
+func _schedule_recompute() -> void:
+	# Defer to after layout settles
+	call_deferred("_deferred_recompute")
+
+func _deferred_recompute() -> void:
+	await get_tree().process_frame
+	await get_tree().process_frame
+	await _recompute_metrics()
+
+func _recompute_metrics() -> void:
+	_centers.clear()
+	if not _content:
+		return
+	# Collect true centers from laid-out children (mixed widths supported)
+	for child in _content.get_children():
+		if child.name.contains("Padding"):
+			continue
+		if child is Control:
+			var cc := child as Control
+			_centers.append(cc.position.x + cc.size.x * 0.5)
+	_centers.sort()
+
+# Optional helper if you want to snap from code (e.g., after a selection change)
+func snap_now() -> void:
+	_pending_snap = false
+	_snap_to_nearest()

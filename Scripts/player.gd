@@ -32,6 +32,7 @@ func _ready() -> void:
 	rainbowOff()
 
 func _process(_delta: float) -> void:
+
 	if died:
 		velocity = Vector2.ZERO
 	#make trail 
