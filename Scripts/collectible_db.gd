@@ -8,10 +8,20 @@
 class_name CollectibleDB
 static var COLLECTIBLES := [
 	
-	#SKINS
+	#Default Skin in spot 1
 	Collectible.from_dict({ "type": "skin", "id": "spaceship", "name": "Spaceship", "price": 500,
 	"icon": "res://Textures/playerskins/spaceship.png" }),
 	
+	#Default trail in spot 2
+	Collectible.from_dict({ "type": "trail", "id": "defaulttrail", "name": "Default", "price": 0,
+	"icon": "res://Textures/playerskins/heart.png" }),
+	
+	#Default theme in spot 3
+	Collectible.from_dict({ "type": "theme", "id": "defaulttheme", "name": "Default", "price": 0,
+	"icon": "res://Textures/playerskins/heart.png" }),
+	
+	
+	#SKINS
 	Collectible.from_dict({ "type": "skin", "id": "snowman", "name": "Snowman", "price": 1000,
 	"icon": "res://Textures/playerskins/snowman.png" }),
 	
@@ -35,9 +45,32 @@ static var COLLECTIBLES := [
 	
 	#TRAILS
 	
+	
+	
+	#THEMES
+	
+	
 ]
 
 static var OWNED := [
+	"spaceship",
+	"defaulttrail",
+	"defaulttheme",
 	"snowman",
-	"pigking"
+	"pigking",
 ]
+
+static var CURRENT := {
+	"skin": get_default_skin(),
+	"trail": get_default_trail(),
+	"theme": get_default_theme()
+}
+
+static func get_default_skin() -> Collectible:
+	return COLLECTIBLES[0]
+	
+static func get_default_trail() -> Collectible:
+	return COLLECTIBLES[1]
+	
+static func get_default_theme() -> Collectible:
+	return COLLECTIBLES[2]

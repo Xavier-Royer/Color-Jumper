@@ -34,7 +34,7 @@ func _ready() -> void:
 	var trailVelocity = 350
 	$Trail.process_material.initial_velocity_min = max(trailVelocity,150) # Minimum initial speed
 	$Trail.process_material.initial_velocity_max = max(trailVelocity*1.2,200)
-	$Trail.lifetime = 0.15
+	$Trail.lifetime = 0.05
 
 
 func disappear():

@@ -14,12 +14,12 @@
 [ext_resource type="Texture2D" uid="uid://cmvvs471qmaks" path="res://Textures/resetall_button.png" id="12_js5gh"]
 [ext_resource type="Texture2D" uid="uid://c1n74euw6fkqc" path="res://Textures/resetall_button_pressed.png" id="13_vvjo1"]
 [ext_resource type="PackedScene" uid="uid://dpbslonwfj1jc" path="res://Scenes/player.tscn" id="14_5psol"]
+[ext_resource type="Script" uid="uid://dsbjykm33i48t" path="res://Scripts/shop_screen.gd" id="14_off7b"]
 [ext_resource type="Script" uid="uid://cbpq4o5tbo37b" path="res://Scripts/leaderboard_screen.gd" id="14_yisvs"]
 [ext_resource type="Script" uid="uid://bsqncgkwx00ve" path="res://Scripts/playerShopScreen.gd" id="15_m4llh"]
 [ext_resource type="Script" uid="uid://btjb56mwtmn4v" path="res://Scripts/game_screen.gd" id="15_rgw24"]
 [ext_resource type="FontFile" uid="uid://b7en6q7besub2" path="res://Textures/Evil Empire.otf" id="16_5gwyn"]
 [ext_resource type="Script" uid="uid://b6gmplkltxmgk" path="res://Scripts/scroll_locker.gd" id="16_hpjjw"]
-[ext_resource type="PackedScene" uid="uid://cnoobnjt5omfj" path="res://Scenes/scroll_locker.tscn" id="16_lac6x"]
 [ext_resource type="Texture2D" uid="uid://b6o71de4iwyce" path="res://Textures/redbutton.png" id="17_r6gtk"]
 [ext_resource type="Texture2D" uid="uid://cwt333exr15f6" path="res://Textures/redbuttonpressed.png" id="18_81ldr"]
 [ext_resource type="Texture2D" uid="uid://bm38el2anmewe" path="res://Textures/greenbutton.png" id="19_eywpa"]
@@ -701,6 +701,7 @@ grow_vertical = 2
 color = Color(1, 1, 1, 0)
 
 [node name="ConfirmationDialog" type="ConfirmationDialog" parent="ScreenManager/SettingsScreen"]
+oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(862, 378)
 unresizable = true
@@ -727,6 +728,7 @@ text = "Audio"
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
+script = ExtResource("14_off7b")
 
 [node name="Background" type="TextureRect" parent="ScreenManager/ShopScreen"]
 anchors_preset = 8
@@ -752,15 +754,16 @@ anchor_right = 0.505
 anchor_bottom = 0.5
 offset_left = -332.40002
 offset_top = -760.0
-offset_right = -132.40002
-offset_bottom = -660.0
+offset_right = -194.40002
+offset_bottom = -691.0
 grow_vertical = 0
 texture_normal = ExtResource("10_ep8v8")
 texture_pressed = ExtResource("11_3133c")
+ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Player" parent="ScreenManager/ShopScreen" instance=ExtResource("14_5psol")]
-position = Vector2(480, 320)
+position = Vector2(480, 301)
 scale = Vector2(12.8799925, 8.153381)
 script = ExtResource("15_m4llh")
 
@@ -781,226 +784,233 @@ anchor_top = 0.5
 anchor_right = 0.51100004
 anchor_bottom = 0.5
 offset_left = -361.88007
-offset_top = -116.0
+offset_top = -272.0
 offset_right = 361.11993
-offset_bottom = 787.0
+offset_bottom = 631.0
 
-[node name="ColorRect" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
+[node name="Spacer2" type="ColorRect" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
+
+[node name="Spacer" type="ColorRect" parent="ScreenManager/ShopScreen/Options"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(1, 1, 1, 0)
+
+[node name="PreviewLabel" type="Label" parent="ScreenManager/ShopScreen"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -93.0
+offset_top = 200.0
+offset_right = 101.0
+offset_bottom = 264.0
+grow_horizontal = 2
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 60
+text = "Preview"
+
+[node name="CoinLabel" type="RichTextLabel" parent="ScreenManager/ShopScreen"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -349.0
+offset_top = 200.0
+offset_right = -194.0
+offset_bottom = 301.0
+grow_horizontal = 0
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/normal_font_size = 66
+bbcode_enabled = true
+text = "100[img]res://Textures/Coin.png[/img]"
+horizontal_alignment = 2
+
+[node name="SkinBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 243.0
+offset_top = 1025.0
+offset_right = 243.0
+offset_bottom = 994.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/SkinBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "$500"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkinBuy" type="Button" parent="ScreenManager/ShopScreen/SkinBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "Buy"
+
+[node name="TrailBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.485
+anchor_right = 0.5
+anchor_bottom = 0.485
+offset_left = 321.5
+offset_top = 1511.5549
+offset_right = 774.5
+offset_bottom = 1609.5549
+
+[node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/TrailBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "$500"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkinBuy" type="Button" parent="ScreenManager/ShopScreen/TrailBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "Buy"
+
+[node name="ThemeBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.485
+anchor_right = 0.5
+anchor_bottom = 0.485
+offset_left = 321.5
+offset_top = 1855.5549
+offset_right = 774.5
+offset_bottom = 1953.5549
+
+[node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/ThemeBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "$500"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkinBuy" type="Button" parent="ScreenManager/ShopScreen/ThemeBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+theme = ExtResource("9_semxg")
+text = "Buy"
+
+[node name="TabContainer" type="TabContainer" parent="ScreenManager/ShopScreen"]
+offset_left = 243.0
+offset_top = 994.0
+offset_right = 878.0
+offset_bottom = 1417.0
+current_tab = 0
+
+[node name="Skins" type="ScrollContainer" parent="ScreenManager/ShopScreen/TabContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
 horizontal_scroll_mode = 3
 vertical_scroll_mode = 0
 script = ExtResource("16_hpjjw")
 content_path = NodePath("HBoxContainer")
+metadata/_tab_index = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/TabContainer/Skins"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 2
 
-[node name="Padding" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect/HBoxContainer"]
+[node name="Padding" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Skins/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
-[node name="Padding2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect/HBoxContainer"]
+[node name="Padding2" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Skins/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 1
 color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
-[node name="ColorRect2" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.4745098, 1, 1, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.32378563, 0.5820319, 0.5261193, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.6569478, 0.32246113, 0.27314937, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect2/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect3" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect3"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.4745098, 1, 1, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.32378563, 0.5820319, 0.5261193, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.6569478, 0.32246113, 0.27314937, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect3/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect4" type="ScrollContainer" parent="ScreenManager/ShopScreen/Options"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-horizontal_scroll_mode = 3
-vertical_scroll_mode = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/Options/ColorRect4"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ColorRect" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.4745098, 1, 1, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.32378563, 0.5820319, 0.5261193, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.6569478, 0.32246113, 0.27314937, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect5" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ColorRect7" type="ColorRect" parent="ScreenManager/ShopScreen/Options/ColorRect4/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 1
-color = Color(0.894572, 0.5558191, 0.3898536, 1)
-
-[node name="ScrollLocker" parent="ScreenManager/ShopScreen" instance=ExtResource("16_lac6x")]
+[node name="Trails" type="ScrollContainer" parent="ScreenManager/ShopScreen/TabContainer"]
 visible = false
-position = Vector2(252, 883)
-scale = Vector2(0.5744594, 0.5744594)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+script = ExtResource("16_hpjjw")
+content_path = NodePath("HBoxContainer")
+metadata/_tab_index = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/TabContainer/Trails"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Padding" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Trails/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
+
+[node name="Padding2" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Trails/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
+
+[node name="Themes" type="ScrollContainer" parent="ScreenManager/ShopScreen/TabContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
+script = ExtResource("16_hpjjw")
+content_path = NodePath("HBoxContainer")
+metadata/_tab_index = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/ShopScreen/TabContainer/Themes"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 2
+
+[node name="Padding" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Themes/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
+
+[node name="Padding2" type="ColorRect" parent="ScreenManager/ShopScreen/TabContainer/Themes/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
 visible = false
@@ -1569,6 +1579,10 @@ volume_db = -1.0
 [connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmed"]
 [connection signal="toggled" from="ScreenManager/SettingsScreen/CheckButton" to="ScreenManager" method="_on_check_button_toggled"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
+[connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager/ShopScreen" method="_on_home_pressed"]
+[connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Skins" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
+[connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Trails" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
+[connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Themes" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Settings" to="ScreenManager" method="_on_settings_pressed"]
