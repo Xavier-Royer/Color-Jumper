@@ -829,7 +829,7 @@ text = "100[img]res://Textures/Coin.png[/img]"
 horizontal_alignment = 2
 
 [node name="SkinBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 273.0
@@ -868,7 +868,7 @@ vertical_alignment = 1
 
 [node name="TrailBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
 visible = false
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 273.0
@@ -896,7 +896,7 @@ text = "Buy"
 
 [node name="ThemeBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
 visible = false
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 273.0
@@ -923,7 +923,7 @@ theme = ExtResource("9_semxg")
 text = "Buy"
 
 [node name="TabContainer" type="TabContainer" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1033,7 +1033,6 @@ mouse_filter = 1
 color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")

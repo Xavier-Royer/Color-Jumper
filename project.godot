@@ -22,6 +22,8 @@ config/icon="uid://b068gp2ur4nnr"
 Globals="*res://Scripts/globals.gd"
 FileManager="*res://Scripts/FileManager.gd"
 LootLockerSDK="*res://addons/LootLockerSDK/LootLockerSDK.gd"
+LeaderboardManager="*res://Scripts/LeaderboardManager.gd"
+UUID="*res://addons/uuid/uuid.gd"
 
 [display]
 
