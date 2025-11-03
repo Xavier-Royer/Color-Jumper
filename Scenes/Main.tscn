@@ -765,6 +765,8 @@ stretch_mode = 0
 [node name="Player" parent="ScreenManager/ShopScreen" instance=ExtResource("14_5psol")]
 position = Vector2(480, 301)
 scale = Vector2(12.8799925, 8.153381)
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("15_m4llh")
 
 [node name="NoInteractLayer" type="ColorRect" parent="ScreenManager/ShopScreen"]
@@ -827,18 +829,18 @@ text = "100[img]res://Textures/Coin.png[/img]"
 horizontal_alignment = 2
 
 [node name="SkinBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
-visible = false
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 243.0
-offset_top = 1025.0
-offset_right = 243.0
-offset_bottom = 994.0
+offset_left = 273.0
+offset_top = 1449.0
+offset_right = -245.0
+offset_bottom = -249.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/SkinBuySection"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
@@ -848,23 +850,33 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SkinBuy" type="Button" parent="ScreenManager/ShopScreen/SkinBuySection"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
 theme = ExtResource("9_semxg")
 text = "Buy"
 
+[node name="EquippedLabel" type="Label" parent="ScreenManager/ShopScreen/SkinBuySection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("9_semxg")
+text = "Equipped"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TrailBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
 visible = false
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.485
-anchor_right = 0.5
-anchor_bottom = 0.485
-offset_left = 321.5
-offset_top = 1511.5549
-offset_right = 774.5
-offset_bottom = 1609.5549
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 273.0
+offset_top = 1449.0
+offset_right = -245.0
+offset_bottom = -249.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/TrailBuySection"]
 layout_mode = 2
@@ -885,14 +897,14 @@ text = "Buy"
 [node name="ThemeBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
 visible = false
 anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.485
-anchor_right = 0.5
-anchor_bottom = 0.485
-offset_left = 321.5
-offset_top = 1855.5549
-offset_right = 774.5
-offset_bottom = 1953.5549
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 273.0
+offset_top = 1449.0
+offset_right = -245.0
+offset_bottom = -249.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="SkinCost" type="Label" parent="ScreenManager/ShopScreen/ThemeBuySection"]
 layout_mode = 2
@@ -911,10 +923,18 @@ theme = ExtResource("9_semxg")
 text = "Buy"
 
 [node name="TabContainer" type="TabContainer" parent="ScreenManager/ShopScreen"]
-offset_left = 243.0
-offset_top = 994.0
-offset_right = 878.0
-offset_bottom = 1417.0
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -158.0
+offset_right = 341.0
+offset_bottom = 165.0
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 71
+tab_alignment = 1
 current_tab = 0
 
 [node name="Skins" type="ScrollContainer" parent="ScreenManager/ShopScreen/TabContainer"]
