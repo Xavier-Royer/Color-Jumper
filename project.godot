@@ -21,6 +21,7 @@ config/icon="uid://b068gp2ur4nnr"
 
 Globals="*res://Scripts/globals.gd"
 FileManager="*res://Scripts/FileManager.gd"
+LootLockerSDK="*res://addons/LootLockerSDK/LootLockerSDK.gd"
 
 [display]
 
@@ -29,6 +30,10 @@ window/size/viewport_height=1920
 window/size/mode=2
 window/stretch/mode="viewport"
 window/handheld/orientation=1
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/LootLockerSDK/plugin.cfg")
 
 [input]
 
