@@ -23,7 +23,7 @@ Globals="*res://Scripts/globals.gd"
 FileManager="*res://Scripts/FileManager.gd"
 LootLockerSDK="*res://addons/LootLockerSDK/LootLockerSDK.gd"
 LeaderboardManager="*res://Scripts/LeaderboardManager.gd"
-UUID="*res://addons/uuid/uuid.gd"
+uuid="*res://addons/uuid/uuid.gd"
 
 [display]
 
@@ -35,7 +35,7 @@ window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/LootLockerSDK/plugin.cfg")
+enabled=PackedStringArray("res://addons/LootLockerSDK/plugin.cfg", "res://addons/uuid/plugin.cfg")
 
 [input]
 

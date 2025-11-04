@@ -12,11 +12,11 @@ func _ready() -> void:
 	print(guestLoginResponse.player_name)
 	print("Guest user was successfully signed in to LootLocker")
 	
-	var changeNameResponse = await LL_Players.SetPlayerName.new(playerName).send()
-	if (!changeNameResponse.success):
-		printerr("Guest login failed with reason: " + changeNameResponse.error_data.to_string())
-		return
-	print("successfully changed name")
+	#var changeNameResponse = await LL_Players.SetPlayerName.new(playerName).send()
+	#if (!changeNameResponse.success):
+		#printerr("Guest login failed with reason: " + changeNameResponse.error_data.to_string())
+		#return
+	#print("successfully changed name")
 
 func get_or_create_player_identifier() -> String:
 	var file = FileAccess.open("user://player_id.data", FileAccess.READ)
@@ -25,7 +25,7 @@ func get_or_create_player_identifier() -> String:
 		return id
 	else:
 		# Generate a new random unique identifier
-		var new_id = UUID.v4()
+		var new_id = uuid.gd.v4()
 		file = FileAccess.open("user://player_id.data", FileAccess.WRITE)
 		file.store_string(new_id)
 		file.close()

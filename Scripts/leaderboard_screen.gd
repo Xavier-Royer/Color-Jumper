@@ -1,8 +1,13 @@
 extends CanvasLayer
 
+var refreshLeaderboardTime = Time.get_unix_time_from_system()
+var stored_responses = []
+@onready var scrollcontainers := [$LeaderboardTabs/Easy/Easy, $LeaderboardTabs/Classic/Classic, $LeaderboardTabs/Colorful/Colorful, $LeaderboardTabs/Rainbow/Rainbow]
+var scoreScene: PackedScene = preload("res://Scenes/score.tscn")
 var scoreText = '''
 [u]High Scores[/u]
-
+'''
+'''
 [color=gold]easy
 [color=white]11,000,000
 
@@ -25,6 +30,46 @@ func comma_format(num_stra: int) -> String:
 		if count % 3 == 0 and i != 0:
 			result = "," + result
 	return result
+	
+
 
 func loadLeaderboard():
-	$ScoreText.text = "[u]High Scores[/u]\n\n[color=gold]easy\n[color=white]{easy}\n\n[color=orange]classic\n[color=white]{classic}\n\n[color=red]colorful\n[color=white]{colorful}\n\n[color=purple]rainbow\n[color=white]{rainbow}".format({"easy": comma_format(FileManager.highScore[0]), "classic": comma_format(FileManager.highScore[1]), "colorful": comma_format(FileManager.highScore[2]), "rainbow": comma_format(FileManager.highScore[3])})
+	for lb in scrollcontainers:
+		for i in lb.get_children():
+			i.queue_free()
+	var responses
+	if Time.get_unix_time_from_system() > refreshLeaderboardTime:
+		var easyResponse := await LL_Leaderboards.GetScoreList.new("easy").send()
+		if !(easyResponse.success):
+			printerr(easyResponse.error_data)
+			
+		var classicResponse := await LL_Leaderboards.GetScoreList.new("classic").send()
+		if !(classicResponse.success):
+			printerr(classicResponse.error_data)
+			
+		var colorfulResponse := await LL_Leaderboards.GetScoreList.new("colorful").send()
+		if !(colorfulResponse.success):
+			printerr(colorfulResponse.error_data)
+			
+		var rainbowResponse := await LL_Leaderboards.GetScoreList.new("rainbow").send()
+		if !(rainbowResponse.success):
+			printerr(rainbowResponse.error_data)
+			
+		
+		responses = [easyResponse, classicResponse, colorfulResponse, rainbowResponse]
+		stored_responses = responses
+		refreshLeaderboardTime = Time.get_unix_time_from_system() + 30
+		print("got the new ones")
+	else:
+		responses = stored_responses
+		print("got the old ones")
+	for lb in range(4):
+		for j in range(10):
+			var label = scoreScene.instantiate()
+			if j >= len(responses[lb].items):
+				label.text = str(j+1) + ". None"
+			else:
+				label.text = str(j+1) + ". " + responses[lb].items[j].player.name + " " + comma_format(responses[lb].items[j].score)
+			scrollcontainers[lb].add_child(label)
+	#TODO: fix ts it doesnt add labels or something or maybe the load leaderboard func doesnt even run
+	#$ScoreText.text = "[u]High Scores[/u]\n\n[color=gold]easy\n[color=white]{easy}\n\n[color=orange]classic\n[color=white]{classic}\n\n[color=red]colorful\n[color=white]{colorful}\n\n[color=purple]rainbow\n[color=white]{rainbow}".format({"easy": comma_format(FileManager.highScore[0]), "classic": comma_format(FileManager.highScore[1]), "colorful": comma_format(FileManager.highScore[2]), "rainbow": comma_format(FileManager.highScore[3])})
