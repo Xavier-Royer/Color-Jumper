@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://2orpnhrc71lj"]
+
+[ext_resource type="Script" uid="uid://bnb6ydvjaypwf" path="res://Scripts/score_row.gd" id="1_ijp0b"]
+[ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="2_y1q6v"]
+
+[node name="ScoreRow" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_ijp0b")
+
+[node name="Place" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.3
+theme = ExtResource("2_y1q6v")
+theme_override_font_sizes/font_size = 57
+text = "X."
+
+[node name="Username" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_y1q6v")
+theme_override_font_sizes/font_size = 57
+text = "None"
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_y1q6v")
+theme_override_font_sizes/font_size = 57
+text = "None"
+horizontal_alignment = 2

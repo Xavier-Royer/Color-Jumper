@@ -1,9 +1,10 @@
 extends CanvasLayer
 
+var loading = false
 var refreshLeaderboardTime = Time.get_unix_time_from_system()
 var stored_responses = []
 @onready var scrollcontainers := [$LeaderboardTabs/Easy/Easy, $LeaderboardTabs/Classic/Classic, $LeaderboardTabs/Colorful/Colorful, $LeaderboardTabs/Rainbow/Rainbow]
-var scoreScene: PackedScene = preload("res://Scenes/score.tscn")
+var scoreScene: PackedScene = preload("res://Scenes/score_row.tscn")
 var scoreText = '''
 [u]High Scores[/u]
 '''
@@ -34,6 +35,10 @@ func comma_format(num_stra: int) -> String:
 
 
 func loadLeaderboard():
+	if loading:
+		return
+	loading = true
+	$Loading.visible = true
 	for lb in scrollcontainers:
 		for i in lb.get_children():
 			i.queue_free()
@@ -64,12 +69,16 @@ func loadLeaderboard():
 		responses = stored_responses
 		print("got the old ones")
 	for lb in range(4):
+		
 		for j in range(10):
 			var label = scoreScene.instantiate()
 			if j >= len(responses[lb].items):
-				label.text = str(j+1) + ". None"
+				label.set_text(j+1, "None", 0)
 			else:
-				label.text = str(j+1) + ". " + responses[lb].items[j].player.name + " " + comma_format(responses[lb].items[j].score)
+				label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score)
+				
 			scrollcontainers[lb].add_child(label)
+	$Loading.visible = false
+	loading = false
 	#TODO: fix ts it doesnt add labels or something or maybe the load leaderboard func doesnt even run
 	#$ScoreText.text = "[u]High Scores[/u]\n\n[color=gold]easy\n[color=white]{easy}\n\n[color=orange]classic\n[color=white]{classic}\n\n[color=red]colorful\n[color=white]{colorful}\n\n[color=purple]rainbow\n[color=white]{rainbow}".format({"easy": comma_format(FileManager.highScore[0]), "classic": comma_format(FileManager.highScore[1]), "colorful": comma_format(FileManager.highScore[2]), "rainbow": comma_format(FileManager.highScore[3])})
