@@ -833,6 +833,11 @@ func gameOver(deathType = ""):
 		if score > currentHighScore:
 			currentHighScore = score
 			FileManager.setHighScore(score,index)
+			#submit score to leaderboard
+			print("high score")
+			var submit_response = await LL_Leaderboards.SubmitScore.new(difficulty.to_lower(), score, LL_StateData.GetCachedPlayerIdentifier()).send()
+			if !(submit_response.success):
+				printerr(submit_response.error_data)
 		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + (comma_format(str(currentHighScore)))
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():

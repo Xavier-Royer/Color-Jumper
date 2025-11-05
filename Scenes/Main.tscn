@@ -728,7 +728,6 @@ button_pressed = true
 text = "Audio"
 
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_off7b")
@@ -1157,6 +1156,19 @@ pivot_offset = Vector2(81.015, 84.015)
 texture = ExtResource("19_lfh1j")
 expand_mode = 1
 script = ExtResource("20_7sj7i")
+
+[node name="NameInput" type="LineEdit" parent="ScreenManager/LeaderboardScreen"]
+offset_left = 259.0
+offset_top = 1317.0
+offset_right = 538.0
+offset_bottom = 1386.0
+
+[node name="SubmitNameButton" type="Button" parent="ScreenManager/LeaderboardScreen"]
+offset_left = 574.0
+offset_top = 1317.0
+offset_right = 691.0
+offset_bottom = 1386.0
+text = "Submit"
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
@@ -1655,6 +1667,7 @@ volume_db = -1.0
 [connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Trails" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
 [connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Themes" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
+[connection signal="pressed" from="ScreenManager/LeaderboardScreen/SubmitNameButton" to="ScreenManager/LeaderboardScreen" method="_on_submit_name_button_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]
