@@ -3,6 +3,7 @@ extends CanvasLayer
 var loading = false
 var refreshLeaderboardTime = Time.get_unix_time_from_system()
 var stored_responses = []
+var stored_player_responses = []
 @onready var scrollcontainers := [$LeaderboardTabs/Easy/Easy, $LeaderboardTabs/Classic/Classic, $LeaderboardTabs/Colorful/Colorful, $LeaderboardTabs/Rainbow/Rainbow]
 var scoreScene: PackedScene = preload("res://Scenes/score_row.tscn")
 var scoreText = '''
@@ -33,7 +34,8 @@ func comma_format(num_stra: int) -> String:
 	return result
 	
 
-
+var responses
+var playerResponses
 func loadLeaderboard():
 	$NameInput.text = LL_StateData.GetCachedPlayerName()
 	if loading:
@@ -43,7 +45,7 @@ func loadLeaderboard():
 	for lb in scrollcontainers:
 		for i in lb.get_children():
 			i.queue_free()
-	var responses
+
 	if Time.get_unix_time_from_system() > refreshLeaderboardTime:
 		var easyResponse := await LL_Leaderboards.GetScoreList.new("easy").send()
 		if !(easyResponse.success):
@@ -61,13 +63,33 @@ func loadLeaderboard():
 		if !(rainbowResponse.success):
 			printerr(rainbowResponse.error_data)
 			
+		var player_id = str(LL_StateData.GetCachedPlayerLegacyID())
+		print(player_id)
+		var playerEasyResponse = await LL_Leaderboards.GetMemberRank.new("easy", player_id).send()
+		if !(playerEasyResponse.success):
+			printerr(playerEasyResponse.error_data)
+			
+		var playerClassicResponse = await LL_Leaderboards.GetMemberRank.new("classic", player_id).send()
+		if !(playerClassicResponse.success):
+			printerr(playerClassicResponse.error_data)
+			
+		var playerColorfulResponse = await LL_Leaderboards.GetMemberRank.new("colorful", player_id).send()
+		if !(playerColorfulResponse.success):
+			printerr(playerColorfulResponse.error_data)
+			
+		var playerRainbowRespnose = await LL_Leaderboards.GetMemberRank.new("rainbow", player_id).send()
+		if !(playerRainbowRespnose.success):
+			printerr(playerRainbowRespnose.error_data)
 		
 		responses = [easyResponse, classicResponse, colorfulResponse, rainbowResponse]
+		playerResponses = [playerEasyResponse, playerClassicResponse, playerColorfulResponse, playerRainbowRespnose]
 		stored_responses = responses
+		stored_player_responses = playerResponses
 		refreshLeaderboardTime = Time.get_unix_time_from_system() + 30
 		print("got the new ones")
 	else:
 		responses = stored_responses
+		playerResponses = stored_player_responses
 		print("got the old ones")
 	for lb in range(4):
 		
@@ -79,6 +101,12 @@ func loadLeaderboard():
 				label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score)
 				
 			scrollcontainers[lb].add_child(label)
+	var tab = $LeaderboardTabs.current_tab
+	var theplayerresponse = playerResponses[tab]
+	if theplayerresponse.player == null:
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
+	else:
+		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
 	$Loading.visible = false
 	loading = false
 	#TODO: fix ts it doesnt add labels or something or maybe the load leaderboard func doesnt even run
@@ -90,3 +118,15 @@ func _on_submit_name_button_pressed() -> void:
 	if !(setname_response.success):
 		printerr(setname_response.error_data)
 	pass # Replace with function body.
+
+
+func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
+	if playerResponses == null:
+		return
+	var theplayerresponse = playerResponses[tab]
+	print(LL_StateData.GetCachedPlayerIdentifier())
+	print(theplayerresponse)
+	if theplayerresponse.player == null:
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
+	else:
+		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)

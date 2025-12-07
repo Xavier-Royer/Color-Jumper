@@ -27,3 +27,7 @@ func set_text(place: int, name: String, score: int):
 		$Place.add_theme_color_override("font_color", Color(0.662, 0.369, 0.24, 1.0))
 		$Username.add_theme_color_override("font_color", Color(0.662, 0.369, 0.24, 1.0))
 		$Score.add_theme_color_override("font_color", Color(0.662, 0.369, 0.24, 1.0))
+	else:
+		$Place.remove_theme_color_override("font_color")
+		$Username.remove_theme_color_override("font_color")
+		$Score.remove_theme_color_override("font_color")
