@@ -77,6 +77,7 @@ static var COLLECTIBLES := [
 	
 ]
 
+#need to store this variable 
 static var OWNED := [
 	"spaceship",
 	"defaulttrail",
@@ -86,6 +87,7 @@ static var OWNED := [
 	"heart"
 ]
 
+#need to store this variable 
 static var CURRENT := {
 	"skin": get_default_skin(),
 	"trail": get_default_trail(),

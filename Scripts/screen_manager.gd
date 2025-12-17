@@ -13,6 +13,13 @@ func _ready() -> void:
 	$LeaderboardScreen.offset = offScreenPosition
 	$ShopScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",gameOver)
+	
+	FileManager.loadOwned()
+	CollectibleDB.OWNED = FileManager.owned
+	print(FileManager.owned)
+	print(CollectibleDB.OWNED)
+
+	
 
 
 func next_screen(nextScreen):

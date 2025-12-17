@@ -5,6 +5,14 @@ var tutorial = true
 var sound_enabled = true
 var coins = 0
 
+
+var owned = [
+	"spaceship",
+	"defaulttrail",
+	"defaulttheme"
+]
+
+
 func _ready():
 	loadSettings()
 	loadHighScore()
@@ -64,6 +72,9 @@ func loadCoins():
 	var file = FileAccess.open("user://coins.dat", FileAccess.READ)
 	if FileAccess.file_exists("user://coins.dat"):
 		coins = file.get_var()
+		if coins == null:
+			coins = 0
+			saveCoins() 
 		file.close()
 	else:
 		saveCoins()
@@ -72,4 +83,17 @@ func loadCoins():
 func saveCoins():
 	var file = FileAccess.open("user://coins.dat", FileAccess.WRITE)
 	file.store_var(coins)
+	file.close()
+
+
+func loadOwned():
+	var file = FileAccess.open("user://owned.dat", FileAccess.READ)
+	if FileAccess.file_exists("user://owned.dat"):
+		owned = file.get_var()
+		file.close()
+
+
+func saveOwned():
+	var file = FileAccess.open("user://owned.dat", FileAccess.WRITE)
+	file.store_var(owned)
 	file.close()

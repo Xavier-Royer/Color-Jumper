@@ -27,8 +27,9 @@ func get_current_item() -> ShopSlot: # convenience getter
 
 func _ready() -> void:
 	_content = get_node(content_path) as HBoxContainer
-
-
+	for c in _content.get_children():
+		if c.name != "Padding" and c.name != "Padding2":
+			c.queue_free()
 	for i in CollectibleDB.COLLECTIBLES:
 		if i.type == self.name.to_lower().substr(0,len(self.name)-1):
 			var node: ShopSlot = ShopSlotScene.instantiate()
@@ -54,6 +55,41 @@ func _ready() -> void:
 	await get_tree().process_frame
 	_recompute_metrics()
 	set_default()
+
+
+func reset():
+	_centers = []
+	_content = get_node(content_path) as HBoxContainer
+	for c in _content.get_children():
+		if c.name != "Padding" and c.name != "Padding2":
+			c.name = "deleted"
+			c.queue_free()
+	for i in CollectibleDB.COLLECTIBLES:
+		if i.type == self.name.to_lower().substr(0,len(self.name)-1):
+			var node: ShopSlot = ShopSlotScene.instantiate()
+			node.setup(i)
+			if node.data.id not in CollectibleDB.OWNED:
+				node.color.a = 0.5
+			_content.add_child(node)
+
+	# padding squares at the end
+	var padding3 = _content.get_child(0).duplicate()
+	padding3.name = "Padding3"
+	_content.add_child(padding3)
+	var padding4 = _content.get_child(0).duplicate()
+	padding4.name = "Padding4"
+	_content.add_child(padding4)
+
+	resized.connect(_schedule_recompute)
+	if _content:
+		_content.child_entered_tree.connect(func(_n): _schedule_recompute())
+		_content.child_exiting_tree.connect(func(_n): _schedule_recompute())
+
+	await get_tree().process_frame
+	await get_tree().process_frame
+	_recompute_metrics()
+
+	
 
 func refresh() -> void:
 	_recompute_metrics()
@@ -112,8 +148,8 @@ func _snap_to_nearest() -> void:
 
 func _set_current(i: int) -> void:
 	if i == current_index: return
-	current_index = i
-	emit_signal("selection_changed", _items[i], i)
+	current_index = min(i, len(_items)-1)
+	emit_signal("selection_changed", _items[current_index], current_index)
 	
 func set_default() -> void:
 	var target := int(_centers[0] - size.x * 0.5)

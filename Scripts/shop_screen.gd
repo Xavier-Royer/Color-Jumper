@@ -1,6 +1,6 @@
 extends CanvasLayer
 var current_collectible = null
-var coins
+var coins = 0 
 
 func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 	var collectible: Collectible = item.data
@@ -63,6 +63,9 @@ func on_loading_shop_screen():
 	FileManager.loadCoins()
 	coins = FileManager.coins
 	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
+	$TabContainer/Skins.reset()
+	#$TabContainer/Themes.reset()
+	#$TabContainer/Trails.reset()
 
 
 func _on_home_pressed() -> void:
@@ -103,5 +106,7 @@ func _on_skin_buy_pressed() -> void:
 	
 	#ts does not actaully store data :/
 	CollectibleDB.OWNED.append(current_collectible.id)
+	FileManager.owned = CollectibleDB.OWNED
+	FileManager.saveOwned()
 	
 	pass # Replace with function body.
