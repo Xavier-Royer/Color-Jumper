@@ -3,10 +3,12 @@ var difficulty = "CLASSIC"
 var highScore = [0,0,0,0]
 var tutorial = true
 var sound_enabled = true
+var coins = 0
 
 func _ready():
 	loadSettings()
 	loadHighScore()
+	loadCoins()
 
 func setDifficulty(newDifficulty):
 	difficulty = newDifficulty
@@ -57,3 +59,17 @@ func loadTutorial():
 	if FileAccess.file_exists("user://tutorial.dat"):
 		tutorial = file.get_var()
 		file.close()
+
+func loadCoins():
+	var file = FileAccess.open("user://coins.dat", FileAccess.READ)
+	if FileAccess.file_exists("user://coins.dat"):
+		coins = file.get_var()
+		file.close()
+	else:
+		saveCoins()
+
+
+func saveCoins():
+	var file = FileAccess.open("user://coins.dat", FileAccess.WRITE)
+	file.store_var(coins)
+	file.close()

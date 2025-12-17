@@ -148,3 +148,7 @@ func _recompute_metrics() -> void:
 func snap_now() -> void:
 	_pending_snap = false
 	_snap_to_nearest()
+
+func buy_current_node():
+	var node = _items[current_index]
+	node.color.a = 1

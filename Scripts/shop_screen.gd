@@ -1,49 +1,68 @@
 extends CanvasLayer
-
-
+var current_collectible = null
+var coins
 
 func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 	var collectible: Collectible = item.data
 	match collectible.type:
 		"skin":
 			CollectibleDB.CURRENT["skin"] = collectible
+			current_collectible = collectible
 			$Player/ColorRect.texture = collectible.icon
 			$Player.resetAnimation()
 			if collectible.id not in CollectibleDB.OWNED:
 				$SkinBuySection/SkinCost.visible = true
 				$SkinBuySection/SkinBuy.visible = true
 				$SkinBuySection/EquippedLabel.visible = false
+				if collectible.price <= coins: 
+					$SkinBuySection/SkinBuy.disabled = false
+				else:
+					$SkinBuySection/SkinBuy.disabled = true
 			else:
 				$SkinBuySection/SkinCost.visible = false
 				$SkinBuySection/SkinBuy.visible = false
 				$SkinBuySection/EquippedLabel.visible = true
 		"trail":
 			CollectibleDB.CURRENT["trail"] = collectible
+			current_collectible = collectible
 			$Player/Trail.texture = collectible.icon
 			$Player/Trail2.texture = collectible.icon
 			if collectible.id not in CollectibleDB.OWNED:
-				print("IS NOT OWNED")
 				$SkinBuySection/SkinCost.visible = true
 				$SkinBuySection/SkinBuy.visible = true
 				$SkinBuySection/EquippedLabel.visible = false
+				if collectible.price <= coins: 
+					$SkinBuySection/SkinBuy.disabled = false
+				else:
+					$SkinBuySection/SkinBuy.disabled = true
 			else:
-				print("iS OWNED ")
 				$SkinBuySection/SkinCost.visible = false
 				$SkinBuySection/SkinBuy.visible = false
 				$SkinBuySection/EquippedLabel.visible = true
 		"theme":
 			CollectibleDB.CURRENT["theme"] = collectible
+			current_collectible = collectible
 			if collectible.id not in CollectibleDB.OWNED:
-				$ThemeBuySection/SkinCost.visible = true
-				$ThemeBuySection/SkinBuy.visible = true
-				$ThemeBuySection/EquippedLabel.visible = false
+				$SkinBuySection/SkinCost.visible = true
+				$SkinBuySection/SkinBuy.visible = true
+				$SkinBuySection/EquippedLabel.visible = false
+				if collectible.price <= coins: 
+					$SkinBuySection/SkinBuy.disabled = false
+				else:
+					$SkinBuySection/SkinBuy.disabled = true
 			else:
-				$ThemeBuySection/SkinCost.visible = false
-				$ThemeBuySection/SkinBuy.visible = false
-				$ThemeBuySection/EquippedLabel.visible = true
+				$SkinBuySection/SkinCost.visible = false
+				$SkinBuySection/SkinBuy.visible = false
+				$SkinBuySection/EquippedLabel.visible = true
 	
 func startPlayerAnimation():
 	$Player.resetAnimation()
+
+func on_loading_shop_screen():
+	startPlayerAnimation()
+	FileManager.loadCoins()
+	coins = FileManager.coins
+	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
 
 
 func _on_home_pressed() -> void:
@@ -64,3 +83,25 @@ func _on_home_pressed() -> void:
 	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.CURRENT["trail"].icon
 	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.CURRENT["trail"].icon
 	#set real trail and theme here
+
+
+func _on_skin_buy_pressed() -> void:
+	coins -= current_collectible.price
+	FileManager.coins = coins
+	FileManager.saveCoins()
+	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
+	$SkinBuySection/SkinCost.visible = false
+	$SkinBuySection/SkinBuy.visible = false
+	$SkinBuySection/EquippedLabel.visible = true
+	
+	if current_collectible.type == "skin":
+		$TabContainer/Skins.buy_current_node()
+	elif current_collectible.type == "trail":
+		$TabContainer/Trails.buy_current_node()
+	else:
+		$TabContainer/Themes.buy_current_node()
+	
+	#ts does not actaully store data :/
+	CollectibleDB.OWNED.append(current_collectible.id)
+	
+	pass # Replace with function body.

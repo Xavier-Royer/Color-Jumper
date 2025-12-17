@@ -103,6 +103,8 @@ var starterBlock = null
 
 
 func _ready() -> void:
+	FileManager.loadCoins()
+	coins = FileManager.coins
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
 	player.connect("collectCoin", coinCollected)
@@ -815,6 +817,8 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
+	FileManager.coins = coins
+	FileManager.saveCoins()
 	if gameState == "PLAYING":
 		$SpawnTimer.stop()
 		difficultyTween.kill()
@@ -864,6 +868,7 @@ func _on_rainbow_timer_timeout() -> void:
 
 func coinCollected():
 	coins += 1
+	
 
 
 func hideRainbowParticles():

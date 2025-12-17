@@ -14,6 +14,7 @@ func _ready() -> void:
 	$ShopScreen.offset = offScreenPosition
 	$GameScreen.connect("gameOverScreen",gameOver)
 
+
 func next_screen(nextScreen):
 	#screen transition
 	var screenTransition = create_tween()
@@ -32,6 +33,7 @@ func next_screen(nextScreen):
 		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0, 0.5)
 		await screenTransition.finished
 		$GameScreen/UI/ScreenBG.visible = false
+		$GameScreen.coins = FileManager.loadCoins()
 		undimMusic()
 
 	
@@ -39,7 +41,7 @@ func next_screen(nextScreen):
 	#nextScreen.visible = true
 	if not screenOpen:
 		if nextScreen == $ShopScreen:
-			nextScreen.startPlayerAnimation() 
+			nextScreen.on_loading_shop_screen() 
 		$GameScreen.gameState = "MENU"
 		print("CHANGESCENE IN")
 		print("gameSTATE: " + $GameScreen.gameState)
