@@ -19,14 +19,18 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 				$SkinBuySection/EquippedLabel.visible = true
 		"trail":
 			CollectibleDB.CURRENT["trail"] = collectible
+			$Player/Trail.texture = collectible.icon
+			$Player/Trail2.texture = collectible.icon
 			if collectible.id not in CollectibleDB.OWNED:
-				$TrailBuySection/SkinCost.visible = true
-				$TrailBuySection/SkinBuy.visible = true
-				$TrailBuySection/EquippedLabel.visible = false
+				print("IS NOT OWNED")
+				$SkinBuySection/SkinCost.visible = true
+				$SkinBuySection/SkinBuy.visible = true
+				$SkinBuySection/EquippedLabel.visible = false
 			else:
-				$TrailBuySection/SkinCost.visible = false
-				$TrailBuySection/SkinBuy.visible = false
-				$TrailBuySection/EquippedLabel.visible = true
+				print("iS OWNED ")
+				$SkinBuySection/SkinCost.visible = false
+				$SkinBuySection/SkinBuy.visible = false
+				$SkinBuySection/EquippedLabel.visible = true
 		"theme":
 			CollectibleDB.CURRENT["theme"] = collectible
 			if collectible.id not in CollectibleDB.OWNED:
@@ -57,4 +61,6 @@ func _on_home_pressed() -> void:
 		#set shop menu theme here
 		
 	$"../GameScreen/Objects/Player/ColorRect".texture = CollectibleDB.CURRENT["skin"].icon
+	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.CURRENT["trail"].icon
+	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.CURRENT["trail"].icon
 	#set real trail and theme here

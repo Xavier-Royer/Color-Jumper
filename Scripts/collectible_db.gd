@@ -14,7 +14,7 @@ static var COLLECTIBLES := [
 	
 	#Default trail in spot 2
 	Collectible.from_dict({ "type": "trail", "id": "defaulttrail", "name": "Default", "price": 0,
-	"icon": "res://Textures/playerskins/heart.png" }),
+	"icon": "res://Textures/playertrails/default.png" }),
 	
 	#Default theme in spot 3
 	Collectible.from_dict({ "type": "theme", "id": "defaulttheme", "name": "Default", "price": 0,
@@ -44,7 +44,32 @@ static var COLLECTIBLES := [
 	"icon": "res://Textures/playerskins/heart.png" }),
 	
 	#TRAILS
+	Collectible.from_dict({ "type": "trail", "id": "heart", "name": "Hearts", "price": 500,
+	"icon": "res://Textures/playertrails/heart.png" }),
 	
+	Collectible.from_dict({ "type": "trail", "id": "box", "name": "Box", "price": 300,
+	"icon": "res://Textures/playertrails/box.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "lightning", "name": "Lightning", "price": 300,
+	"icon": "res://Textures/playertrails/lightning.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "line", "name": "Line", "price": 250,
+	"icon": "res://Textures/playertrails/line.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "plus", "name": "Plus", "price": 200,
+	"icon": "res://Textures/playertrails/plus.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "67", "name": "67", "price": 6767,
+	"icon": "res://Textures/playertrails/sixseven.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "snowflake", "name": "Snowflake", "price": 1000,
+	"icon": "res://Textures/playertrails/snowflake.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "star", "name": "Star", "price": 300,
+	"icon": "res://Textures/playertrails/star.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "x", "name": "X", "price": 100,
+	"icon": "res://Textures/playertrails/x.png" }),
 	
 	
 	#THEMES
@@ -58,6 +83,7 @@ static var OWNED := [
 	"defaulttheme",
 	"snowman",
 	"pigking",
+	"heart"
 ]
 
 static var CURRENT := {
