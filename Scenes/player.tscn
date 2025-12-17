@@ -66,6 +66,7 @@ shape = SubResource("RectangleShape2D_r0du0")
 material = SubResource("ShaderMaterial_fpfj3")
 offset_right = 10.0
 offset_bottom = 30.0
+pivot_offset = Vector2(5, 15)
 texture = ExtResource("3_3smsa")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

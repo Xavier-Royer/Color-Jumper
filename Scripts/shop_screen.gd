@@ -8,6 +8,7 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 		"skin":
 			CollectibleDB.CURRENT["skin"] = collectible
 			$Player/ColorRect.texture = collectible.icon
+			$Player.resetAnimation()
 			if collectible.id not in CollectibleDB.OWNED:
 				$SkinBuySection/SkinCost.visible = true
 				$SkinBuySection/SkinBuy.visible = true
@@ -37,7 +38,8 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 				$ThemeBuySection/SkinBuy.visible = false
 				$ThemeBuySection/EquippedLabel.visible = true
 	
-		
+func startPlayerAnimation():
+	$Player.resetAnimation()
 
 
 func _on_home_pressed() -> void:

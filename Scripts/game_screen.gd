@@ -546,6 +546,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var mousePosition = get_viewport().get_mouse_position()
 		if gameState == "TUTORIAL" and awaitingTutorialTween:
 			return
+		if gameState == "MENU":
+			return
 		if gameState == "TUTORIAL" and tutorialState == "LEARNING":
 			var blockPosition = tutorialBlocks[tutorialStep].global_position
 			#if palyer is the right color

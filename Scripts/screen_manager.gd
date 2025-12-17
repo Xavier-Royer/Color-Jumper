@@ -38,6 +38,8 @@ func next_screen(nextScreen):
 	#currentScreen.visible = false
 	#nextScreen.visible = true
 	if not screenOpen:
+		if nextScreen == $ShopScreen:
+			nextScreen.startPlayerAnimation() 
 		$GameScreen.gameState = "MENU"
 		print("CHANGESCENE IN")
 		print("gameSTATE: " + $GameScreen.gameState)

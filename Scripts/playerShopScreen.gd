@@ -79,5 +79,19 @@ func setColor(color):
 	$ColorRect.self_modulate = color
 	$Trail.self_modulate = color
 
+func _process(delta):
+	died = false
+
 func getColor():
 	return($ColorRect.self_modulate)
+
+func resetAnimation():
+	self.get_parent().get_node("AnimationPlayer").stop()
+	var restingPosition = Vector2(480,350)
+	self.position = restingPosition - Vector2(0,-400)
+	var spawnInAnimation = create_tween()
+	spawnInAnimation.set_ease(Tween.EASE_OUT)
+	spawnInAnimation.set_trans(Tween.TRANS_BACK)
+	spawnInAnimation.tween_property(self, "position", restingPosition,1.0)
+	await spawnInAnimation.finished
+	self.get_parent().get_node("AnimationPlayer").play("idle_player")
