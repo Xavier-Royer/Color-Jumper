@@ -64,6 +64,7 @@ func on_loading_shop_screen():
 	coins = FileManager.coins
 	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
 	$TabContainer/Skins.reset()
+	$TabContainer/Skins.set_to_item(CollectibleDB.COLLECTIBLES[0])
 	#$TabContainer/Themes.reset()
 	#$TabContainer/Trails.reset()
 

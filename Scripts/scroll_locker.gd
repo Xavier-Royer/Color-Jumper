@@ -58,7 +58,7 @@ func _ready() -> void:
 
 
 func reset():
-	_centers = []
+	#_centers = []
 	_content = get_node(content_path) as HBoxContainer
 	for c in _content.get_children():
 		if c.name != "Padding" and c.name != "Padding2":
@@ -71,6 +71,7 @@ func reset():
 			if node.data.id not in CollectibleDB.OWNED:
 				node.color.a = 0.5
 			_content.add_child(node)
+			node.name = node.data.id
 
 	# padding squares at the end
 	var padding3 = _content.get_child(0).duplicate()
@@ -119,6 +120,7 @@ func _start_pending_snap() -> void:
 
 func _snap_to_nearest() -> void:
 	if _centers.is_empty():
+		print("EMPTY")
 		return
 
 	if _tween and _tween.is_running():
@@ -158,6 +160,33 @@ func set_default() -> void:
 
 	_tween = create_tween().set_trans(transType).set_ease(easeType)
 	_tween.tween_property(self, "scroll_horizontal", target, snap_duration)
+
+func set_to_item(coliectable: Collectible):
+	
+	var id = coliectable.id
+	_content = get_node(content_path) as HBoxContainer
+	var item_number = 0
+	var item_width  = 0 
+	for child in _content.get_children():
+		if  "deleted" not in child.name and "Padding" not in child.name:
+			item_number+=1
+			print(child.name)
+		if child.name == id:
+			item_width = child.size.x
+			break 
+	
+	#var target := int(_centers[0] - size.x * 0.5)
+	var target = item_number * (item_width)
+	print("target is : " + str(target))
+	var max_scroll := int(get_h_scroll_bar().max_value)
+	target = clampi(target, 0, max_scroll)
+	print(target)
+	scroll_horizontal = target
+	_snap_to_nearest()
+	#_tween = create_tween().set_trans(transType).set_ease(easeType)
+	#_tween.tween_property(self, "scroll_horizontal", target, snap_duration)
+	
+
 
 func _schedule_recompute() -> void:
 	call_deferred("_deferred_recompute")
