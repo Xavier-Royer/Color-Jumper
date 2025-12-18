@@ -40,7 +40,8 @@ func next_screen(nextScreen):
 		bg_transition.tween_property($GameScreen/UI/ScreenBG, "modulate:a", 0, 0.5)
 		await screenTransition.finished
 		$GameScreen/UI/ScreenBG.visible = false
-		$GameScreen.coins = FileManager.loadCoins()
+		FileManager.loadCoins()
+		$GameScreen.coins = FileManager.coins
 		undimMusic()
 
 	
