@@ -77,6 +77,7 @@ func loadCoins():
 			saveCoins() 
 		file.close()
 	else:
+		coins = 0 
 		saveCoins()
 
 

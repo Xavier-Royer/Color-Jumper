@@ -873,7 +873,7 @@ func _on_rainbow_timer_timeout() -> void:
 
 
 func coinCollected():
-	coins += 10000
+	coins += 67
 	
 
 
