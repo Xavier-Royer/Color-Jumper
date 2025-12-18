@@ -105,6 +105,12 @@ var starterBlock = null
 func _ready() -> void:
 	FileManager.loadCoins()
 	coins = FileManager.coins
+	
+	FileManager.loadCurrentCollectibles()
+	$"../GameScreen/Objects/Player/ColorRect".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]].icon
+	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
+	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
+	
 	screen_size = Globals.screenSize #get_viewport().get_visible_rect().size
 	player.connect("caughtBlock",_on_block_caught)
 	player.connect("collectCoin", coinCollected)

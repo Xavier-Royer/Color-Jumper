@@ -97,3 +97,16 @@ func saveOwned():
 	var file = FileAccess.open("user://owned.dat", FileAccess.WRITE)
 	file.store_var(owned)
 	file.close()
+
+func saveCurrentCollectibles():
+	var file = FileAccess.open("user://current.dat", FileAccess.WRITE)
+	file.store_var(CollectibleDB.CURRENT)
+	file.close()
+	
+
+func loadCurrentCollectibles():
+	var file = FileAccess.open("user://current.dat", FileAccess.READ)
+	if FileAccess.file_exists("user://current.dat"):
+		var data = file.get_var()
+		CollectibleDB.CURRENT = data
+		file.close()

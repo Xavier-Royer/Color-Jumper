@@ -6,7 +6,7 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 	var collectible: Collectible = item.data
 	match collectible.type:
 		"skin":
-			CollectibleDB.CURRENT["skin"] = collectible
+			CollectibleDB.CURRENT["skin"] = CollectibleDB.COLLECTIBLES.find(collectible)
 			current_collectible = collectible
 			$Player/ColorRect.texture = collectible.icon
 			$Player.resetAnimation()
@@ -23,7 +23,7 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 				$SkinBuySection/SkinBuy.visible = false
 				$SkinBuySection/EquippedLabel.visible = true
 		"trail":
-			CollectibleDB.CURRENT["trail"] = collectible
+			CollectibleDB.CURRENT["trail"] = CollectibleDB.COLLECTIBLES.find(collectible)
 			current_collectible = collectible
 			$Player/Trail.texture = collectible.icon
 			$Player/Trail2.texture = collectible.icon
@@ -40,7 +40,7 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 				$SkinBuySection/SkinBuy.visible = false
 				$SkinBuySection/EquippedLabel.visible = true
 		"theme":
-			CollectibleDB.CURRENT["theme"] = collectible
+			CollectibleDB.CURRENT["theme"] = CollectibleDB.COLLECTIBLES.find(collectible)
 			current_collectible = collectible
 			if collectible.id not in CollectibleDB.OWNED:
 				$SkinBuySection/SkinCost.visible = true
@@ -64,28 +64,39 @@ func on_loading_shop_screen():
 	coins = FileManager.coins
 	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
 	$TabContainer/Skins.reset()
-	$TabContainer/Skins.set_to_item(CollectibleDB.COLLECTIBLES[0])
+	$TabContainer/Trails.reset()
+	$TabContainer/Themes.reset()
+	FileManager.loadCurrentCollectibles()
+
+	$TabContainer/Skins.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]])
+	$TabContainer/Trails.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]])
+	$TabContainer/Themes.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["theme"]])
 	#$TabContainer/Themes.reset()
 	#$TabContainer/Trails.reset()
 
 
 func _on_home_pressed() -> void:
-	if CollectibleDB.CURRENT["skin"].id not in CollectibleDB.OWNED:
+	if CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]].id not in CollectibleDB.OWNED:
 		CollectibleDB.CURRENT["skin"] = CollectibleDB.get_default_skin()
 		$TabContainer/Skins.set_default()
-		$Player/ColorRect.texture =CollectibleDB.get_default_skin().icon
-	if CollectibleDB.CURRENT["trail"].id not in CollectibleDB.OWNED:
+		
+	if CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].id not in CollectibleDB.OWNED:
 		CollectibleDB.CURRENT["trail"] = CollectibleDB.get_default_trail()
 		$TabContainer/Trails.set_default()
+		
+	
 		#set shop menu trail here
-	if CollectibleDB.CURRENT["trail"].id not in CollectibleDB.OWNED:
+	if CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].id not in CollectibleDB.OWNED:
 		CollectibleDB.CURRENT["trail"] = CollectibleDB.get_default_theme()
 		$TabContainer/Themes.set_default()
 		#set shop menu theme here
 		
-	$"../GameScreen/Objects/Player/ColorRect".texture = CollectibleDB.CURRENT["skin"].icon
-	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.CURRENT["trail"].icon
-	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.CURRENT["trail"].icon
+	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
+	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
+	$"../GameScreen/Objects/Player/ColorRect".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]].icon
+			
+	
+	FileManager.saveCurrentCollectibles()
 	#set real trail and theme here
 
 

@@ -88,17 +88,21 @@ static var OWNED := [
 ]
 
 #need to store this variable 
+#doing it by index now because reading filemanger problems 
 static var CURRENT := {
-	"skin": get_default_skin(),
-	"trail": get_default_trail(),
-	"theme": get_default_theme()
+	"skin": 0, # COLLECTIBLES[0], #get_default_skin(),
+	"trail": 1, #COLLECTIBLES[1],
+	"theme": 2, #COLLECTIBLES[2]
 }
 
-static func get_default_skin() -> Collectible:
-	return COLLECTIBLES[0]
+static func get_default_skin():# -> Collectible:
+	return 0
+	#return COLLECTIBLES[0]
 	
-static func get_default_trail() -> Collectible:
-	return COLLECTIBLES[1]
+static func get_default_trail():# -> Collectible:
+	return 1
+	#return COLLECTIBLES[1]
 	
-static func get_default_theme() -> Collectible:
-	return COLLECTIBLES[2]
+static func get_default_theme(): #-> Collectible:
+	return 2
+	#return COLLECTIBLES[2]
