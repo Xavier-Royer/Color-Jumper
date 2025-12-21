@@ -115,7 +115,7 @@ func _ready() -> void:
 	player.connect("caughtBlock",_on_block_caught)
 	player.connect("collectCoin", coinCollected)
 	for button in $UI/ColorButtons.get_children():
-		button.connect("pressed",changeColor.bind(button.name))
+		button.connect("pressed",changeColor.bind(button.name, true))
 	player.connect("screenExited",gameOver.bind("MISSED"))
 	player.connect("spikeHit",gameOver.bind("SPIKE"))
 	player.connect("screenExitedWithBlock",gameOver.bind("PLAYERONBLOCK"))
@@ -292,7 +292,10 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		$"../DiracSea".play()
 
 
-func changeColor(newColor):
+func changeColor(newColor, clicked = false):
+	if clicked: 
+		if FileManager.sound_enabled:
+			$"../ColorChange".play()
 	#if loading into game and done with rise up animation turn on color buttons
 	if playerLoadInAnimation:
 		starterBlock.setColor(newColor)

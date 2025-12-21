@@ -144,6 +144,18 @@ func _process(delta: float) -> void:
 		line.points[movingPointIndex] = endPosition
 		$Item.position = (pivotPosition +endPosition)/2.0
 		$spawnRadiusItem.position = (pivotPosition +endPosition)/2.0
+		
+		#print("VELOCITY: " + str(angularVelocity))
+		#print("ACCELERATION: " + str(angularAcceleratoin))
+		
+		if FileManager.sound_enabled:
+			if abs(angularAcceleratoin) > 6: #has high enough angle to go fast and make sound (at top of pivot)
+				if (angularAcceleratoin/abs(angularAcceleratoin)) == (angularVelocity/abs(angularVelocity)):#accelration and velcoity going in the same direction:
+					if $Swing.playing == false:
+						pass
+						#$Swing.play()
+						
+		
 		#$TextureRect.position = (pivotPosition +endPosition)/2.0 - $TextureRect.pivot_offset
 		
 	elif state == "DELETING":

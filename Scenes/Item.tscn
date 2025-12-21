@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://d188ef8dxjvfn"]
+[gd_scene load_steps=16 format=3 uid="uid://d188ef8dxjvfn"]
 
 [ext_resource type="Script" uid="uid://ct6pcd2yt8mos" path="res://Scripts/spike.gd" id="1_08o4a"]
 [ext_resource type="Texture2D" uid="uid://bm21ooct4xdow" path="res://Textures/Spike.png" id="2_6oc8a"]
 [ext_resource type="Texture2D" uid="uid://b6wl0k4kpw3sp" path="res://Textures/Coin.png" id="3_o34di"]
 [ext_resource type="Theme" uid="uid://inpjr0g2xmmk" path="res://default_theme.tres" id="4_6oc8a"]
+[ext_resource type="AudioStream" uid="uid://kn5ypimo4a5v" path="res://Audio/woosh-260275.mp3" id="5_o34di"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pe76i"]
 radius = 52.0
@@ -254,6 +255,9 @@ explosiveness = 0.4
 process_material = SubResource("ParticleProcessMaterial_6m5p0")
 
 [node name="Timer" type="Timer" parent="."]
+
+[node name="Swing" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_o34di")
 
 [connection signal="screen_exited" from="Item/VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="area_entered" from="spawnRadiusLine" to="." method="_on_spawn_radius_area_entered"]
