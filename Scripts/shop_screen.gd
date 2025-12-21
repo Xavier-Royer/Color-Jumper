@@ -4,6 +4,8 @@ var coins = 0
 
 func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 	var collectible: Collectible = item.data
+	current_collectible = collectible
+	$SkinBuySection/SkinCost.text = ("$" + str(current_collectible.price))
 	match collectible.type:
 		"skin":
 			CollectibleDB.CURRENT["skin"] = CollectibleDB.COLLECTIBLES.find(collectible)
@@ -76,6 +78,7 @@ func on_loading_shop_screen():
 
 
 func _on_home_pressed() -> void:
+	$"..".buttonClick()
 	if CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]].id not in CollectibleDB.OWNED:
 		CollectibleDB.CURRENT["skin"] = CollectibleDB.get_default_skin()
 		$TabContainer/Skins.set_default()
@@ -101,6 +104,7 @@ func _on_home_pressed() -> void:
 
 
 func _on_skin_buy_pressed() -> void:
+	$"..".buttonClick()
 	coins -= current_collectible.price
 	FileManager.coins = coins
 	FileManager.saveCoins()
@@ -121,4 +125,8 @@ func _on_skin_buy_pressed() -> void:
 	FileManager.owned = CollectibleDB.OWNED
 	FileManager.saveOwned()
 	
+	pass # Replace with function body.
+
+
+func _on_confirmation_dialog_canceled() -> void:
 	pass # Replace with function body.

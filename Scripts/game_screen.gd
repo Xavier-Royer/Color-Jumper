@@ -343,7 +343,9 @@ func changeColor(newColor):
 
 #player captureing block
 func _on_block_caught():
-	
+	if gameState == "PLAYING":
+		if FileManager.sound_enabled:
+			$"../BlockHit".play()
 	playerLoadInAnimation = false
 	#play block animation
 	currentBlock = player.blockOn
@@ -823,6 +825,8 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
+	if FileManager.sound_enabled:
+		$"../GameLost".play()
 	FileManager.coins = coins
 	FileManager.saveCoins()
 	if gameState == "PLAYING":
@@ -873,7 +877,9 @@ func _on_rainbow_timer_timeout() -> void:
 
 
 func coinCollected():
-	coins += 67
+	coins += 1
+	if FileManager.sound_enabled:
+		$"../CoinCollect".play()
 	
 
 
@@ -992,6 +998,7 @@ func tutorialOver():
 	starterBlock = currentBlock
 
 func _on_skip_tutorial_pressed() -> void:
+	$"..".buttonClick()
 	loadGame(false)
 	#hide tutorial buttons
 	$UI/Pointer.hide()
@@ -1022,6 +1029,7 @@ func showButtons():
 
 
 func _on_start_tutorial_pressed() -> void:
+	$"..".buttonClick()
 	loadTutorial()
 
 func resetToLastCheckPoint(deathType):

@@ -75,6 +75,7 @@ func next_screen(nextScreen):
 
 #when play pressed load in new game
 func _on_play_pressed() -> void:
+	buttonClick()
 	#on play press reset everything
 	$GameScreen.loadGame(false)
 	$GameScreen.showButtons()
@@ -100,18 +101,23 @@ func _on_play_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
+	buttonClick()
 	$SettingsScreen.loadSettings()
 	next_screen($SettingsScreen)
 	
 func _on_home_pressed():
+	buttonClick()
 	next_screen($GameScreen)
 	_on_play_pressed()
 	
 func _on_leaderboard_pressed() -> void:
+	buttonClick()
 	$LeaderboardScreen.loadLeaderboard()
 	next_screen($LeaderboardScreen)
-	
+
+
 func _on_shop_pressed() -> void:
+	buttonClick()
 	next_screen($ShopScreen)
 
 func gameOver():
@@ -132,6 +138,12 @@ func dimMusic():
 func undimMusic():
 	var tween = create_tween()
 	tween.tween_property($DiracSea,"volume_db",5,0.5)
+
+func buttonClick(): 
+	if FileManager.sound_enabled:
+		$ButtonClick.play()
+		
+
 
 
 func _on_audio_stream_player_finished() -> void:

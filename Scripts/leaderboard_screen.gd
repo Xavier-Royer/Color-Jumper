@@ -114,6 +114,7 @@ func loadLeaderboard():
 
 
 func _on_submit_name_button_pressed() -> void:
+	$"..".buttonClick()
 	var setname_response = await LL_Players.SetPlayerName.new($NameInput.text).send()
 	if !(setname_response.success):
 		printerr(setname_response.error_data)

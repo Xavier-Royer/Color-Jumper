@@ -23,6 +23,10 @@ var direction  = Vector2.ZERO
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if died == false:
+		$Trail.emitting = false
+		$Trail2.emitting = false
+		$Trail2.hide()
+		$Trail2.restart()
 		if blockOn == null:
 			emit_signal("screenExited")
 		else:
@@ -64,18 +68,25 @@ func _process(_delta: float) -> void:
 	$Trail.process_material.direction = Vector3(xComponent,yComponent ,0)
 	$Trail.process_material.initial_velocity_min = max(trailVelocity,150) # Minimum initial speed
 	$Trail.process_material.initial_velocity_max = max(trailVelocity*1.2,200)
+	
+	$Trail2.process_material.direction = Vector3(xComponent,yComponent ,0)
+	$Trail2.process_material.initial_velocity_min = max(trailVelocity,150) # Minimum initial speed
+	$Trail2.process_material.initial_velocity_max = max(trailVelocity*1.2,200)
 	var maxVeclotiy =  max(trailVelocity*1.2,200)
 	#x = speed * time 
 	#let x be 50 pxiels 
 	#50/speed =t time
 	
 	$Trail.lifetime = 75/maxVeclotiy
+	$Trail2.lifetime = 75/maxVeclotiy
 	if gameSpeed == 0:
 		maxVeclotiy = 2000
 		$Trail.lifetime = 0.15
+		$Trail2.lifetime = 0.15
 		
 	
 	$Trail.speed_scale = 0.5
+	$Trail2.speed_scale = 0.5
 	
 	
 	#This code works for gravity, not physics, is pretty chill tho
@@ -105,6 +116,8 @@ func _process(_delta: float) -> void:
 		elif collision.get_collision_layer_value(5):
 				#if not already dead then play explosion animation
 				if died == false:
+					if FileManager.sound_enabled:
+						$"../../../SpikeHit".play()
 					velocity = Vector2.ZERO
 					collision.get_parent().spikeHit()
 					
@@ -158,6 +171,7 @@ func reset():
 	$GPUParticles2D.emitting = false
 	$ColorRect.self_modulate.a = 1
 	$Trail.emitting = true
+	
 	died = false
 	oldVelocity = Vector2.ZERO
 	velocity = Vector2.ZERO
@@ -175,6 +189,7 @@ func rainbowOn():
 	#$Trail.process_material.color_initial_ramp = rainbowGradient
 	$Trail2.emitting = true
 	$Trail.emitting = false
+	$Trail2.show()
 	for i in range(4):
 		self.set_collision_mask_value(i+1,true)
 

@@ -19,11 +19,17 @@ func loadSettings():
 
 
 func _on_resetscores_button_pressed() -> void:
+	$"..".buttonClick()
 	$ConfirmationDialog.size = Vector2i(Globals.screenSize.x * 0.75, Globals.screenSize.y * 0.15)
 	$ConfirmationDialog.popup_centered()
 
 
 
 func _on_confirmed():
+	$"..".buttonClick()
 	var index = difficulties.find(FileManager.difficulty)
 	FileManager.setHighScore(0, index)
+
+
+func _on_confirmation_dialog_confirmed() -> void:
+	$"..".buttonClick()

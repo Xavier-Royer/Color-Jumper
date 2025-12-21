@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=82 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -51,6 +51,11 @@
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 [ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
 [ext_resource type="AudioStream" uid="uid://kljt4k6b67fb" path="res://Audio/The Dirac Sea.wav" id="49_off7b"]
+[ext_resource type="AudioStream" uid="uid://ct1uslscwu6tn" path="res://Audio/select-button-ui-395763.mp3" id="52_ep8v8"]
+[ext_resource type="AudioStream" uid="uid://bf145jr8w6l0q" path="res://Audio/coin-257878.mp3" id="53_3133c"]
+[ext_resource type="AudioStream" uid="uid://b0lhpy8tst7uq" path="res://Audio/impact-thud-372473.mp3" id="54_js5gh"]
+[ext_resource type="AudioStream" uid="uid://d3mo7oagwt4rf" path="res://Audio/glass-bottle-breaking-351297.mp3" id="55_vvjo1"]
+[ext_resource type="AudioStream" uid="uid://dj5gm6401os3p" path="res://Audio/fail-234710.mp3" id="56_vvjo1"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -1763,10 +1768,27 @@ volume_db = 5.0
 stream = ExtResource("49_off7b")
 volume_db = -1.0
 
+[node name="ButtonClick" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("52_ep8v8")
+
+[node name="CoinCollect" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("53_3133c")
+
+[node name="BlockHit" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("54_js5gh")
+volume_db = -14.312
+
+[node name="SpikeHit" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("55_vvjo1")
+
+[node name="GameLost" type="AudioStreamPlayer" parent="ScreenManager"]
+stream = ExtResource("56_vvjo1")
+
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]
-[connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmed"]
+[connection signal="canceled" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/ShopScreen" method="_on_confirmation_dialog_canceled"]
+[connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmation_dialog_confirmed"]
 [connection signal="toggled" from="ScreenManager/SettingsScreen/CheckButton" to="ScreenManager" method="_on_check_button_toggled"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager/ShopScreen" method="_on_home_pressed"]
