@@ -37,7 +37,7 @@ func comma_format(num_stra: int) -> String:
 var responses
 var playerResponses
 func loadLeaderboard():
-	
+	$CouldntConnect.hide()
 	if loading:
 		return
 	loading = true
@@ -91,16 +91,22 @@ func loadLeaderboard():
 		responses = stored_responses
 		playerResponses = stored_player_responses
 		print("got the old ones")
-	for lb in range(4):
 		
-		for j in range(10):
-			var label = scoreScene.instantiate()
-			if j >= len(responses[lb].items):
-				label.set_text(j+1, "None", 0)
-			else:
-				label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score)
-				
-			scrollcontainers[lb].add_child(label)
+	if responses[0].success == false:
+		$CouldntConnect.show()
+	else:
+		for lb in range(4):
+			
+			for j in range(10):
+				var label = scoreScene.instantiate()
+				if j >= len(responses[lb].items):
+					label.set_text(j+1, "None", 0)
+				else:
+					label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score)
+					
+				scrollcontainers[lb].add_child(label)
+			
+	#CHANGE TO LOCAL SCORFES
 	var tab = $LeaderboardTabs.current_tab
 	var theplayerresponse = playerResponses[tab]
 	if theplayerresponse.player == null:
@@ -109,9 +115,6 @@ func loadLeaderboard():
 		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
 	$Loading.visible = false
 	loading = false
-	#TODO: fix ts it doesnt add labels or something or maybe the load leaderboard func doesnt even run
-	#$ScoreText.text = "[u]High Scores[/u]\n\n[color=gold]easy\n[color=white]{easy}\n\n[color=orange]classic\n[color=white]{classic}\n\n[color=red]colorful\n[color=white]{colorful}\n\n[color=purple]rainbow\n[color=white]{rainbow}".format({"easy": comma_format(FileManager.highScore[0]), "classic": comma_format(FileManager.highScore[1]), "colorful": comma_format(FileManager.highScore[2]), "rainbow": comma_format(FileManager.highScore[3])})
-
 
 func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
 	if playerResponses == null:

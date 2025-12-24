@@ -1325,6 +1325,24 @@ theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 45
 text = "You:"
 
+[node name="CouldntConnect" type="RichTextLabel" parent="ScreenManager/LeaderboardScreen"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.497
+anchor_top = 0.46100003
+anchor_right = 0.497
+anchor_bottom = 0.46100003
+offset_left = -310.76
+offset_top = -96.120056
+offset_right = 311.24
+offset_bottom = 103.879944
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/normal_font_size = 55
+bbcode_enabled = true
+text = "[color=red]Could not connect to leaderboard[/color]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
 script = ExtResource("15_rgw24")
