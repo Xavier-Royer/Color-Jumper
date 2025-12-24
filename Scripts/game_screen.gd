@@ -106,7 +106,7 @@ var highScoreThread: Thread
 func _ready() -> void:
 	FileManager.loadCoins()
 	coins = FileManager.coins
-	
+	highScoreThread = Thread.new()
 	FileManager.loadCurrentCollectibles()
 	$"../GameScreen/Objects/Player/ColorRect".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]].icon
 	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon

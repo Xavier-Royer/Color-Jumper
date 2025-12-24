@@ -37,7 +37,7 @@ func comma_format(num_stra: int) -> String:
 var responses
 var playerResponses
 func loadLeaderboard():
-	$NameInput.text = LL_StateData.GetCachedPlayerName()
+	
 	if loading:
 		return
 	loading = true
@@ -111,14 +111,6 @@ func loadLeaderboard():
 	loading = false
 	#TODO: fix ts it doesnt add labels or something or maybe the load leaderboard func doesnt even run
 	#$ScoreText.text = "[u]High Scores[/u]\n\n[color=gold]easy\n[color=white]{easy}\n\n[color=orange]classic\n[color=white]{classic}\n\n[color=red]colorful\n[color=white]{colorful}\n\n[color=purple]rainbow\n[color=white]{rainbow}".format({"easy": comma_format(FileManager.highScore[0]), "classic": comma_format(FileManager.highScore[1]), "colorful": comma_format(FileManager.highScore[2]), "rainbow": comma_format(FileManager.highScore[3])})
-
-
-func _on_submit_name_button_pressed() -> void:
-	$"..".buttonClick()
-	var setname_response = await LL_Players.SetPlayerName.new($NameInput.text).send()
-	if !(setname_response.success):
-		printerr(setname_response.error_data)
-	pass # Replace with function body.
 
 
 func _on_leaderboard_tabs_tab_changed(tab: int) -> void:

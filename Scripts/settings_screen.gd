@@ -16,6 +16,7 @@ func loadSettings():
 	var index = difficulties.find(FileManager.difficulty)
 	$Difficulty.select(index)
 	$InfoLabel.text = difficultyTexts[index]
+	$VBoxContainer/HBoxContainer/NameInput.text = LL_StateData.GetCachedPlayerName()
 
 
 func _on_resetscores_button_pressed() -> void:
@@ -33,3 +34,10 @@ func _on_confirmed():
 
 func _on_confirmation_dialog_confirmed() -> void:
 	$"..".buttonClick()
+	
+func _on_submit_name_button_pressed() -> void:
+	$"..".buttonClick()
+	var setname_response = await LL_Players.SetPlayerName.new($VBoxContainer/HBoxContainer/NameInput.text).send()
+	if !(setname_response.success):
+		printerr(setname_response.error_data)
+	pass # Replace with function body.
