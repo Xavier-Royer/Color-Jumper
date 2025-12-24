@@ -2,6 +2,7 @@ extends CanvasLayer
 
 var loading = false
 var refreshLeaderboardTime = Time.get_unix_time_from_system()
+var refreshDelay = 30
 var stored_responses = []
 var stored_player_responses = []
 @onready var scrollcontainers := [$LeaderboardTabs/Easy/Easy, $LeaderboardTabs/Classic/Classic, $LeaderboardTabs/Colorful/Colorful, $LeaderboardTabs/Rainbow/Rainbow]
@@ -45,6 +46,11 @@ func loadLeaderboard():
 	for lb in scrollcontainers:
 		for i in lb.get_children():
 			i.queue_free()
+			
+	#load local personal highscore
+	var tab = $LeaderboardTabs.current_tab
+	$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
+	
 
 	if Time.get_unix_time_from_system() > refreshLeaderboardTime:
 		var easyResponse := await LL_Leaderboards.GetScoreList.new("easy").send()
@@ -85,7 +91,7 @@ func loadLeaderboard():
 		playerResponses = [playerEasyResponse, playerClassicResponse, playerColorfulResponse, playerRainbowRespnose]
 		stored_responses = responses
 		stored_player_responses = playerResponses
-		refreshLeaderboardTime = Time.get_unix_time_from_system() + 30
+		refreshLeaderboardTime = Time.get_unix_time_from_system() + refreshDelay
 		print("got the new ones")
 	else:
 		responses = stored_responses
@@ -107,7 +113,7 @@ func loadLeaderboard():
 				scrollcontainers[lb].add_child(label)
 			
 	#CHANGE TO LOCAL SCORFES
-	var tab = $LeaderboardTabs.current_tab
+	
 	var theplayerresponse = playerResponses[tab]
 	if theplayerresponse.player == null:
 		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
@@ -118,11 +124,12 @@ func loadLeaderboard():
 
 func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
 	if playerResponses == null:
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
 		return
 	var theplayerresponse = playerResponses[tab]
 	print(LL_StateData.GetCachedPlayerIdentifier())
 	print(theplayerresponse)
 	if theplayerresponse.player == null:
-		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
 	else:
 		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
