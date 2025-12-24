@@ -101,6 +101,7 @@ var encouragemnetMessages = ["You got this!", "Lets try that again!", "Don't giv
 var playerLoadInAnimation = false
 var starterBlock = null
 
+var highScoreThread: Thread
 
 func _ready() -> void:
 	FileManager.loadCoins()
@@ -664,7 +665,10 @@ func comma_format(num_str: String) -> String:
 			result = "," + result
 	return result
 
-
+func upload_score(the_difficulty, the_score):
+	var submit_response = await LL_Leaderboards.SubmitScore.new(the_difficulty, the_score, LL_StateData.GetCachedPlayerIdentifier()).send()
+	if !(submit_response.success):
+		printerr(submit_response.error_data)
 
 func spawnBlock(respawning = false, depth=0):
 	if depth >= 15:
@@ -853,10 +857,8 @@ func gameOver(deathType = ""):
 			currentHighScore = score
 			FileManager.setHighScore(score,index)
 			#submit score to leaderboard
-			print("high score")
-			var submit_response = await LL_Leaderboards.SubmitScore.new(difficulty.to_lower(), score, LL_StateData.GetCachedPlayerIdentifier()).send()
-			if !(submit_response.success):
-				printerr(submit_response.error_data)
+			highScoreThread.start(upload_score.bind(difficulty.to_lower(), score))
+
 		$"../GameOverScreen/UI/VBoxContainer/Highscore".text = "High Score: " + (comma_format(str(currentHighScore)))
 		emit_signal("gameOverScreen")
 		for c in $UI/ColorButtons.get_children():
@@ -1105,7 +1107,7 @@ func resetToLastCheckPoint(deathType):
 	elif deathType == "BLOCKMISSED":
 		text = "Looks like you missed a block!"
 	elif deathType == "PLAYERONBLOCK":
-		text= "Dpn't slow down!"
+		text= "Don't slow down!"
 	playDeatTextAnimation(text)
 	
 	waitForTutorialRespawn()
@@ -1234,3 +1236,7 @@ func waitForTutorialRespawn():
 
 func _on_tutorial_respawn_timer_timeout() -> void:
 	awaitingTutorialTween = false
+
+
+func _exit_tree():
+	highScoreThread.wait_to_finish()
