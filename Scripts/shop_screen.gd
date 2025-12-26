@@ -67,14 +67,10 @@ func on_loading_shop_screen():
 	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
 	$TabContainer/Skins.reset()
 	$TabContainer/Trails.reset()
-	$TabContainer/Themes.reset()
 	FileManager.loadCurrentCollectibles()
 
 	$TabContainer/Skins.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["skin"]])
 	$TabContainer/Trails.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]])
-	$TabContainer/Themes.set_to_item(CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["theme"]])
-	#$TabContainer/Themes.reset()
-	#$TabContainer/Trails.reset()
 
 
 func _on_home_pressed() -> void:
@@ -87,12 +83,6 @@ func _on_home_pressed() -> void:
 		CollectibleDB.CURRENT["trail"] = CollectibleDB.get_default_trail()
 		$TabContainer/Trails.set_default()
 		
-	
-		#set shop menu trail here
-	if CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].id not in CollectibleDB.OWNED:
-		CollectibleDB.CURRENT["trail"] = CollectibleDB.get_default_theme()
-		$TabContainer/Themes.set_default()
-		#set shop menu theme here
 		
 	$"../GameScreen/Objects/Player/Trail".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
 	$"../GameScreen/Objects/Player/Trail2".texture = CollectibleDB.COLLECTIBLES[CollectibleDB.CURRENT["trail"]].icon
@@ -117,8 +107,6 @@ func _on_skin_buy_pressed() -> void:
 		$TabContainer/Skins.buy_current_node()
 	elif current_collectible.type == "trail":
 		$TabContainer/Trails.buy_current_node()
-	else:
-		$TabContainer/Themes.buy_current_node()
 	
 	#ts does not actaully store data :/
 	CollectibleDB.OWNED.append(current_collectible.id)
