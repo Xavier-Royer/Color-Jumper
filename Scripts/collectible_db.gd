@@ -9,7 +9,7 @@ class_name CollectibleDB
 static var COLLECTIBLES := [
 	
 	#Default Skin in spot 1
-	Collectible.from_dict({ "type": "skin", "id": "spaceship", "name": "Spaceship", "price": 500,
+	Collectible.from_dict({ "type": "skin", "id": "spaceship", "name": "Spaceship", "price": 0,
 	"icon": "res://Textures/playerskins/spaceship.png" }),
 	
 	#Default trail in spot 2
@@ -22,55 +22,61 @@ static var COLLECTIBLES := [
 	
 	
 	#SKINS
-	Collectible.from_dict({ "type": "skin", "id": "snowman", "name": "Snowman", "price": 1000,
+	Collectible.from_dict({ "type": "skin", "id": "snowman", "name": "Snowman", "price": 50,
 	"icon": "res://Textures/playerskins/snowman.png" }),
 	
-	Collectible.from_dict({ "type": "skin", "id": "pigking", "name": "Pig King", "price": 17500,
-	"icon": "res://Textures/playerskins/pigking.png" }),
-	
-	Collectible.from_dict({ "type": "skin", "id": "ghost", "name": "Ghost", "price": 500,
-	"icon": "res://Textures/playerskins/ghost.png" }),
-	
-	Collectible.from_dict({ "type": "skin", "id": "firework", "name": "Firework", "price": 500,
+	Collectible.from_dict({ "type": "skin", "id": "firework", "name": "Firework", "price": 50,
 	"icon": "res://Textures/playerskins/firework.png" }),
 	
-	Collectible.from_dict({ "type": "skin", "id": "cursor", "name": "Cursor", "price": 500,
+	Collectible.from_dict({ "type": "skin", "id": "cursor", "name": "Cursor", "price": 50,
 	"icon": "res://Textures/playerskins/cursor.png" }),
 	
-	Collectible.from_dict({ "type": "skin", "id": "seventeen", "name": "17", "price": 500,
+	Collectible.from_dict({ "type": "skin", "id": "pigking", "name": "Pig King", "price": 250,
+	"icon": "res://Textures/playerskins/pigking.png" }),
+	
+	Collectible.from_dict({ "type": "skin", "id": "ghost", "name": "Ghost", "price": 250,
+	"icon": "res://Textures/playerskins/ghost.png" }),
+	
+	Collectible.from_dict({ "type": "skin", "id": "hearts", "name": "Hearts", "price": 250,
+	"icon": "res://Textures/playerskins/heart.png" }),
+
+	Collectible.from_dict({ "type": "skin", "id": "seventeen", "name": "17", "price": 1000,
 	"icon": "res://Textures/playerskins/17.png" }),
 	
-	Collectible.from_dict({ "type": "skin", "id": "hearts", "name": "Hearts", "price": 500,
-	"icon": "res://Textures/playerskins/heart.png" }),
 	
 	#TRAILS
-	Collectible.from_dict({ "type": "trail", "id": "heart", "name": "Hearts", "price": 500,
+	Collectible.from_dict({ "type": "trail", "id": "heart", "name": "Hearts", "price": 50,
 	"icon": "res://Textures/playertrails/heart.png" }),
 	
-	Collectible.from_dict({ "type": "trail", "id": "box", "name": "Box", "price": 300,
-	"icon": "res://Textures/playertrails/box.png" }),
-	
-	Collectible.from_dict({ "type": "trail", "id": "lightning", "name": "Lightning", "price": 300,
-	"icon": "res://Textures/playertrails/lightning.png" }),
-	
-	Collectible.from_dict({ "type": "trail", "id": "line", "name": "Line", "price": 250,
+	Collectible.from_dict({ "type": "trail", "id": "line", "name": "Line", "price": 50,
 	"icon": "res://Textures/playertrails/line.png" }),
 	
-	Collectible.from_dict({ "type": "trail", "id": "plus", "name": "Plus", "price": 200,
+	Collectible.from_dict({ "type": "trail", "id": "plus", "name": "Plus", "price": 50,
 	"icon": "res://Textures/playertrails/plus.png" }),
 	
-	Collectible.from_dict({ "type": "trail", "id": "67", "name": "67", "price": 6767,
-	"icon": "res://Textures/playertrails/sixseven.png" }),
-	
-	Collectible.from_dict({ "type": "trail", "id": "snowflake", "name": "Snowflake", "price": 1000,
-	"icon": "res://Textures/playertrails/snowflake.png" }),
-	
-	Collectible.from_dict({ "type": "trail", "id": "star", "name": "Star", "price": 300,
-	"icon": "res://Textures/playertrails/star.png" }),
-	
-	Collectible.from_dict({ "type": "trail", "id": "x", "name": "X", "price": 100,
+	Collectible.from_dict({ "type": "trail", "id": "x", "name": "X", "price": 50,
 	"icon": "res://Textures/playertrails/x.png" }),
 	
+	
+	Collectible.from_dict({ "type": "trail", "id": "box", "name": "Box", "price": 250,
+	"icon": "res://Textures/playertrails/box.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "lightning", "name": "Lightning", "price": 250,
+	"icon": "res://Textures/playertrails/lightning.png" }),
+	
+
+	
+
+	
+	Collectible.from_dict({ "type": "trail", "id": "snowflake", "name": "Snowflake", "price": 250,
+	"icon": "res://Textures/playertrails/snowflake.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "star", "name": "Star", "price": 250,
+	"icon": "res://Textures/playertrails/star.png" }),
+	
+	Collectible.from_dict({ "type": "trail", "id": "67", "name": "67", "price": 1000,
+	"icon": "res://Textures/playertrails/sixseven.png" }),
+
 	
 	#THEMES
 	
