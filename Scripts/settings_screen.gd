@@ -25,15 +25,10 @@ func _on_resetscores_button_pressed() -> void:
 	$ConfirmationDialog.popup_centered()
 
 
-
-func _on_confirmed():
+func _on_confirmation_dialog_confirmed() -> void:
 	$"..".buttonClick()
 	var index = difficulties.find(FileManager.difficulty)
 	FileManager.setHighScore(0, index)
-
-
-func _on_confirmation_dialog_confirmed() -> void:
-	$"..".buttonClick()
 	
 func _on_submit_name_button_pressed() -> void:
 	$"..".buttonClick()

@@ -114,7 +114,7 @@ func loadLeaderboard():
 				scrollcontainers[lb].add_child(label)
 			
 	#CHANGE TO LOCAL SCORFES
-	
+	tab = $LeaderboardTabs.current_tab
 	var theplayerresponse = playerResponses[tab]
 	if theplayerresponse.player == null:
 		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
@@ -124,7 +124,7 @@ func loadLeaderboard():
 	loading = false
 
 func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
-	if playerResponses == null:
+	if loading == true:
 		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
 		return
 	var theplayerresponse = playerResponses[tab]
