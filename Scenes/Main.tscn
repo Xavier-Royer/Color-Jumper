@@ -810,11 +810,11 @@ anchor_left = 0.5
 anchor_top = 0.51500005
 anchor_right = 0.5
 anchor_bottom = 0.51500005
-offset_left = -327.0
-offset_top = 202.19989
-offset_right = 291.0
-offset_bottom = 356.1999
-scale = Vector2(0.92, 0.92)
+offset_left = -340.0
+offset_top = 40.19989
+offset_right = 278.0
+offset_bottom = 194.19989
+scale = Vector2(1.08, 1.08)
 
 [node name="Label" type="Label" parent="ScreenManager/SettingsScreen/ChangeName"]
 layout_mode = 2
@@ -842,22 +842,6 @@ size_flags_horizontal = 3
 theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 41
 text = "Submit"
-
-[node name="OnlineToggle" type="CheckButton" parent="ScreenManager/SettingsScreen"]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.485
-anchor_right = 0.5
-anchor_bottom = 0.485
-offset_left = -319.0
-offset_top = 75.80011
-offset_right = 167.11108
-offset_bottom = 242.80011
-scale = Vector2(1.08, 1.08)
-theme = ExtResource("9_semxg")
-theme_override_font_sizes/font_size = 65
-text = "Use Online
-Leaderboard"
 
 [node name="TOC and PP" type="RichTextLabel" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
@@ -889,7 +873,6 @@ text = "_________"
 horizontal_alignment = 1
 
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_off7b")
@@ -1193,7 +1176,6 @@ mouse_filter = 1
 color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
-visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")

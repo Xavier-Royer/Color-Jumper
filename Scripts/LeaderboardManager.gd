@@ -11,7 +11,8 @@ func _ready() -> void:
 	
 	if id[1]:
 		#create a new name for the new player
-		var end = randi_range(1000, 9999)
+		#TODO: if players name is already taken
+		var end = randi_range(1000, 99999)
 		var setname_response = await LL_Players.SetPlayerName.new("Player" + str(end)).send()
 		if !(setname_response.success):
 			printerr(setname_response.error_data)
@@ -27,6 +28,7 @@ func _ready() -> void:
 
 #if created a new player, return true
 static func get_or_create_player_identifier() -> Array:
+	#return ["testingplayerid", false]
 	var file = FileAccess.open("user://player_id.data", FileAccess.READ)
 	if file:
 		var id = file.get_as_text().strip_edges()

@@ -17,20 +17,20 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 theme = ExtResource("2_y1q6v")
-theme_override_font_sizes/font_size = 57
+theme_override_font_sizes/font_size = 35
 text = "X."
 
 [node name="Username" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_y1q6v")
-theme_override_font_sizes/font_size = 57
+theme_override_font_sizes/font_size = 45
 text = "None"
 
 [node name="Score" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("2_y1q6v")
-theme_override_font_sizes/font_size = 57
+theme_override_font_sizes/font_size = 45
 text = "None"
 horizontal_alignment = 2

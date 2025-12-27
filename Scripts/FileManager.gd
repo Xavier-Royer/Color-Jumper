@@ -22,6 +22,7 @@ func setDifficulty(newDifficulty):
 	difficulty = newDifficulty
 	saveSettings()
 	
+	
 func setAudioEnabled(audioEnabled):
 	sound_enabled = audioEnabled
 	saveSettings()

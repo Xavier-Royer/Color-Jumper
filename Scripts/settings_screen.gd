@@ -37,7 +37,8 @@ func _on_confirmation_dialog_confirmed() -> void:
 	
 func _on_submit_name_button_pressed() -> void:
 	$"..".buttonClick()
-	var setname_response = await LL_Players.SetPlayerName.new($VBoxContainer/HBoxContainer/NameInput.text).send()
+	
+	var setname_response = await LL_Players.SetPlayerName.new($ChangeName/HBoxContainer/NameInput.text).send()
 	if !(setname_response.success):
 		printerr(setname_response.error_data)
 	pass # Replace with function body.
@@ -45,3 +46,6 @@ func _on_submit_name_button_pressed() -> void:
 
 func _on_toc_and_pp_meta_clicked(meta: Variant) -> void:
 	OS.shell_open(str(meta))
+
+func _on_online_toggle_toggled(toggled_on: bool) -> void:
+	FileManager.setIsOnline(toggled_on)
