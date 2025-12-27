@@ -38,9 +38,10 @@ func comma_format(num_stra: int) -> String:
 var responses
 var playerResponses
 func loadLeaderboard():
-	$CouldntConnect.hide()
+	
 	if loading:
 		return
+	$CouldntConnect.hide()
 	loading = true
 	$Loading.visible = true
 	for lb in scrollcontainers:
@@ -133,3 +134,11 @@ func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
 		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
 	else:
 		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
+
+
+
+
+func _on_refresh_button_pressed() -> void:
+	$"..".buttonClick()
+	refreshLeaderboardTime = 0
+	loadLeaderboard()

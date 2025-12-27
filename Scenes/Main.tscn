@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=85 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -28,8 +28,10 @@
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://Textures/greenbuttonpressed.png" id="20_j7e3e"]
 [ext_resource type="PackedScene" uid="uid://2orpnhrc71lj" path="res://Scenes/score_row.tscn" id="21_7sj7i"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://Textures/bluebutton.png" id="21_y2ulj"]
+[ext_resource type="Texture2D" uid="uid://dfitgbg8i0w5p" path="res://Textures/refresh.png" id="22_5gwyn"]
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://Textures/bluebuttonpressed.png" id="22_t3x2a"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://Textures/purplebutton.png" id="23_1bbis"]
+[ext_resource type="Texture2D" uid="uid://dtp2bjfd4gl1p" path="res://Textures/refresh_pressed.png" id="23_r6gtk"]
 [ext_resource type="Texture2D" uid="uid://bqkd2bxvdospl" path="res://Textures/purplebuttonpressed.png" id="24_yn2g2"]
 [ext_resource type="Texture2D" uid="uid://25r3hwu2j0m" path="res://Textures/colorjumper_logo.png" id="25_yic5e"]
 [ext_resource type="Texture2D" uid="uid://fs6kbkv5tjam" path="res://Textures/shop.png" id="26_ex7s8"]
@@ -663,10 +665,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -350.0
-offset_top = -674.0
-offset_right = 350.0
-offset_bottom = 726.0
+offset_left = -423.0
+offset_top = -852.0
+offset_right = 406.0
+offset_bottom = 806.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
@@ -678,10 +680,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -268.0
-offset_top = -566.0
-offset_right = 228.0
-offset_bottom = -469.0
+offset_left = -319.0
+offset_top = -737.0
+offset_right = 177.0
+offset_bottom = -640.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_semxg")
@@ -695,10 +697,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -272.0
-offset_top = -453.0
-offset_right = 160.0
-offset_bottom = -284.0
+offset_left = -323.0
+offset_top = -624.0
+offset_right = 109.0
+offset_bottom = -455.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -722,10 +724,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -272.0
-offset_top = -262.0
-offset_right = 278.0
-offset_bottom = 211.0
+offset_left = -323.0
+offset_top = -433.0
+offset_right = 227.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 69
 text = "fast-paced with
@@ -790,34 +794,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -274.0
-offset_top = 25.0
-offset_right = 247.0
-offset_bottom = 209.0
+offset_left = -318.0
+offset_top = -91.0
+offset_right = 203.0
+offset_bottom = 93.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_semxg")
 button_pressed = true
 text = "Audio"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScreenManager/SettingsScreen"]
-offset_left = 257.0
-offset_top = 1307.0
-offset_right = 875.0
-offset_bottom = 1461.0
+[node name="ChangeName" type="VBoxContainer" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.51500005
+anchor_right = 0.5
+anchor_bottom = 0.51500005
+offset_left = -327.0
+offset_top = 202.19989
+offset_right = 291.0
+offset_bottom = 356.1999
 scale = Vector2(0.92, 0.92)
 
-[node name="Label" type="Label" parent="ScreenManager/SettingsScreen/VBoxContainer"]
+[node name="Label" type="Label" parent="ScreenManager/SettingsScreen/ChangeName"]
 layout_mode = 2
 theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 51
 text = "Change Leaderboard Username:"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/SettingsScreen/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ScreenManager/SettingsScreen/ChangeName"]
 layout_mode = 2
 
-[node name="NameInput" type="LineEdit" parent="ScreenManager/SettingsScreen/VBoxContainer/HBoxContainer"]
+[node name="NameInput" type="LineEdit" parent="ScreenManager/SettingsScreen/ChangeName/HBoxContainer"]
 custom_minimum_size = Vector2(0, 96.05)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -826,7 +835,7 @@ theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 51
 text = "test"
 
-[node name="SubmitNameButton" type="Button" parent="ScreenManager/SettingsScreen/VBoxContainer/HBoxContainer"]
+[node name="SubmitNameButton" type="Button" parent="ScreenManager/SettingsScreen/ChangeName/HBoxContainer"]
 custom_minimum_size = Vector2(0, 96.05)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -835,23 +844,52 @@ theme_override_font_sizes/font_size = 41
 text = "Submit"
 
 [node name="OnlineToggle" type="CheckButton" parent="ScreenManager/SettingsScreen"]
-offset_left = 265.0
-offset_top = 1123.0001
-offset_right = 751.1111
-offset_bottom = 1290.0001
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.485
+anchor_right = 0.5
+anchor_bottom = 0.485
+offset_left = -319.0
+offset_top = 75.80011
+offset_right = 167.11108
+offset_bottom = 242.80011
 scale = Vector2(1.08, 1.08)
 theme = ExtResource("9_semxg")
 theme_override_font_sizes/font_size = 65
 text = "Use Online
 Leaderboard"
 
-[node name="Seperator" type="Line2D" parent="ScreenManager/SettingsScreen"]
-position = Vector2(-11497.2, 100)
-scale = Vector2(27.8, 9.25)
-points = PackedVector2Array(438.756, 99, 426.636, 99)
-width = 1.0
+[node name="TOC and PP" type="RichTextLabel" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.51500005
+anchor_right = 0.5
+anchor_bottom = 0.51500005
+offset_left = -348.0
+offset_top = 644.1999
+offset_right = 325.0
+offset_bottom = 682.1999
+theme_override_font_sizes/normal_font_size = 23
+bbcode_enabled = true
+text = "[url=https://sites.google.com/view/colorjumper/home]Click here to review Terms and Conditions and Privacy Policy[/url]
+"
+
+[node name="Separator" type="RichTextLabel" parent="ScreenManager/SettingsScreen"]
+anchors_preset = -1
+anchor_left = 0.504
+anchor_top = 0.46100003
+anchor_right = 0.504
+anchor_bottom = 0.46100003
+offset_left = -301.32
+offset_top = -114.120056
+offset_right = 291.68
+offset_bottom = 9.879944
+theme_override_font_sizes/normal_font_size = 80
+text = "_________"
+horizontal_alignment = 1
 
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_off7b")
@@ -1155,6 +1193,7 @@ mouse_filter = 1
 color = Color(0.8039216, 0.38039216, 0.27450982, 0)
 
 [node name="LeaderboardScreen" type="CanvasLayer" parent="ScreenManager"]
+visible = false
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
 script = ExtResource("14_yisvs")
@@ -1309,6 +1348,18 @@ bbcode_enabled = true
 text = "[color=red]Could not connect to leaderboard[/color]"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="RefreshButton" type="TextureButton" parent="ScreenManager/LeaderboardScreen"]
+anchors_preset = -1
+anchor_top = 1.0090001
+anchor_bottom = 1.0090001
+offset_left = 272.0
+offset_top = -444.28015
+offset_right = 373.0
+offset_bottom = -332.55444
+texture_normal = ExtResource("22_5gwyn")
+texture_pressed = ExtResource("23_r6gtk")
+stretch_mode = 5
 
 [node name="GameScreen" type="CanvasLayer" parent="ScreenManager"]
 layer = 0
@@ -1821,7 +1872,8 @@ stream = ExtResource("57_yisvs")
 [connection signal="canceled" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/ShopScreen" method="_on_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmation_dialog_confirmed"]
 [connection signal="toggled" from="ScreenManager/SettingsScreen/CheckButton" to="ScreenManager" method="_on_check_button_toggled"]
-[connection signal="pressed" from="ScreenManager/SettingsScreen/VBoxContainer/HBoxContainer/SubmitNameButton" to="ScreenManager/SettingsScreen" method="_on_submit_name_button_pressed"]
+[connection signal="pressed" from="ScreenManager/SettingsScreen/ChangeName/HBoxContainer/SubmitNameButton" to="ScreenManager/SettingsScreen" method="_on_submit_name_button_pressed"]
+[connection signal="meta_clicked" from="ScreenManager/SettingsScreen/TOC and PP" to="ScreenManager/SettingsScreen" method="_on_toc_and_pp_meta_clicked"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager/ShopScreen" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/SkinBuySection/SkinBuy" to="ScreenManager/ShopScreen" method="_on_skin_buy_pressed"]
@@ -1829,6 +1881,7 @@ stream = ExtResource("57_yisvs")
 [connection signal="selection_changed" from="ScreenManager/ShopScreen/TabContainer/Trails" to="ScreenManager/ShopScreen" method="_on_selection_changed"]
 [connection signal="pressed" from="ScreenManager/LeaderboardScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="tab_changed" from="ScreenManager/LeaderboardScreen/LeaderboardTabs" to="ScreenManager/LeaderboardScreen" method="_on_leaderboard_tabs_tab_changed"]
+[connection signal="pressed" from="ScreenManager/LeaderboardScreen/RefreshButton" to="ScreenManager/LeaderboardScreen" method="_on_refresh_button_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Shop" to="ScreenManager" method="_on_shop_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Settings" to="ScreenManager" method="_on_settings_pressed"]
 [connection signal="pressed" from="ScreenManager/GameScreen/UI/ButtonContainer/Leaderboard" to="ScreenManager" method="_on_leaderboard_pressed"]

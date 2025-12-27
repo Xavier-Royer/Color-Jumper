@@ -16,7 +16,7 @@ func loadSettings():
 	var index = difficulties.find(FileManager.difficulty)
 	$Difficulty.select(index)
 	$InfoLabel.text = difficultyTexts[index]
-	$VBoxContainer/HBoxContainer/NameInput.text = LL_StateData.GetCachedPlayerName()
+	$ChangeName/HBoxContainer/NameInput.text = LL_StateData.GetCachedPlayerName()
 
 
 func _on_resetscores_button_pressed() -> void:
@@ -41,3 +41,7 @@ func _on_submit_name_button_pressed() -> void:
 	if !(setname_response.success):
 		printerr(setname_response.error_data)
 	pass # Replace with function body.
+
+
+func _on_toc_and_pp_meta_clicked(meta: Variant) -> void:
+	OS.shell_open(str(meta))
