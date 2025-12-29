@@ -11,7 +11,8 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 			CollectibleDB.CURRENT["skin"] = CollectibleDB.COLLECTIBLES.find(collectible)
 			current_collectible = collectible
 			$Player/ColorRect.texture = collectible.icon
-			$Player.resetAnimation()
+			
+			#$Player.resetAnimation()
 			if collectible.id not in CollectibleDB.OWNED:
 				$SkinBuySection/SkinCost.visible = true
 				$SkinBuySection/SkinBuy.visible = true
@@ -58,10 +59,27 @@ func _on_selection_changed(item: ShopSlot, _index: int) -> void:
 				$SkinBuySection/EquippedLabel.visible = true
 	
 func startPlayerAnimation():
-	$Player.resetAnimation()
+	#$Player.resetAnimation()
+	pass
 
 func on_loading_shop_screen():
 	startPlayerAnimation()
+	var center_x := get_viewport().get_visible_rect().position.x + get_viewport().get_visible_rect().size.x * 0.5
+	var half_width = 90
+	$Player.global_position.x = center_x - half_width
+	var start_y = Globals.screenSize.y * 2 / 9
+	var end_y = start_y + 30.0
+	
+	$Player.position.y = start_y
+
+	var tween := create_tween()
+	tween.set_loops() # infinite
+
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+
+	tween.tween_property($Player, "position:y", end_y, 0.6)
+	tween.tween_property($Player, "position:y", start_y, 0.6)
 	FileManager.loadCoins()
 	coins = FileManager.coins
 	$CoinLabel.text = str(coins) + "[img]res://Textures/Coin.png[/img]"
