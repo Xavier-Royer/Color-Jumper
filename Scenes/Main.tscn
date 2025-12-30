@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://b6jhdtfh7summ"]
+[gd_scene load_steps=86 format=3 uid="uid://b6jhdtfh7summ"]
 
 [ext_resource type="Script" uid="uid://cvls2n8bhmxsj" path="res://Scripts/screen_manager.gd" id="1_d8m2u"]
 [ext_resource type="Script" uid="uid://ds2tcrknatmu5" path="res://Scripts/control.gd" id="2_5psol"]
@@ -73,6 +73,10 @@ initial_velocity_max = 63.82
 gravity = Vector3(0, 0, 0)
 scale_min = 3.0
 scale_max = 10.0
+
+[sub_resource type="Theme" id="Theme_5gwyn"]
+default_font = ExtResource("16_5gwyn")
+default_font_size = 70
 
 [sub_resource type="Animation" id="Animation_semxg"]
 length = 0.001
@@ -872,6 +876,18 @@ theme_override_font_sizes/normal_font_size = 80
 text = "_________"
 horizontal_alignment = 1
 
+[node name="UsernameSuccess" type="AcceptDialog" parent="ScreenManager/SettingsScreen"]
+oversampling_override = 1.0
+title = "Username"
+initial_position = 1
+size = Vector2i(963, 197)
+unresizable = true
+borderless = true
+always_on_top = true
+force_native = true
+theme = SubResource("Theme_5gwyn")
+dialog_text = "Successfully changed username."
+
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
 offset = Vector2(1152, 0)
 transform = Transform2D(1, 0, 0, 1, 1152, 0)
@@ -895,7 +911,7 @@ texture = ExtResource("8_7sj7i")
 expand_mode = 5
 
 [node name="Home" type="TextureButton" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -934,7 +950,7 @@ grow_vertical = 2
 color = Color(0.47058824, 1, 1, 0)
 
 [node name="Options" type="VBoxContainer" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -970,7 +986,7 @@ theme_override_font_sizes/font_size = 60
 text = "Preview"
 
 [node name="CoinLabel" type="RichTextLabel" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -987,7 +1003,7 @@ text = "100[img]res://Textures/Coin.png[/img]"
 horizontal_alignment = 2
 
 [node name="SkinBuySection" type="HBoxContainer" parent="ScreenManager/ShopScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1205,7 +1221,7 @@ mouse_filter = 0
 texture = ExtResource("8_7sj7i")
 
 [node name="Home" type="TextureButton" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1247,7 +1263,7 @@ scroll_active = false
 horizontal_alignment = 1
 
 [node name="LeaderboardTabs" type="TabContainer" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1326,7 +1342,7 @@ offset_bottom = 376.0
 scale = Vector2(1.3199999, 1.3199999)
 
 [node name="YouText" type="Label" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1359,7 +1375,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RefreshButton" type="TextureButton" parent="ScreenManager/LeaderboardScreen"]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1856,7 +1872,7 @@ volume_db = -5.0
 
 [node name="DiracSea" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("49_off7b")
-volume_db = -3.0
+volume_db = -5.0
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("52_ep8v8")
