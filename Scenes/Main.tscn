@@ -1911,19 +1911,6 @@ stream = ExtResource("56_vvjo1")
 stream = ExtResource("59_5gwyn")
 pitch_scale = 0.56
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="OUTPUT" type="RichTextLabel" parent="CanvasLayer"]
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.98700005
-offset_right = -4.0
-offset_bottom = -0.040039063
-theme_override_font_sizes/normal_font_size = 76
-text = "tes"
-fit_content = true
-autowrap_mode = 1
-
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ResetButton" to="ScreenManager/SettingsScreen" method="_on_resetscores_button_pressed"]

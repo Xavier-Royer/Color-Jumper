@@ -5,10 +5,7 @@ func _ready() -> void:
 	var guestLoginResponse = await LL_Authentication.GuestSession.new(id[0]).send()
 	if (!guestLoginResponse.success):
 		printerr("Guest login failed with reason: " + guestLoginResponse.error_data.to_string())
-		get_tree().current_scene.find_child("CanvasLayer").find_child("OUTPUT").text = guestLoginResponse.error_data.to_string()
 		return
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").find_child("OUTPUT").text = "worked fine"
 	if id[1]:
 		#create a new name for the new player
 		#TODO: if players name is already taken
@@ -20,11 +17,6 @@ func _ready() -> void:
 		
 	print(guestLoginResponse.player_name)
 	print("Guest user was successfully signed in to LootLocker")
-	#var changeNameResponse = await LL_Players.SetPlayerName.new(playerName).send()
-	#if (!changeNameResponse.success):
-		#printerr("Guest login failed with reason: " + changeNameResponse.error_data.to_string())
-		#return
-	#print("successfully changed name")
 
 #if created a new player, return true
 static func get_or_create_player_identifier() -> Array:
