@@ -2,7 +2,7 @@ extends CanvasLayer
 
 var loading = false
 var refreshLeaderboardTime = Time.get_unix_time_from_system()
-var refreshDelay = 30
+var refreshDelay = 300
 var stored_responses = []
 var stored_player_responses = []
 @onready var scrollcontainers := [$LeaderboardTabs/Easy/Easy, $LeaderboardTabs/Classic/Classic, $LeaderboardTabs/Colorful/Colorful, $LeaderboardTabs/Rainbow/Rainbow]

@@ -962,7 +962,7 @@ func loadTutorial():
 	createTutorialBlock( Vector2(screen_size.x * (1.0/3.0),screen_size.y * (-32/10.0)),"RED","","FREE")
 	createTutorialBlock(Vector2(screen_size.x * (1.0/4.0),screen_size.y * (-35.5/10.0)),"RED","","FREE","COIN")
 	createTutorialBlock(Vector2(screen_size.x * (4.0/9.0),screen_size.y * (-38.5/10.0)),"RED","","FREE")
-	createTutorialBlock(Vector2(screen_size.x * (1.0/2.0),screen_size.y * (-41.0/10.0)),"RED","Rainbow blocks allow the player \n to hit all the colors!","CHECKPOINT")
+	createTutorialBlock(Vector2(screen_size.x * (1.0/2.0),screen_size.y * (-41.0/10.0)),"RED","Rainbow blocks allow the player \n to hit any color!","CHECKPOINT")
 	createTutorialBlock(Vector2(screen_size.x * (2.0/3.0),screen_size.y * (-43/10.0)),"RAINBOW","Rainbow runs out after 5 seconds","LEARNING")
 	createTutorialBlock(Vector2(screen_size.x * (2.0/5.0),screen_size.y * (-45/10.0)),"PURPLE","Pro tip: To end rainbow early \n switch to any color", "LEARNING", "COIN")
 	createTutorialBlock(Vector2(screen_size.x * (4.0/6.0),screen_size.y * (-47.0/10.0)),"GREEN","Congrats! Lets start off in easy mode!!!", "LEARNING")
