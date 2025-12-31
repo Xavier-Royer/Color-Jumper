@@ -42,7 +42,7 @@ func _on_submit_name_button_pressed() -> void:
 		$UsernameSuccess.dialog_text = "Successfully changed username."
 		if !(setname_response.success):
 			printerr(setname_response.error_data)
-			$UsernameSuccess.dialog_text = setname_response.error_data.message
+			$UsernameSuccess.dialog_text = setname_response.raw_response_body
 	$UsernameSuccess.popup()
 	pass # Replace with function body.
 

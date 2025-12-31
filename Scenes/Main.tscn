@@ -76,7 +76,7 @@ scale_max = 10.0
 
 [sub_resource type="Theme" id="Theme_5gwyn"]
 default_font = ExtResource("16_5gwyn")
-default_font_size = 70
+default_font_size = 30
 
 [sub_resource type="Animation" id="Animation_semxg"]
 length = 0.001
@@ -903,6 +903,7 @@ always_on_top = true
 force_native = true
 theme = SubResource("Theme_5gwyn")
 dialog_text = "Successfully changed username."
+dialog_autowrap = true
 
 [node name="ShopScreen" type="CanvasLayer" parent="ScreenManager"]
 offset = Vector2(1152, 0)
