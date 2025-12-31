@@ -49,9 +49,9 @@ func makeRequest(endpoint, requestType: HTTPClient.Method, body, additionalHeade
 		var res = LL_HTTPRequestResult.new("{ \"message\": \"LootLocker could not create http client\"}", 0, false, -1)
 		logLootLockerRequest(endpoint, requestType, body, res)
 		return res
-	
+	print(url)
 	var err = httpClient.connect_to_host(url)
-	
+	print(err)
 	if err != OK:
 		var res = LL_HTTPRequestResult.new("{ \"message\": \"Could not connect to LootLocker, error code was "+str(err)+"\"}", 0, false, -1)
 		logLootLockerRequest(endpoint, requestType, body, res)
