@@ -1,14 +1,14 @@
 extends Node
-
-
 func _ready() -> void:
 
 	var id = await get_or_create_player_identifier()
 	var guestLoginResponse = await LL_Authentication.GuestSession.new(id[0]).send()
 	if (!guestLoginResponse.success):
 		printerr("Guest login failed with reason: " + guestLoginResponse.error_data.to_string())
+		get_tree().current_scene.find_child("CanvasLayer").find_child("OUTPUT").text = guestLoginResponse.error_data.to_string()
 		return
-	
+	else:
+		get_tree().current_scene.find_child("CanvasLayer").find_child("OUTPUT").text = "worked fine"
 	if id[1]:
 		#create a new name for the new player
 		#TODO: if players name is already taken
