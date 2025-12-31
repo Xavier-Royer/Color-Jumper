@@ -43,14 +43,22 @@ static func logLootLockerRequest(endpoint, requestType, body, result : LL_HTTPRe
 
 func makeRequest(endpoint, requestType: HTTPClient.Method, body, additionalHeaders : Array[String] = []) -> LL_HTTPRequestResult:
 	var httpClient = HTTPClient.new()
-	var url = LootLockerSettings.GetUrl()
+	var base_url: String = LootLockerSettings.GetUrl().strip_edges()
+
+	# base_url is like: "https://<domainKey>.api.lootlocker.com"
+	var use_tls := base_url.begins_with("https://")
+	var host := base_url.replace("https://", "").replace("http://", "")
+
+	var tls := TLSOptions.client() if use_tls else null
+	
+
 	
 	if !httpClient:
 		var res = LL_HTTPRequestResult.new("{ \"message\": \"LootLocker could not create http client\"}", 0, false, -1)
 		logLootLockerRequest(endpoint, requestType, body, res)
 		return res
 	
-	var err = httpClient.connect_to_host(url)
+	var err := httpClient.connect_to_host(host, -1, tls)
 	
 	if err != OK:
 		var res = LL_HTTPRequestResult.new("{ \"message\": \"Could not connect to LootLocker, error code was "+str(err)+"\"}", 0, false, -1)
