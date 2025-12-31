@@ -3,6 +3,7 @@ var difficulty = "CLASSIC"
 var highScore = [0,0,0,0]
 var tutorial = true
 var sound_enabled = true
+var sfx_enabled = true
 var coins = 0
 
 
@@ -26,6 +27,10 @@ func setDifficulty(newDifficulty):
 func setAudioEnabled(audioEnabled):
 	sound_enabled = audioEnabled
 	saveSettings()
+	
+func setSFXEnabled(sfxIsEnabled):
+	sfx_enabled = sfxIsEnabled
+	saveSettings()
 
 func setHighScore(score,index):
 	highScore[index]= score
@@ -36,14 +41,17 @@ func saveSettings():
 	var file = FileAccess.open("user://settings.dat", FileAccess.WRITE)
 	file.store_var(difficulty)
 	file.store_var(sound_enabled)
+	file.store_var(sfx_enabled)
 	file.close()
 	
 func loadSettings():
+	if !FileAccess.file_exists("user://settings.dat"):
+		return
 	var file = FileAccess.open("user://settings.dat", FileAccess.READ)
-	if FileAccess.file_exists("user://settings.dat"):
-		difficulty = file.get_var()
-		sound_enabled = file.get_var()
-		file.close()
+	difficulty = file.get_var()
+	sound_enabled = file.get_var()
+	sfx_enabled = file.get_var()
+	file.close()
 
 
 func saveHighScore():

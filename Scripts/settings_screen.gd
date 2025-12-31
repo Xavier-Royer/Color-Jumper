@@ -33,12 +33,16 @@ func _on_confirmation_dialog_confirmed() -> void:
 func _on_submit_name_button_pressed() -> void:
 	$"..".buttonClick()
 	$ChangeName/HBoxContainer/SubmitNameButton.text = "Submitting..."
-	var setname_response = await LL_Players.SetPlayerName.new($ChangeName/HBoxContainer/NameInput.text).send()
-	$ChangeName/HBoxContainer/SubmitNameButton.text = "Submit"
-	$UsernameSuccess.dialog_text = "Successfully changed username."
-	if !(setname_response.success):
-		printerr(setname_response.error_data)
-		$UsernameSuccess.dialog_text = setname_response.error_data.message
+	if len($ChangeName/HBoxContainer/NameInput.text) > 10:
+		$UsernameSuccess.dialog_text = "Username must be 10 characters or less."
+		$ChangeName/HBoxContainer/SubmitNameButton.text = "Submit"
+	else:
+		var setname_response = await LL_Players.SetPlayerName.new($ChangeName/HBoxContainer/NameInput.text).send()
+		$ChangeName/HBoxContainer/SubmitNameButton.text = "Submit"
+		$UsernameSuccess.dialog_text = "Successfully changed username."
+		if !(setname_response.success):
+			printerr(setname_response.error_data)
+			$UsernameSuccess.dialog_text = setname_response.error_data.message
 	$UsernameSuccess.popup()
 	pass # Replace with function body.
 

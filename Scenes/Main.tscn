@@ -53,12 +53,12 @@
 [ext_resource type="AudioStream" uid="uid://dd4qcdyo02188" path="res://Audio/Structures Of Color.wav" id="45_5psol"]
 [ext_resource type="Script" uid="uid://b1g0yqk1fgxu1" path="res://Scripts/spawn_timer.gd" id="45_m4llh"]
 [ext_resource type="AudioStream" uid="uid://kljt4k6b67fb" path="res://Audio/The Dirac Sea.wav" id="49_off7b"]
-[ext_resource type="AudioStream" uid="uid://ct1uslscwu6tn" path="res://Audio/select-button-ui-395763.mp3" id="52_ep8v8"]
 [ext_resource type="AudioStream" uid="uid://bf145jr8w6l0q" path="res://Audio/coin-257878.mp3" id="53_3133c"]
+[ext_resource type="AudioStream" uid="uid://c1l0omouwc2ly" path="res://Audio/select-button-ui-395763.mp3" id="54_5gwyn"]
 [ext_resource type="AudioStream" uid="uid://b0lhpy8tst7uq" path="res://Audio/impact-thud-372473.mp3" id="54_js5gh"]
 [ext_resource type="AudioStream" uid="uid://d3mo7oagwt4rf" path="res://Audio/glass-bottle-breaking-351297.mp3" id="55_vvjo1"]
 [ext_resource type="AudioStream" uid="uid://dj5gm6401os3p" path="res://Audio/fail-234710.mp3" id="56_vvjo1"]
-[ext_resource type="AudioStream" uid="uid://cksygyw4i2p8g" path="res://Audio/colorChange.mp3" id="57_yisvs"]
+[ext_resource type="AudioStream" uid="uid://26ydst6lcgld" path="res://Audio/switchcolor.mp3" id="59_5gwyn"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fos0i"]
 particle_flag_disable_z = true
@@ -808,6 +808,22 @@ theme = ExtResource("9_semxg")
 button_pressed = true
 text = "Audio"
 
+[node name="SFXButton" type="CheckButton" parent="ScreenManager/SettingsScreen"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -318.0
+offset_top = 60.0
+offset_right = 203.0
+offset_bottom = 244.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_semxg")
+button_pressed = true
+text = "SFX"
+
 [node name="ChangeName" type="VBoxContainer" parent="ScreenManager/SettingsScreen"]
 anchors_preset = -1
 anchor_left = 0.5
@@ -815,9 +831,9 @@ anchor_top = 0.51500005
 anchor_right = 0.5
 anchor_bottom = 0.51500005
 offset_left = -340.0
-offset_top = 40.19989
+offset_top = 228.19989
 offset_right = 278.0
-offset_bottom = 194.19989
+offset_bottom = 382.1999
 scale = Vector2(1.08, 1.08)
 
 [node name="Label" type="Label" parent="ScreenManager/SettingsScreen/ChangeName"]
@@ -1226,11 +1242,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 65.0
-offset_top = 542.0
-offset_right = 265.0
-offset_bottom = 642.0
-grow_vertical = 0
+offset_left = 39.0
+offset_top = 606.0
+offset_right = 299.0
+offset_bottom = 736.0
+grow_horizontal = 2
+grow_vertical = 2
 texture_normal = ExtResource("10_ep8v8")
 texture_pressed = ExtResource("11_3133c")
 stretch_mode = 0
@@ -1273,7 +1290,7 @@ offset_top = -642.0
 offset_right = 325.0
 offset_bottom = 199.15503
 theme = ExtResource("9_semxg")
-theme_override_font_sizes/font_size = 41
+theme_override_font_sizes/font_size = 52
 tab_alignment = 1
 current_tab = 0
 
@@ -1331,13 +1348,13 @@ script = ExtResource("20_7sj7i")
 
 [node name="YouRow" parent="ScreenManager/LeaderboardScreen" instance=ExtResource("21_7sj7i")]
 anchors_preset = -1
-anchor_left = 0.48400003
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.48400003
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -330.72003
+offset_left = -348.0
 offset_top = 284.0
-offset_right = 170.03754
+offset_right = 152.75757
 offset_bottom = 376.0
 scale = Vector2(1.3199999, 1.3199999)
 
@@ -1380,10 +1397,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -268.0
-offset_top = 533.0
-offset_right = -167.0
-offset_bottom = 644.7257
+offset_left = -322.0
+offset_top = 599.0
+offset_right = -195.0
+offset_bottom = 739.4868
+grow_horizontal = 2
+grow_vertical = 2
 texture_normal = ExtResource("22_5gwyn")
 texture_pressed = ExtResource("23_r6gtk")
 stretch_mode = 5
@@ -1868,21 +1887,18 @@ text = "Play Again"
 
 [node name="StructuresOfColor" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("45_5psol")
-volume_db = -5.0
 
 [node name="DiracSea" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("49_off7b")
-volume_db = -5.0
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="ScreenManager"]
-stream = ExtResource("52_ep8v8")
+stream = ExtResource("54_5gwyn")
 
 [node name="CoinCollect" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("53_3133c")
 
 [node name="BlockHit" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("54_js5gh")
-volume_db = -14.312
 
 [node name="SpikeHit" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("55_vvjo1")
@@ -1891,7 +1907,8 @@ stream = ExtResource("55_vvjo1")
 stream = ExtResource("56_vvjo1")
 
 [node name="ColorChange" type="AudioStreamPlayer" parent="ScreenManager"]
-stream = ExtResource("57_yisvs")
+stream = ExtResource("59_5gwyn")
+pitch_scale = 0.56
 
 [connection signal="item_selected" from="ScreenManager/SettingsScreen/Difficulty" to="ScreenManager/SettingsScreen" method="_on_menu_button_item_selected"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/Home" to="ScreenManager" method="_on_home_pressed"]
@@ -1899,6 +1916,7 @@ stream = ExtResource("57_yisvs")
 [connection signal="canceled" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/ShopScreen" method="_on_confirmation_dialog_canceled"]
 [connection signal="confirmed" from="ScreenManager/SettingsScreen/ConfirmationDialog" to="ScreenManager/SettingsScreen" method="_on_confirmation_dialog_confirmed"]
 [connection signal="toggled" from="ScreenManager/SettingsScreen/CheckButton" to="ScreenManager" method="_on_check_button_toggled"]
+[connection signal="toggled" from="ScreenManager/SettingsScreen/SFXButton" to="ScreenManager" method="_on_sfx_button_toggled"]
 [connection signal="pressed" from="ScreenManager/SettingsScreen/ChangeName/HBoxContainer/SubmitNameButton" to="ScreenManager/SettingsScreen" method="_on_submit_name_button_pressed"]
 [connection signal="meta_clicked" from="ScreenManager/SettingsScreen/TOC and PP" to="ScreenManager/SettingsScreen" method="_on_toc_and_pp_meta_clicked"]
 [connection signal="pressed" from="ScreenManager/ShopScreen/Home" to="ScreenManager" method="_on_home_pressed"]

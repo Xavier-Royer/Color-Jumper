@@ -50,7 +50,7 @@ func loadLeaderboard():
 			
 	#load local personal highscore
 	var tab = $LeaderboardTabs.current_tab
-	$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
+	$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab], true)
 	
 
 	if Time.get_unix_time_from_system() > refreshLeaderboardTime:
@@ -107,9 +107,9 @@ func loadLeaderboard():
 			for j in range(10):
 				var label = scoreScene.instantiate()
 				if j >= len(responses[lb].items):
-					label.set_text(j+1, "None", 0)
+					label.set_text(j+1, "None", 0, false)
 				else:
-					label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score)
+					label.set_text(j+1, responses[lb].items[j].player.name, responses[lb].items[j].score, false)
 					
 				scrollcontainers[lb].add_child(label)
 			
@@ -117,23 +117,23 @@ func loadLeaderboard():
 	tab = $LeaderboardTabs.current_tab
 	var theplayerresponse = playerResponses[tab]
 	if theplayerresponse.player == null:
-		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0)
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), 0, true)
 	else:
-		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
+		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score, true)
 	$Loading.visible = false
 	loading = false
 
 func _on_leaderboard_tabs_tab_changed(tab: int) -> void:
 	if loading == true:
-		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab], true)
 		return
 	var theplayerresponse = playerResponses[tab]
 	print(LL_StateData.GetCachedPlayerIdentifier())
 	print(theplayerresponse)
 	if theplayerresponse.player == null:
-		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab])
+		$YouRow.set_text(0, LL_StateData.GetCachedPlayerName(), FileManager.highScore[tab], true)
 	else:
-		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score)
+		$YouRow.set_text(theplayerresponse.rank, theplayerresponse.player.name, theplayerresponse.score, true)
 
 
 

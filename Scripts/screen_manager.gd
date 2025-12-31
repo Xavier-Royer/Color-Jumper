@@ -140,8 +140,7 @@ func undimMusic():
 	tween.tween_property($DiracSea,"volume_db",5,0.5)
 
 func buttonClick(): 
-	if FileManager.sound_enabled:
-		$ButtonClick.play()
+	$ButtonClick.play()
 		
 
 
@@ -160,3 +159,22 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 	else:
 		$DiracSea.stop()
 		FileManager.setAudioEnabled(false)
+
+
+func _on_sfx_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		$ButtonClick.volume_db = 0
+		$CoinCollect.volume_db = 0
+		$BlockHit.volume_db = 0
+		$SpikeHit.volume_db = 0
+		$GameLost.volume_db = 0
+		$ColorChange.volume_db = 0
+		FileManager.setSFXEnabled(true)
+	else:
+		$ButtonClick.volume_db = -100
+		$CoinCollect.volume_db = -100
+		$BlockHit.volume_db = -100
+		$SpikeHit.volume_db = -100
+		$GameLost.volume_db = -100
+		$ColorChange.volume_db = -100
+		FileManager.setSFXEnabled(false)

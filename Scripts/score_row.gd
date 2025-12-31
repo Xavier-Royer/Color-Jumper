@@ -11,8 +11,11 @@ func comma_format(num_stra: int) -> String:
 			result = "," + result
 	return result
 
-func set_text(place: int, name: String, score: int):
-	$Place.text = str(place) + "."
+func set_text(place: int, name: String, score: int, isYouRow: bool):
+	if isYouRow:
+		for i in get_children():
+			i.add_theme_font_size_override("font_size", 38)
+	$Place.text = " " + str(place) + "."
 	$Username.text = name
 	$Score.text =  comma_format(score)
 	if place == 1:

@@ -131,6 +131,7 @@ func _ready() -> void:
 	
 	FileManager.loadSettings()
 	$"../SettingsScreen/CheckButton".button_pressed = FileManager.sound_enabled
+	$"../SettingsScreen/SFXButton".button_pressed = FileManager.sfx_enabled
 	#if tutorial already done then switch state to over
 	FileManager.loadTutorial()
 	if FileManager.tutorial:
@@ -172,7 +173,7 @@ func loadGame(fromTutorial, tweenDistance = 0):
 		block.position = Vector2(screen_size.x / 2,screen_size.y * (2.65/5.0))
 		block.setColor("RED")
 		block.setGhost()
-		block.number = -99999999999999
+		block.number = -9999
 		blocksSpawned+=1
 		starterBlock = block
 	
@@ -294,9 +295,8 @@ func loadGame(fromTutorial, tweenDistance = 0):
 
 
 func changeColor(newColor, clicked = false):
-	if clicked: 
-		if FileManager.sound_enabled:
-			$"../ColorChange".play()
+	if clicked:
+		$"../ColorChange".play()
 	#if loading into game and done with rise up animation turn on color buttons
 	if playerLoadInAnimation:
 		starterBlock.setColor(newColor)
@@ -347,12 +347,13 @@ func changeColor(newColor, clicked = false):
 
 #player captureing block
 func _on_block_caught():
-	if gameState == "PLAYING":
-		if FileManager.sound_enabled:
-			$"../BlockHit".play()
+	if player.blockOn.number != -9999:
+		$"../BlockHit".play()
+	
 	playerLoadInAnimation = false
 	#play block animation
 	currentBlock = player.blockOn
+	print(player.blockOn.number)
 	currentBlock.blockCaught(direction,gameSpeed,player.blockPosition)
 	direction = Vector2(0,0)
 	#make rainbow happen
@@ -832,8 +833,7 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
-	if FileManager.sound_enabled:
-		$"../GameLost".play()
+	$"../GameLost".play()
 	FileManager.coins = coins
 	FileManager.saveCoins()
 	if gameState == "PLAYING":
@@ -883,8 +883,7 @@ func _on_rainbow_timer_timeout() -> void:
 
 func coinCollected():
 	coins += 1
-	if FileManager.sound_enabled:
-		$"../CoinCollect".play()
+	$"../CoinCollect".play()
 	
 
 
