@@ -26,9 +26,9 @@
 [ext_resource type="Texture2D" uid="uid://6hnxodxi6mda" path="res://Textures/loading.png" id="19_lfh1j"]
 [ext_resource type="Script" uid="uid://b66kua64tbp3" path="res://Scripts/loading.gd" id="20_7sj7i"]
 [ext_resource type="Texture2D" uid="uid://b56k5uwmxwgdt" path="res://Textures/greenbuttonpressed.png" id="20_j7e3e"]
-[ext_resource type="PackedScene" uid="uid://2orpnhrc71lj" path="res://Scenes/score_row.tscn" id="21_7sj7i"]
 [ext_resource type="Texture2D" uid="uid://cacvuyaan4n8t" path="res://Textures/bluebutton.png" id="21_y2ulj"]
 [ext_resource type="Texture2D" uid="uid://dfitgbg8i0w5p" path="res://Textures/refresh.png" id="22_5gwyn"]
+[ext_resource type="Script" uid="uid://bnb6ydvjaypwf" path="res://Scripts/score_row.gd" id="22_r6gtk"]
 [ext_resource type="Texture2D" uid="uid://dsb2om7lij48j" path="res://Textures/bluebuttonpressed.png" id="22_t3x2a"]
 [ext_resource type="Texture2D" uid="uid://bj45pt6w42xui" path="res://Textures/purplebutton.png" id="23_1bbis"]
 [ext_resource type="Texture2D" uid="uid://dtp2bjfd4gl1p" path="res://Textures/refresh_pressed.png" id="23_r6gtk"]
@@ -1348,7 +1348,7 @@ texture = ExtResource("19_lfh1j")
 expand_mode = 1
 script = ExtResource("20_7sj7i")
 
-[node name="YouRow" parent="ScreenManager/LeaderboardScreen" instance=ExtResource("21_7sj7i")]
+[node name="YouRow" type="HBoxContainer" parent="ScreenManager/LeaderboardScreen"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1358,7 +1358,34 @@ offset_left = -325.0
 offset_top = 284.0
 offset_right = 175.75757
 offset_bottom = 376.0
+grow_horizontal = 2
+grow_vertical = 2
 scale = Vector2(1.3199999, 1.3199999)
+size_flags_horizontal = 3
+script = ExtResource("22_r6gtk")
+
+[node name="Place" type="Label" parent="ScreenManager/LeaderboardScreen/YouRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 50
+text = "X."
+
+[node name="Username" type="Label" parent="ScreenManager/LeaderboardScreen/YouRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 50
+text = "None"
+
+[node name="Score" type="Label" parent="ScreenManager/LeaderboardScreen/YouRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("9_semxg")
+theme_override_font_sizes/font_size = 50
+text = "None"
+horizontal_alignment = 2
 
 [node name="YouText" type="Label" parent="ScreenManager/LeaderboardScreen"]
 anchors_preset = 8
@@ -1875,19 +1902,19 @@ grow_vertical = 2
 theme_override_constants/separation = 50
 alignment = 1
 
-[node name="Highscore" type="Label" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
-layout_mode = 2
-text = "High Score: "
-horizontal_alignment = 1
-
 [node name="Score" type="Label" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
 layout_mode = 2
 text = "Score:"
 horizontal_alignment = 1
 
+[node name="Highscore" type="Label" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
+layout_mode = 2
+text = "High Score: "
+horizontal_alignment = 1
+
 [node name="Button" type="Button" parent="ScreenManager/GameOverScreen/UI/VBoxContainer"]
 layout_mode = 2
-text = "Play Again"
+text = "Home"
 
 [node name="StructuresOfColor" type="AudioStreamPlayer" parent="ScreenManager"]
 stream = ExtResource("45_5psol")

@@ -1,4 +1,6 @@
 extends Node
+
+var difficulties = ["EASY", "CLASSIC" , "COLORFUL", "RAINBOW"]
 func _ready() -> void:
 
 	var id = await get_or_create_player_identifier()
@@ -17,6 +19,16 @@ func _ready() -> void:
 		
 	print(guestLoginResponse.player_name)
 	print("Guest user was successfully signed in to LootLocker")
+	
+	print("Possibly updating scores")
+	for i in range(4):
+		if FileManager.highScore[i] != 0:
+			upload_score(difficulties[i].to_lower(), FileManager.highScore[i])
+
+func upload_score(the_difficulty, the_score):
+	var submit_response = await LL_Leaderboards.SubmitScore.new(the_difficulty, the_score, LL_StateData.GetCachedPlayerIdentifier()).send()
+	if !(submit_response.success):
+		printerr(submit_response.error_data)
 
 #if created a new player, return true
 static func get_or_create_player_identifier() -> Array:
