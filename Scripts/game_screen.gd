@@ -652,6 +652,8 @@ func _process(delta: float) -> void:
 				movingObjects.position.y += delta*gameSpeed *1.75
 		player.gameSpeed = gameSpeed
 	
+	
+	
 	get_parent().find_child("Background").get_child(0).backgroundMoveSpeed = gameSpeed/20
 
 
@@ -833,6 +835,7 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
+	player.gameSpeed = 0
 	FileManager.coins = coins
 	FileManager.saveCoins()
 	if gameState == "PLAYING":

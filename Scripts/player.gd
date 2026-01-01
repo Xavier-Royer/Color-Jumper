@@ -39,6 +39,7 @@ func _process(_delta: float) -> void:
 
 	if died:
 		velocity = Vector2.ZERO
+		
 	#make trail 
 	var ejectSpeed = 20
 	direction = Vector2(cos(deg_to_rad(rotation+90)),sin(deg_to_rad(rotation+90)))
@@ -47,6 +48,8 @@ func _process(_delta: float) -> void:
 	var direction = 270 + -1*(rad_to_deg(rotation)) #bc godot has weird origins
 	
 	var ejectVector = ejectSpeed*Vector2(cos(deg_to_rad(direction)),-1*sin(deg_to_rad(direction)))
+	
+	print("GRAVITY VECOTR: " + str(gravityVector.y))
 	
 	#trail velocity magnitude 
 	var yComponent = gravityVector.y + ejectVector.y#(-1*ejectSpeedVelocity*sin(deg_to_rad(direction))) 
