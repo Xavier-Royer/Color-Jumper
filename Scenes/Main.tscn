@@ -1348,7 +1348,7 @@ expand_mode = 1
 script = ExtResource("20_7sj7i")
 
 [node name="YouRow" parent="ScreenManager/LeaderboardScreen" instance=ExtResource("21_7sj7i")]
-anchors_preset = -1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

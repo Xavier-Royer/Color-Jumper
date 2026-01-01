@@ -51,6 +51,8 @@ func loadSettings():
 	difficulty = file.get_var()
 	sound_enabled = file.get_var()
 	sfx_enabled = file.get_var()
+	if sfx_enabled == null:
+		sfx_enabled = true 
 	file.close()
 
 

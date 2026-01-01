@@ -833,10 +833,10 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
-	$"../GameLost".play()
 	FileManager.coins = coins
 	FileManager.saveCoins()
 	if gameState == "PLAYING":
+		$"../GameLost".play()
 		$SpawnTimer.stop()
 		difficultyTween.kill()
 		gameSpeed = 0
@@ -865,7 +865,9 @@ func gameOver(deathType = ""):
 			c.disabled = true
 	if gameState == "TUTORIAL" :
 		if not playerLoadInAnimation:
+			$"../GameLost".play()
 			resetToLastCheckPoint(deathType)
+	
 
 
 func _on_spawn_timer_timeout() -> void:
