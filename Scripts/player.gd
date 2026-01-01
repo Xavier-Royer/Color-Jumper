@@ -49,7 +49,7 @@ func _process(_delta: float) -> void:
 	
 	var ejectVector = ejectSpeed*Vector2(cos(deg_to_rad(direction)),-1*sin(deg_to_rad(direction)))
 	
-	print("GRAVITY VECOTR: " + str(gravityVector.y))
+	#print("GRAVITY VECOTR: " + str(gravityVector.y))
 	
 	#trail velocity magnitude 
 	var yComponent = gravityVector.y + ejectVector.y#(-1*ejectSpeedVelocity*sin(deg_to_rad(direction))) 

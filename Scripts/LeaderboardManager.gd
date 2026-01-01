@@ -1,6 +1,49 @@
 extends Node
 
 var difficulties = ["EASY", "CLASSIC" , "COLORFUL", "RAINBOW"]
+
+var adjectives = [
+	"Able", "Acid", "Apex", "Blue", "Bold", "Busy", "Calm", "Cold", 
+	"Dark", "Dear", "Deep", "Dull", "Easy", "Epic", "Fair", "Fast", 
+	"Fine", "Free", "Glad", "Gold", "Good", "Grey", "Hard", "High", 
+	"Holy", "Icy", "Just", "Kind", "Loud", "Lush", "Mega", "Mild", 
+	"Neon", "Nice", "Open", "Pale", "Pure", "Rare", "Real", "Rich", 
+	"Safe", "Slim", "Soft", "Sour", "Tall", "Tame", "Tiny", "Vast", 
+	"Wild", "Wise"
+]
+
+var nouns = [
+	"Atom", "Bear", "Bird", "Bolt", "Boss", "Cake", "Chef", "Club", 
+	"Dino", "Duck", "Duke", "Echo", "Edge", "Fire", "Fish", "Frog", 
+	"Gear", "Goat", "Hawk", "Hero", "Jade", "King", "Leaf", "Lion", 
+	"Mage", "Mars", "Moon", "Neon", "Nova", "Onyx", "Pear", "Dawg", 
+	"Puma", "Rain", "Rock", "Ship", "Star", "Taco", "Tank", "Tent", 
+	"Tree", "Twin", "Unit", "Vase", "Volt", "Wave", "Wolf", "Yeti", 
+	"Zeus", "Zinc"
+]
+
+func set_first_username():
+	var attempts = 0
+	var max_attempts = 10
+	
+	while attempts < max_attempts:
+		var adj = adjectives.pick_random()
+		var noun = nouns.pick_random()
+		var num = randi() % 100
+		var potential_name = "%s%s%02d" % [adj, noun, num]
+		
+		if await attempt_username_change(potential_name):
+			return
+		
+		attempts += 1
+	
+	attempt_username_change("User" + str(Time.get_unix_time_from_system()).right(6))
+
+func attempt_username_change(username: String) -> bool:
+	var setname_response = await LL_Players.SetPlayerName.new(username).send()
+	return setname_response.success
+
+
 func _ready() -> void:
 
 	var id = await get_or_create_player_identifier()
@@ -9,12 +52,7 @@ func _ready() -> void:
 		printerr("Guest login failed with reason: " + guestLoginResponse.error_data.to_string())
 		return
 	if id[1]:
-		#create a new name for the new player
-		#TODO: if players name is already taken
-		var end = randi_range(1000, 99999)
-		var setname_response = await LL_Players.SetPlayerName.new("Player" + str(end)).send()
-		if !(setname_response.success):
-			printerr(setname_response.error_data)
+		set_first_username()
 		print("created new name for player")
 		
 	print(guestLoginResponse.player_name)
