@@ -595,7 +595,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					difficultyTween.set_parallel()
 					if difficulty == "COLORFUL":
 						difficultyTween.tween_property(self, "randomColorRate", finalRandomColorRate, 100) #2 min 25s
-					
+					difficultyTween.finished.connect($SpeedIncrementTimer.start)
 					#switch from menu audio to game audio
 					
 					$"../DiracSea".stop()
@@ -835,6 +835,7 @@ func setBlockColor(block,itemAttached):
 	lastBlocksColor = block.blockColor 
 	
 func gameOver(deathType = ""):
+
 	player.gameSpeed = 0
 	FileManager.coins = coins
 	FileManager.saveCoins()
@@ -1244,3 +1245,11 @@ func _on_tutorial_respawn_timer_timeout() -> void:
 
 func _exit_tree():
 	highScoreThread.wait_to_finish()
+
+
+func _on_speed_increment_timer_timeout() -> void:
+	print("UPDATE UPDATE UPDATE UPDAT EUPDATEtimer updated speed by 1 to " + str(gameSpeed))
+	if gameState == "OVER":
+		$SpeedIncrementTimer.stop()
+	else:
+		gameSpeed += 1

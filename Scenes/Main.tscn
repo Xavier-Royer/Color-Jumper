@@ -1493,7 +1493,7 @@ anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -287.0
+offset_top = -306.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 0
@@ -1863,6 +1863,8 @@ libraries = {
 [node name="SpawnTimer" type="Node" parent="ScreenManager/GameScreen"]
 script = ExtResource("45_m4llh")
 
+[node name="SpeedIncrementTimer" type="Timer" parent="ScreenManager/GameScreen"]
+
 [node name="GameOverScreen" type="CanvasLayer" parent="ScreenManager"]
 visible = false
 
@@ -1971,6 +1973,7 @@ pitch_scale = 0.56
 [connection signal="timeout" from="ScreenManager/GameScreen/UI/TutorialRespawnTimer" to="ScreenManager/GameScreen" method="_on_tutorial_respawn_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/RainbowTimer" to="ScreenManager/GameScreen" method="_on_rainbow_timer_timeout"]
 [connection signal="timeout" from="ScreenManager/GameScreen/SpawnTimer" to="ScreenManager/GameScreen" method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="ScreenManager/GameScreen/SpeedIncrementTimer" to="ScreenManager/GameScreen" method="_on_speed_increment_timer_timeout"]
 [connection signal="pressed" from="ScreenManager/GameOverScreen/UI/VBoxContainer/Button" to="ScreenManager" method="_on_play_pressed"]
 [connection signal="finished" from="ScreenManager/StructuresOfColor" to="ScreenManager" method="_on_audio_stream_player_finished"]
 [connection signal="finished" from="ScreenManager/DiracSea" to="ScreenManager" method="_on_audio_stream_player_finished"]
