@@ -44,8 +44,10 @@ func _on_submit_name_button_pressed() -> void:
 			printerr(setname_response.error_data)
 			if setname_response.raw_response_body.to_lower().contains("is not unique"):
 				$UsernameSuccess.dialog_text = "Username is already taken."
+			elif setname_response.raw_response_body.to_lower().contains("could not connect to lootlocker"):
+				$UsernameSuccess.dialog_text = "Could not connect to leaderboard, are you online?"
 			else:
-				$UsernameSuccess.dialog_text = setname_response.raw_response_body
+				$UsernameSuccess.dialog_text = setname_response.error_data.message
 	$UsernameSuccess.popup()
 	pass # Replace with function body.
 

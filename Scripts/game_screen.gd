@@ -14,7 +14,7 @@ var speed = 7000
 var currentColor
 var currentBlock
 #game control stuff
-var difficulty = "CLASSIC" #easy, medium, hard or extreme
+var difficulty = "EASY" #easy, medium, hard or extreme
 var difficulties = ["EASY", "CLASSIC" , "COLORFUL", "RAINBOW"]
 
 #streaks/scroes
