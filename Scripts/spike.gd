@@ -137,7 +137,7 @@ func _process(delta: float) -> void:
 		#I AM PHYSICS
 		var torque = gravityForce*armLength*cos(deg_to_rad(angle))
 		var angularAcceleratoin = torque * momentOfInertia
-		angularVelocity += angularAcceleratoin
+		angularVelocity += angularAcceleratoin * delta
 		angle -= angularVelocity *delta
 		
 		setAngle(angle)
@@ -172,7 +172,7 @@ func _process(delta: float) -> void:
 		$Item.position += (pivotPosition +endPosition)/2.0
 		$Item.scale = Vector2(size,size)
 		
-		linearVelocity.y += gravityForce
+		linearVelocity.y += gravityForce * delta
 		linearVelocity.x *= airResistance
 	
 

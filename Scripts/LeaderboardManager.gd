@@ -46,12 +46,12 @@ func attempt_username_change(username: String) -> bool:
 
 func _ready() -> void:
 
-	var id = await get_or_create_player_identifier()
-	var guestLoginResponse = await LL_Authentication.GuestSession.new(id[0]).send()
+	var id := get_or_create_player_identifier()
+	var guestLoginResponse = await LL_Authentication.GuestSession.new(id).send()
 	if (!guestLoginResponse.success):
 		printerr("Guest login failed with reason: " + guestLoginResponse.error_data.to_string())
 		return
-	if id[1]:
+	if !guestLoginResponse.seen_before:
 		set_first_username()
 		print("created new name for player")
 		
@@ -69,20 +69,22 @@ func upload_score(the_difficulty, the_score):
 		printerr(submit_response.error_data)
 
 #if created a new player, return true
-static func get_or_create_player_identifier() -> Array:
+static func get_or_create_player_identifier() -> String:
 	#return ["testingplayerid", false]
-	var file = FileAccess.open("user://player_id.data", FileAccess.READ)
-	if file:
-		var id = file.get_as_text().strip_edges()
-		return [id, false]
-	else:
-		# Generate a new random unique identifier
-		var new_id = uuid.v4()
-		file = FileAccess.open("user://player_id.data", FileAccess.WRITE)
-		file.store_string(new_id)
-		file.close()
-		
-		
-		
-		pass # Replace with function body.
-		return [new_id, true]
+	return OS.get_unique_id()
+	#print("id" + str(OS.get_unique_id()))
+	#var file = FileAccess.open("user://player_id.data", FileAccess.READ)
+	#if file:
+		#var id = file.get_as_text().strip_edges()
+		#return [id, false]
+	#else:
+		## Generate a new random unique identifier
+		#var new_id = uuid.v4()
+		#file = FileAccess.open("user://player_id.data", FileAccess.WRITE)
+		#file.store_string(new_id)
+		#file.close()
+		#
+		#
+		#
+		#pass # Replace with function body.
+		#return [new_id, true]
