@@ -138,7 +138,7 @@ func _process(delta: float) -> void:
 		var torque = gravityForce*armLength*cos(deg_to_rad(angle))
 		var angularAcceleratoin = torque * momentOfInertia
 		angularVelocity += angularAcceleratoin * delta
-		angle -= angularVelocity *delta
+		angle -= angularVelocity
 		
 		setAngle(angle)
 		line.points[movingPointIndex] = endPosition
@@ -160,7 +160,7 @@ func _process(delta: float) -> void:
 		
 	elif state == "DELETING":
 		line.position += linearVelocity *delta
-		angle -= angularVelocity *delta
+		angle -= angularVelocity
 		setAngleForCenterRotation(angle)
 		line.points[movingPointIndex] = endPosition
 		line.points[pivotPointIndex] = pivotPosition
@@ -172,7 +172,7 @@ func _process(delta: float) -> void:
 		$Item.position += (pivotPosition +endPosition)/2.0
 		$Item.scale = Vector2(size,size)
 		
-		linearVelocity.y += gravityForce * delta
+		linearVelocity.y += gravityForce
 		linearVelocity.x *= airResistance
 	
 
