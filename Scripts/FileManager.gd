@@ -1,5 +1,5 @@
 extends Node
-var difficulty = "CLASSIC"
+var difficulty = "EASY"
 var highScore = [0,0,0,0]
 var tutorial = true
 var sound_enabled = true
